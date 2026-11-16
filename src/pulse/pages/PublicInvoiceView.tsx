@@ -71,10 +71,28 @@ export const PublicInvoiceView: React.FC = () => {
     try {
       const element = invoiceRef.current;
       const canvas = await html2canvas(element, {
-        scale: 3, // Crisp 300+ DPI
+        scale: 2.5, // Crisp 250+ DPI for A4
         useCORS: true,
         backgroundColor: '#FFFFFF',
         logging: false,
+        onclone: (clonedDoc) => {
+          // Replace modern oklch/oklab color functions in stylesheets so html2canvas doesn't fail
+          const styleTags = clonedDoc.querySelectorAll('style');
+          styleTags.forEach((tag) => {
+            if (tag.textContent) {
+              tag.textContent = tag.textContent
+                .replace(/oklch\([^)]+\)/gi, '#0F172A')
+                .replace(/oklab\([^)]+\)/gi, '#0F172A');
+            }
+          });
+
+          // Ensure printable container has explicit standard colors
+          const printable = clonedDoc.getElementById('printable-invoice');
+          if (printable) {
+            printable.style.backgroundColor = '#FFFFFF';
+            printable.style.color = '#0F172A';
+          }
+        },
       });
 
       const imgData = canvas.toDataURL('image/png');
@@ -90,8 +108,9 @@ export const PublicInvoiceView: React.FC = () => {
       pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
       pdf.save(`Solikos_Invoice_${invoice.invoiceNumber}.pdf`);
     } catch (err) {
-      console.error('PDF export error:', err);
-      alert('Could not export PDF. Please use the Print option.');
+      console.warn('Canvas PDF export fallback to native print:', err);
+      // Seamless native print-to-PDF fallback
+      window.print();
     } finally {
       setDownloading(false);
     }
