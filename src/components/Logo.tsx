@@ -3,22 +3,33 @@ import React from 'react';
 interface LogoProps {
   className?: string;
   color?: string;
+  showText?: boolean;
 }
 
-export const Logo: React.FC<LogoProps> = ({ className = 'h-16', color = 'white' }) => {
+export const Logo: React.FC<LogoProps> = ({ className = '', color = 'white', showText = true }) => {
   return (
-    <div className={`flex items-center gap-0 ${className}`}>
+    <div className={`flex items-center gap-3 select-none ${className}`}>
       <img
         src="/solikos-icon.png"
-        alt="Solikos Icon"
-        className="w-16 h-16 md:w-32 md:h-32 object-contain brightness-0 invert -ml-6 md:-ml-8"
+        alt="Solikos Energy"
+        className="w-10 h-10 md:w-11 md:h-11 object-contain shrink-0"
       />
-      <span
-        className="text-4xl md:text-6xl font-light tracking-tight transition-colors -ml-3 md:-ml-8"
-        style={{ color, fontFamily: "'Plus Jakarta Sans', sans-serif" }}
-      >
-        Solikos
-      </span>
+      {showText && (
+        <div className="flex flex-col justify-center leading-none">
+          <span
+            className="text-xl md:text-2xl font-bold tracking-tight uppercase"
+            style={{ color, fontFamily: "'Outfit', 'Plus Jakarta Sans', sans-serif" }}
+          >
+            SOLIKOS
+          </span>
+          <span
+            className="text-[9px] md:text-[10px] font-semibold tracking-[0.3em] uppercase opacity-90 mt-1"
+            style={{ color, fontFamily: "'Outfit', 'Plus Jakarta Sans', sans-serif" }}
+          >
+            ENERGY
+          </span>
+        </div>
+      )}
     </div>
   );
 };

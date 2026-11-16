@@ -95,20 +95,26 @@ export const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
               ease: [0.16, 1, 0.3, 1],
               delay: 0.2,
             }}
-            className="flex items-center gap-1 md:gap-2"
+            className="flex items-center gap-4"
           >
             <img
               src="/solikos-icon.png"
-              alt="Solikos Icon"
-              className="w-16 h-16 md:w-28 md:h-28 object-contain brightness-0 invert -ml-6 md:-ml-8"
+              alt="Solikos Energy"
+              className="w-14 h-14 md:w-20 md:h-20 object-contain shrink-0"
             />
-            <div className="flex items-baseline -ml-2 md:-ml-4">
+            <div className="flex flex-col justify-center leading-none text-left">
               <h1
-                className="text-5xl md:text-8xl font-light tracking-normal leading-none"
-                style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+                className="text-4xl md:text-6xl font-bold tracking-tight uppercase"
+                style={{ fontFamily: "'Outfit', 'Plus Jakarta Sans', sans-serif" }}
               >
-                Solikos
+                SOLIKOS
               </h1>
+              <span
+                className="text-xs md:text-sm font-semibold tracking-[0.35em] uppercase text-[#B5B0A1] mt-1.5"
+                style={{ fontFamily: "'Outfit', 'Plus Jakarta Sans', sans-serif" }}
+              >
+                ENERGY
+              </span>
             </div>
           </motion.div>
         </div>

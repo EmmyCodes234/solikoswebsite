@@ -83,34 +83,26 @@ export const Home: React.FC = () => {
           <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/90" />
         </div>
 
-        <div className="hidden md:flex absolute top-8 right-8 z-40">
-          <Link to="/partnership">
-            <MagneticButton className="bg-[#F4F4F4] text-black rounded-full pl-6 pr-2 py-2 flex items-center gap-4 shadow-lg">
-              <span className="text-sm font-medium">Reserve</span>
-              <div className="bg-[#2A2A2A] text-[#F4F4F4] p-2 rounded-full relative z-10 group-hover:bg-black transition-colors duration-500">
-                <ArrowUpRight size={16} strokeWidth={2.5} />
-              </div>
-            </MagneticButton>
-          </Link>
-        </div>
-
         <div className="relative z-10 h-full flex flex-col justify-between px-6 md:px-12 py-12 md:py-20 max-w-[1800px] mx-auto">
           <div className="pt-24 md:pt-32">
             <VelocitySkew>
               <h1
-                className="text-[14vw] md:text-[9vw] lg:text-[8vw] font-medium text-[#F4F4F4] leading-[0.95] tracking-tighter text-balance max-w-5xl"
+                className="text-[13vw] md:text-[8vw] lg:text-[7vw] font-medium text-[#F4F4F4] leading-[0.98] tracking-tighter text-balance max-w-5xl"
                 style={{ fontFamily: "'Outfit', sans-serif" }}
               >
                 Renewable Energy <br />
-                <span className="text-[#B5B0A1]">for African Industry.</span>
+                <span className="text-[#B5B0A1]">
+                  for the Clean Energy <br />
+                  Revolution.
+                </span>
               </h1>
             </VelocitySkew>
           </div>
 
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-10">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-10 pb-4 md:pb-8">
             <div className="max-w-full md:max-w-2xl">
-              <p className="text-[#F4F4F4] text-xl md:text-2xl font-medium leading-tight opacity-90 tracking-tight text-balance">
-                Converting the volatility of fossil fuels into the predictability of solar. We build economic independence for Nigeria&apos;s and Africa&apos;s industrial future.
+              <p className="text-[#F4F4F4] text-lg md:text-2xl font-normal leading-snug opacity-90 tracking-tight text-balance">
+                Transitioning energy reliance from the volatility of fossil fuels to the strategic predictability of clean renewable energy.
               </p>
             </div>
           </div>

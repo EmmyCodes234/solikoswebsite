@@ -19,7 +19,7 @@ const ec: React.FC<{ className?: string }> = ({ className = 'w-20 h-20' }) => (
   <img
     src="/solikos-icon.png"
     alt="Solikos Icon"
-    className={`${className} object-contain brightness-0 invert`}
+    className={`${className} object-contain`}
   />
 );
 

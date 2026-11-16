@@ -32,7 +32,7 @@ export const NotFound: React.FC = () => {
             <img
               src="/solikos-icon.png"
               alt="Solikos Icon"
-              className="w-24 h-24 brightness-0 invert opacity-40 object-contain"
+              className="w-24 h-24 opacity-60 object-contain"
             />
             <Zap
               className="w-10 h-10 text-[#B5B0A1] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 drop-shadow-[0_0_15px_rgba(181,176,161,0.5)]"

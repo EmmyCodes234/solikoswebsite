@@ -40,9 +40,12 @@ export const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 pb-24 border-b border-white/5">
           <div className="md:col-span-5 flex flex-col justify-between">
             <div>
-              <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-[#444] mb-8 block">
+              <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-[#666] mb-4 block">
                 Institutional Mission
               </span>
+              <p className="text-xs font-semibold tracking-[0.25em] text-[#B5B0A1] uppercase mb-4">
+                Your Power, Our Priority
+              </p>
               <p className="text-xl md:text-2xl text-[#F4F4F4] font-light max-w-md leading-relaxed tracking-tight mb-8">
                 Converting the volatility of fossil fuels into the strategic predictability of solar infrastructure.
               </p>
