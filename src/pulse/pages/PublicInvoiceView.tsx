@@ -3,21 +3,14 @@ import { useParams, Link } from 'react-router-dom';
 import {
   Download,
   Printer,
-  Share2,
   Copy,
   Check,
   MessageSquare,
   Mail,
-  Shield,
-  Clock,
-  CheckCircle,
   Building2,
-  Phone,
-  Calendar,
   AlertCircle,
-  Send,
+  CheckCircle,
 } from 'lucide-react';
-import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
 import { usePulse } from '../context/PulseContext';
 import { sendInvoiceViaResend } from '../services/emailService';
@@ -64,52 +57,256 @@ export const PublicInvoiceView: React.FC = () => {
     }).format(amt);
   };
 
+  // Direct vector PDF generator: Zero dependencies on HTML-to-canvas CSS parsers
   const handleDownloadPdf = async () => {
-    if (!invoiceRef.current) return;
     setDownloading(true);
 
     try {
-      const element = invoiceRef.current;
-      const canvas = await html2canvas(element, {
-        scale: 2.5, // Crisp 250+ DPI for A4
-        useCORS: true,
-        backgroundColor: '#FFFFFF',
-        logging: false,
-        onclone: (clonedDoc) => {
-          // Replace modern oklch/oklab color functions in stylesheets so html2canvas doesn't fail
-          const styleTags = clonedDoc.querySelectorAll('style');
-          styleTags.forEach((tag) => {
-            if (tag.textContent) {
-              tag.textContent = tag.textContent
-                .replace(/oklch\([^)]+\)/gi, '#0F172A')
-                .replace(/oklab\([^)]+\)/gi, '#0F172A');
-            }
-          });
-
-          // Ensure printable container has explicit standard colors
-          const printable = clonedDoc.getElementById('printable-invoice');
-          if (printable) {
-            printable.style.backgroundColor = '#FFFFFF';
-            printable.style.color = '#0F172A';
-          }
-        },
-      });
-
-      const imgData = canvas.toDataURL('image/png');
-      const pdf = new jsPDF({
+      const doc = new jsPDF({
         orientation: 'p',
         unit: 'mm',
         format: 'a4',
       });
 
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+      const pageWidth = doc.internal.pageSize.getWidth(); // 210mm
+      const margin = 18;
+      let y = margin;
 
-      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-      pdf.save(`Solikos_Invoice_${invoice.invoiceNumber}.pdf`);
+      // 1. Header Banner
+      doc.setFillColor(15, 23, 42); // slate-900
+      doc.rect(margin, y, pageWidth - margin * 2, 28, 'F');
+
+      // Solikos Branding in banner
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(16);
+      doc.setTextColor(255, 255, 255);
+      doc.text('SOLIKOS', margin + 6, y + 12);
+
+      doc.setFontSize(8);
+      doc.setTextColor(245, 158, 11); // amber-500
+      doc.text('ENERGY  •  PULSE COMMERCIAL INVOICE', margin + 6, y + 18);
+
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(8);
+      doc.setTextColor(148, 163, 184); // slate-400
+      doc.text('Your Power, Our Priority', margin + 6, y + 23);
+
+      // Invoice # on right of banner
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(12);
+      doc.setTextColor(255, 255, 255);
+      doc.text(invoice.invoiceNumber, pageWidth - margin - 6, y + 12, { align: 'right' });
+
+      doc.setFontSize(8);
+      doc.setTextColor(245, 158, 11);
+      doc.text(`STATUS: ${invoice.status.toUpperCase()}`, pageWidth - margin - 6, y + 18, { align: 'right' });
+
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(7.5);
+      doc.setTextColor(148, 163, 184);
+      doc.text(`Issued: ${invoice.issueDate}  |  Due: ${invoice.dueDate}`, pageWidth - margin - 6, y + 23, { align: 'right' });
+
+      y += 34;
+
+      // 2. Company Info & Client Info Box
+      doc.setFillColor(248, 250, 252); // slate-50
+      doc.setDrawColor(226, 232, 240); // slate-200
+      doc.roundedRect(margin, y, pageWidth - margin * 2, 30, 2, 2, 'FD');
+
+      // Left: Company Info
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(9);
+      doc.setTextColor(15, 23, 42);
+      doc.text(settings.companyName, margin + 5, y + 7);
+
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(7.5);
+      doc.setTextColor(71, 85, 105);
+      doc.text(settings.address, margin + 5, y + 12);
+      doc.text(`RC: ${settings.rcNumber}  •  TIN: ${settings.taxId}`, margin + 5, y + 17);
+      doc.text(`Tel: ${settings.phone}  •  Email: ${settings.email}`, margin + 5, y + 22);
+
+      // Right: Bill To
+      const rightX = pageWidth / 2 + 10;
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(8);
+      doc.setTextColor(100, 116, 139);
+      doc.text('INVOICED TO (CLIENT):', rightX, y + 7);
+
+      doc.setFontSize(9.5);
+      doc.setTextColor(15, 23, 42);
+      doc.text(invoice.customer.name, rightX, y + 13);
+
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(8);
+      doc.setTextColor(71, 85, 105);
+      doc.text(`Phone: ${invoice.customer.phone}`, rightX, y + 18);
+      if (invoice.customer.email) {
+        doc.text(`Email: ${invoice.customer.email}`, rightX, y + 23);
+      } else if (invoice.customer.address) {
+        doc.text(`Site: ${invoice.customer.address}`, rightX, y + 23);
+      }
+
+      y += 36;
+
+      // 3. Line Items Table Header
+      doc.setFillColor(241, 245, 249); // slate-100
+      doc.rect(margin, y, pageWidth - margin * 2, 7, 'F');
+
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(7.5);
+      doc.setTextColor(71, 85, 105);
+      doc.text('HARDWARE / SPECIFICATION', margin + 4, y + 4.8);
+      doc.text('WARRANTY', margin + 98, y + 4.8);
+      doc.text('QTY', margin + 122, y + 4.8, { align: 'center' });
+      doc.text('UNIT PRICE', margin + 148, y + 4.8, { align: 'right' });
+      doc.text('LINE TOTAL', pageWidth - margin - 4, y + 4.8, { align: 'right' });
+
+      y += 7;
+
+      // Line Items Rows
+      invoice.items.forEach((item) => {
+        doc.setDrawColor(241, 245, 249);
+        doc.line(margin, y + 11, pageWidth - margin, y + 11);
+
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(8.5);
+        doc.setTextColor(15, 23, 42);
+        doc.text(item.title, margin + 4, y + 4.5);
+
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(6.5);
+        doc.setTextColor(100, 116, 139);
+        const specSummary = (item.specs || item.description || '').slice(0, 75);
+        doc.text(specSummary, margin + 4, y + 8.5);
+
+        // Warranty
+        if (item.warranty) {
+          doc.setFont('helvetica', 'bold');
+          doc.setFontSize(7);
+          doc.setTextColor(180, 83, 9); // amber-700
+          doc.text(item.warranty, margin + 98, y + 6);
+        }
+
+        // Qty
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(8);
+        doc.setTextColor(51, 65, 85);
+        doc.text(item.quantity.toString(), margin + 122, y + 6, { align: 'center' });
+
+        // Price
+        doc.text(formatMoney(item.unitPrice), margin + 148, y + 6, { align: 'right' });
+
+        // Total
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(15, 23, 42);
+        doc.text(formatMoney(item.total), pageWidth - margin - 4, y + 6, { align: 'right' });
+
+        y += 12;
+      });
+
+      y += 4;
+
+      // 4. Totals Block
+      const totalsX = pageWidth - margin - 75;
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(8);
+      doc.setTextColor(71, 85, 105);
+      doc.text('Subtotal:', totalsX, y + 4);
+      doc.text(formatMoney(invoice.subtotal), pageWidth - margin - 4, y + 4, { align: 'right' });
+
+      if (invoice.discountAmount > 0) {
+        y += 5;
+        doc.setTextColor(5, 150, 105);
+        doc.text(`Discount (${invoice.discountRate}%):`, totalsX, y + 4);
+        doc.text(`-${formatMoney(invoice.discountAmount)}`, pageWidth - margin - 4, y + 4, { align: 'right' });
+      }
+
+      y += 5;
+      doc.setTextColor(71, 85, 105);
+      doc.text(`VAT (${invoice.taxRate}%):`, totalsX, y + 4);
+      doc.text(invoice.taxAmount > 0 ? `+${formatMoney(invoice.taxAmount)}` : 'Exempt (Clean Energy)', pageWidth - margin - 4, y + 4, { align: 'right' });
+
+      y += 6;
+      doc.setFillColor(248, 250, 252);
+      doc.rect(totalsX - 3, y, 78, 9, 'F');
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(9.5);
+      doc.setTextColor(180, 83, 9);
+      doc.text('Grand Total:', totalsX, y + 6);
+      doc.text(formatMoney(invoice.total), pageWidth - margin - 4, y + 6, { align: 'right' });
+
+      y += 16;
+
+      // 5. Bank Details Box
+      if (invoice.bankAccounts && invoice.bankAccounts.length > 0) {
+        doc.setFillColor(248, 250, 252);
+        doc.setDrawColor(226, 232, 240);
+        doc.roundedRect(margin, y, pageWidth - margin * 2, 22, 2, 2, 'FD');
+
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(7.5);
+        doc.setTextColor(15, 23, 42);
+        doc.text('OFFICIAL CORPORATE REMITTANCE BANK ACCOUNTS:', margin + 4, y + 5);
+
+        let bankX = margin + 4;
+        invoice.bankAccounts.slice(0, 2).forEach((bank) => {
+          doc.setFont('helvetica', 'bold');
+          doc.setFontSize(7.5);
+          doc.setTextColor(51, 65, 85);
+          doc.text(`${bank.bankName} (${bank.currency})`, bankX, y + 10);
+
+          doc.setFont('helvetica', 'normal');
+          doc.setFontSize(7);
+          doc.text(`Beneficiary: ${bank.accountName}`, bankX, y + 14);
+
+          doc.setFont('helvetica', 'bold');
+          doc.setFontSize(8);
+          doc.setTextColor(180, 83, 9);
+          doc.text(`A/C: ${bank.accountNumber}`, bankX, y + 18);
+
+          bankX += 85;
+        });
+
+        y += 26;
+      }
+
+      // 6. Signatory & Terms
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(7);
+      doc.setTextColor(100, 116, 139);
+      doc.text('PAYMENT MILESTONES & TERMS:', margin, y + 4);
+
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(6.5);
+      doc.setTextColor(71, 85, 105);
+      const splitTerms = doc.splitTextToSize(invoice.paymentTerms || settings.defaultPaymentTerms, 110);
+      doc.text(splitTerms, margin, y + 8);
+
+      // Signature block on right
+      const sigX = pageWidth - margin - 45;
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(9);
+      doc.setTextColor(15, 23, 42);
+      doc.text(settings.authorizedSignatoryName, sigX, y + 4, { align: 'center' });
+
+      doc.setDrawColor(203, 213, 225);
+      doc.line(sigX - 25, y + 6, sigX + 25, y + 6);
+
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(6.5);
+      doc.setTextColor(100, 116, 139);
+      doc.text(settings.authorizedSignatoryTitle, sigX, y + 9.5, { align: 'center' });
+
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(6);
+      doc.setTextColor(180, 83, 9);
+      doc.text('SOLIKOS ENERGY • CORPORATE SEAL', sigX, y + 13, { align: 'center' });
+
+      // Save PDF file
+      doc.save(`Solikos_Invoice_${invoice.invoiceNumber}.pdf`);
     } catch (err) {
-      console.warn('Canvas PDF export fallback to native print:', err);
-      // Seamless native print-to-PDF fallback
+      console.error('PDF generation error:', err);
       window.print();
     } finally {
       setDownloading(false);
@@ -217,7 +414,7 @@ export const PublicInvoiceView: React.FC = () => {
             className="bg-amber-600 hover:bg-amber-500 text-white text-xs font-semibold px-4 py-2 rounded-xl flex items-center gap-1.5 shadow-sm transition-all"
           >
             <Download size={14} />
-            <span>{downloading ? 'Exporting PDF...' : 'Download PDF'}</span>
+            <span>{downloading ? 'Generating PDF...' : 'Download PDF'}</span>
           </button>
         </div>
       </div>
