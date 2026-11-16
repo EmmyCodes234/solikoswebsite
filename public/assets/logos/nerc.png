@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+<head>
+  <meta name="author" content="Daniel Inaju - Challydoff Limited">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <meta name="description" content="NERC - Nigerian Electricity Regulatory Commission">
+  <link href="assets/images/favicon/favicon-16x16.png" rel="icon">
+  <title>NIGERIAN ELECTRICITY REGULATORY COMMISSION</title>
+  <!-- <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;700&family=Roboto:wght@400;700&display=swap"> -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
+  <!-- <link rel="stylesheet" href="https://nerc.gov.ng/wp-content/themes/ndid/assets/css/buttons.min.css"> -->
+  <link rel="stylesheet" href="https://nerc.gov.ng/wp-content/themes/ndid/assets/css/datatables.min.css">
+  <link rel="stylesheet" href="https://nerc.gov.ng/wp-content/themes/ndid/assets/css/all3.css">
+  <link rel="stylesheet" href="https://nerc.gov.ng/wp-content/themes/ndid/assets/css/all2.css">
+  <!-- <link rel="stylesheet" href="assets/css/animate.min.css"> -->
+  <link rel="stylesheet" href="https://nerc.gov.ng/wp-content/themes/ndid/assets/css/animate.css">
+  <!-- <link rel="stylesheet" href="assets/css/aos.css"> -->
+  <link rel="stylesheet" href="https://nerc.gov.ng/wp-content/themes/ndid/assets/css/libraries.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://nerc.gov.ng/wp-content/themes/ndid/assets/css/style.css">
+  <link rel="stylesheet" href="https://nerc.gov.ng/wp-content/themes/ndid/assets/css/style2.css">
+      <script src="https://www.google.com/recaptcha/api.js?site-key=6LcP_ogpAAAAALO62V-lwJomKK6ZaSJDU7lfbH-s" async defer></script>
+</script>
+
+  <style>
+    .top-menu-center .gt_float_switcher,
+    .top-menu-center .gt_float_switcher .gt-selected{
+      background-color: unset;
+      box-shadow: none;
+    }
+
+    .top-menu-center .gt_float_switcher .gt_options.gt-open{
+      background-color: #fff;
+    }
+    
+    .top-menu-center .gt_float_switcher .gt-selected .gt-current-lang{
+      padding: 0px;
+    }
+
+    .top-menu-center .gt_float_switcher{
+      font-size: 14px;
+    }
+
+    .top-menu-center .gt_float_switcher img{
+      width: 22px;
+    }
+    .top-menu-center .gt_options.gt-open{
+        display: block;
+        position: absolute;
+        top: 30px;
+        width: 120px;
+    }
+    
+    .coa-img,
+    .logo-area{
+      max-height: 65px;
+    }
+  </style>
+  <meta name='robots' content='max-image-preview:large' />
+<link rel='dns-prefetch' href='//widget.tagembed.com' />
+<link rel='dns-prefetch' href='//www.googletagmanager.com' />
+<link rel="alternate" type="application/rss+xml" title="The Nigerian Electricity Regulatory Commission (NERC) &raquo; Feed" href="https://nerc.gov.ng/feed/" />
+<link rel="alternate" type="application/rss+xml" title="The Nigerian Electricity Regulatory Commission (NERC) &raquo; Comments Feed" href="https://nerc.gov.ng/comments/feed/" />
+<style id='wp-img-auto-sizes-contain-inline-css' type='text/css'>
+img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
+/*# sourceURL=wp-img-auto-sizes-contain-inline-css */
+</style>
+<style id='wp-emoji-styles-inline-css' type='text/css'>
+
+	img.wp-smiley, img.emoji {
+		display: inline !important;
+		border: none !important;
+		box-shadow: none !important;
+		height: 1em !important;
+		width: 1em !important;
+		margin: 0 0.07em !important;
+		vertical-align: -0.1em !important;
+		background: none !important;
+		padding: 0 !important;
+	}
+/*# sourceURL=wp-emoji-styles-inline-css */
+</style>
+<style id='wp-block-library-inline-css' type='text/css'>
+:root{--wp-block-synced-color:#7a00df;--wp-block-synced-color--rgb:122,0,223;--wp-bound-block-color:var(--wp-block-synced-color);--wp-editor-canvas-background:#ddd;--wp-admin-theme-color:#007cba;--wp-admin-theme-color--rgb:0,124,186;--wp-admin-theme-color-darker-10:#006ba1;--wp-admin-theme-color-darker-10--rgb:0,107,160.5;--wp-admin-theme-color-darker-20:#005a87;--wp-admin-theme-color-darker-20--rgb:0,90,135;--wp-admin-border-width-focus:2px}@media (min-resolution:192dpi){:root{--wp-admin-border-width-focus:1.5px}}.wp-element-button{cursor:pointer}:root .has-very-light-gray-background-color{background-color:#eee}:root .has-very-dark-gray-background-color{background-color:#313131}:root .has-very-light-gray-color{color:#eee}:root .has-very-dark-gray-color{color:#313131}:root .has-vivid-green-cyan-to-vivid-cyan-blue-gradient-background{background:linear-gradient(135deg,#00d084,#0693e3)}:root .has-purple-crush-gradient-background{background:linear-gradient(135deg,#34e2e4,#4721fb 50%,#ab1dfe)}:root .has-hazy-dawn-gradient-background{background:linear-gradient(135deg,#faaca8,#dad0ec)}:root .has-subdued-olive-gradient-background{background:linear-gradient(135deg,#fafae1,#67a671)}:root .has-atomic-cream-gradient-background{background:linear-gradient(135deg,#fdd79a,#004a59)}:root .has-nightshade-gradient-background{background:linear-gradient(135deg,#330968,#31cdcf)}:root .has-midnight-gradient-background{background:linear-gradient(135deg,#020381,#2874fc)}:root{--wp--preset--font-size--normal:16px;--wp--preset--font-size--huge:42px}.has-regular-font-size{font-size:1em}.has-larger-font-size{font-size:2.625em}.has-normal-font-size{font-size:var(--wp--preset--font-size--normal)}.has-huge-font-size{font-size:var(--wp--preset--font-size--huge)}.has-text-align-center{text-align:center}.has-text-align-left{text-align:left}.has-text-align-right{text-align:right}.has-fit-text{white-space:nowrap!important}#end-resizable-editor-section{display:none}.aligncenter{clear:both}.items-justified-left{justify-content:flex-start}.items-justified-center{justify-content:center}.items-justified-right{justify-content:flex-end}.items-justified-space-between{justify-content:space-between}.screen-reader-text{border:0;clip-path:inset(50%);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;width:1px;word-wrap:normal!important}.screen-reader-text:focus{background-color:#ddd;clip-path:none;color:#444;display:block;font-size:1em;height:auto;left:5px;line-height:normal;padding:15px 23px 14px;text-decoration:none;top:5px;width:auto;z-index:100000}html :where(.has-border-color){border-style:solid}html :where([style*=border-top-color]){border-top-style:solid}html :where([style*=border-right-color]){border-right-style:solid}html :where([style*=border-bottom-color]){border-bottom-style:solid}html :where([style*=border-left-color]){border-left-style:solid}html :where([style*=border-width]){border-style:solid}html :where([style*=border-top-width]){border-top-style:solid}html :where([style*=border-right-width]){border-right-style:solid}html :where([style*=border-bottom-width]){border-bottom-style:solid}html :where([style*=border-left-width]){border-left-style:solid}html :where(img[class*=wp-image-]){height:auto;max-width:100%}:where(figure){margin:0 0 1em}html :where(.is-position-sticky){--wp-admin--admin-bar--position-offset:var(--wp-admin--admin-bar--height,0px)}@media screen and (max-width:600px){html :where(.is-position-sticky){--wp-admin--admin-bar--position-offset:0px}}
+
+/*# sourceURL=wp-block-library-inline-css */
+</style>
+<style id='classic-theme-styles-inline-css' type='text/css'>
+/*! This file is auto-generated */
+.wp-block-button__link{color:#fff;background-color:#32373c;border-radius:9999px;box-shadow:none;text-decoration:none;padding:calc(.667em + 2px) calc(1.333em + 2px);font-size:1.125em}.wp-block-file__button{background:#32373c;color:#fff;text-decoration:none}
+/*# sourceURL=/wp-includes/css/classic-themes.min.css */
+</style>
+<link rel='stylesheet' id='pojo-a11y-css' href='https://nerc.gov.ng/wp-content/plugins/pojo-accessibility/modules/legacy/assets/css/style.min.css?ver=1.0.0' type='text/css' media='all' />
+<script type="text/javascript" src="https://nerc.gov.ng/wp-includes/js/jquery/jquery.min.js?ver=3.7.1" id="jquery-core-js"></script>
+<script type="text/javascript" src="https://nerc.gov.ng/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1" id="jquery-migrate-js"></script>
+<script type="text/javascript" id="cookie-law-info-js-extra">
+/* <![CDATA[ */
+var _ckyConfig = {"_ipData":[],"_assetsURL":"https://nerc.gov.ng/wp-content/plugins/cookie-law-info/lite/frontend/images/","_publicURL":"https://nerc.gov.ng","_expiry":"365","_categories":[{"name":"Necessary","slug":"necessary","isNecessary":true,"ccpaDoNotSell":true,"cookies":[],"active":true,"defaultConsent":{"gdpr":true,"ccpa":true}},{"name":"Functional","slug":"functional","isNecessary":false,"ccpaDoNotSell":true,"cookies":[],"active":true,"defaultConsent":{"gdpr":false,"ccpa":false}},{"name":"Analytics","slug":"analytics","isNecessary":false,"ccpaDoNotSell":true,"cookies":[],"active":true,"defaultConsent":{"gdpr":false,"ccpa":false}},{"name":"Performance","slug":"performance","isNecessary":false,"ccpaDoNotSell":true,"cookies":[],"active":true,"defaultConsent":{"gdpr":false,"ccpa":false}},{"name":"Advertisement","slug":"advertisement","isNecessary":false,"ccpaDoNotSell":true,"cookies":[],"active":true,"defaultConsent":{"gdpr":false,"ccpa":false}}],"_activeLaw":"gdpr","_rootDomain":"","_block":"1","_showBanner":"1","_bannerConfig":{"settings":{"type":"banner","preferenceCenterType":"popup","position":"bottom","applicableLaw":"gdpr"},"behaviours":{"reloadBannerOnAccept":false,"loadAnalyticsByDefault":false,"animations":{"onLoad":"animate","onHide":"sticky"}},"config":{"revisitConsent":{"status":true,"tag":"revisit-consent","position":"bottom-left","meta":{"url":"#"},"styles":{"background-color":"#026487"},"elements":{"title":{"type":"text","tag":"revisit-consent-title","status":true,"styles":{"color":"#0056a7"}}}},"preferenceCenter":{"toggle":{"status":true,"tag":"detail-category-toggle","type":"toggle","states":{"active":{"styles":{"background-color":"#1863DC"}},"inactive":{"styles":{"background-color":"#D0D5D2"}}}}},"categoryPreview":{"status":false,"toggle":{"status":true,"tag":"detail-category-preview-toggle","type":"toggle","states":{"active":{"styles":{"background-color":"#1863DC"}},"inactive":{"styles":{"background-color":"#D0D5D2"}}}}},"videoPlaceholder":{"status":true,"styles":{"background-color":"#000000","border-color":"#000000","color":"#ffffff"}},"readMore":{"status":false,"tag":"readmore-button","type":"link","meta":{"noFollow":true,"newTab":true},"styles":{"color":"#49a9cb","background-color":"transparent","border-color":"transparent"}},"showMore":{"status":true,"tag":"show-desc-button","type":"button","styles":{"color":"#1863DC"}},"showLess":{"status":true,"tag":"hide-desc-button","type":"button","styles":{"color":"#1863DC"}},"alwaysActive":{"status":true,"tag":"always-active","styles":{"color":"#008000"}},"manualLinks":{"status":true,"tag":"manual-links","type":"link","styles":{"color":"#1863DC"}},"auditTable":{"status":true},"optOption":{"status":true,"toggle":{"status":true,"tag":"optout-option-toggle","type":"toggle","states":{"active":{"styles":{"background-color":"#1863dc"}},"inactive":{"styles":{"background-color":"#FFFFFF"}}}}}}},"_version":"3.3.9.1","_logConsent":"1","_tags":[{"tag":"accept-button","styles":{"color":"#FFFFFF","background-color":"#49a9cb","border-color":"#49a9cb"}},{"tag":"reject-button","styles":{"color":"#49a9cb","background-color":"transparent","border-color":"#49a9cb"}},{"tag":"settings-button","styles":{"color":"#49a9cb","background-color":"transparent","border-color":"#49a9cb"}},{"tag":"readmore-button","styles":{"color":"#49a9cb","background-color":"transparent","border-color":"transparent"}},{"tag":"donotsell-button","styles":{"color":"#1863dc","background-color":"transparent","border-color":"transparent"}},{"tag":"show-desc-button","styles":{"color":"#1863DC"}},{"tag":"hide-desc-button","styles":{"color":"#1863DC"}},{"tag":"cky-always-active","styles":[]},{"tag":"cky-link","styles":[]},{"tag":"accept-button","styles":{"color":"#FFFFFF","background-color":"#49a9cb","border-color":"#49a9cb"}},{"tag":"revisit-consent","styles":{"background-color":"#026487"}}],"_shortCodes":[{"key":"cky_readmore","content":"\u003Ca href=\"#\" class=\"cky-policy\" aria-label=\"Cookie Policy\" target=\"_blank\" rel=\"noopener\" data-cky-tag=\"readmore-button\"\u003ECookie Policy\u003C/a\u003E","tag":"readmore-button","status":false,"attributes":{"rel":"nofollow","target":"_blank"}},{"key":"cky_show_desc","content":"\u003Cbutton class=\"cky-show-desc-btn\" data-cky-tag=\"show-desc-button\" aria-label=\"Show more\"\u003EShow more\u003C/button\u003E","tag":"show-desc-button","status":true,"attributes":[]},{"key":"cky_hide_desc","content":"\u003Cbutton class=\"cky-show-desc-btn\" data-cky-tag=\"hide-desc-button\" aria-label=\"Show less\"\u003EShow less\u003C/button\u003E","tag":"hide-desc-button","status":true,"attributes":[]},{"key":"cky_optout_show_desc","content":"[cky_optout_show_desc]","tag":"optout-show-desc-button","status":true,"attributes":[]},{"key":"cky_optout_hide_desc","content":"[cky_optout_hide_desc]","tag":"optout-hide-desc-button","status":true,"attributes":[]},{"key":"cky_category_toggle_label","content":"[cky_{{status}}_category_label] [cky_preference_{{category_slug}}_title]","tag":"","status":true,"attributes":[]},{"key":"cky_enable_category_label","content":"Enable","tag":"","status":true,"attributes":[]},{"key":"cky_disable_category_label","content":"Disable","tag":"","status":true,"attributes":[]},{"key":"cky_video_placeholder","content":"\u003Cdiv class=\"video-placeholder-normal\" data-cky-tag=\"video-placeholder\" id=\"[UNIQUEID]\"\u003E\u003Cp class=\"video-placeholder-text-normal\" data-cky-tag=\"placeholder-title\"\u003EPlease accept cookies to access this content\u003C/p\u003E\u003C/div\u003E","tag":"","status":true,"attributes":[]},{"key":"cky_enable_optout_label","content":"Enable","tag":"","status":true,"attributes":[]},{"key":"cky_disable_optout_label","content":"Disable","tag":"","status":true,"attributes":[]},{"key":"cky_optout_toggle_label","content":"[cky_{{status}}_optout_label] [cky_optout_option_title]","tag":"","status":true,"attributes":[]},{"key":"cky_optout_option_title","content":"Do Not Sell or Share My Personal Information","tag":"","status":true,"attributes":[]},{"key":"cky_optout_close_label","content":"Close","tag":"","status":true,"attributes":[]},{"key":"cky_preference_close_label","content":"Close","tag":"","status":true,"attributes":[]}],"_rtl":"","_language":"en","_providersToBlock":[]};
+var _ckyStyles = {"css":".cky-overlay{background: #000000; opacity: 0.4; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 99999999;}.cky-hide{display: none;}.cky-btn-revisit-wrapper{display: flex; align-items: center; justify-content: center; background: #0056a7; width: 45px; height: 45px; border-radius: 50%; position: fixed; z-index: 999999; cursor: pointer;}.cky-revisit-bottom-left{bottom: 15px; left: 15px;}.cky-revisit-bottom-right{bottom: 15px; right: 15px;}.cky-btn-revisit-wrapper .cky-btn-revisit{display: flex; align-items: center; justify-content: center; background: none; border: none; cursor: pointer; position: relative; margin: 0; padding: 0;}.cky-btn-revisit-wrapper .cky-btn-revisit img{max-width: fit-content; margin: 0; height: 30px; width: 30px;}.cky-revisit-bottom-left:hover::before{content: attr(data-tooltip); position: absolute; background: #4e4b66; color: #ffffff; left: calc(100% + 7px); font-size: 12px; line-height: 16px; width: max-content; padding: 4px 8px; border-radius: 4px;}.cky-revisit-bottom-left:hover::after{position: absolute; content: \"\"; border: 5px solid transparent; left: calc(100% + 2px); border-left-width: 0; border-right-color: #4e4b66;}.cky-revisit-bottom-right:hover::before{content: attr(data-tooltip); position: absolute; background: #4e4b66; color: #ffffff; right: calc(100% + 7px); font-size: 12px; line-height: 16px; width: max-content; padding: 4px 8px; border-radius: 4px;}.cky-revisit-bottom-right:hover::after{position: absolute; content: \"\"; border: 5px solid transparent; right: calc(100% + 2px); border-right-width: 0; border-left-color: #4e4b66;}.cky-revisit-hide{display: none;}.cky-consent-container{position: fixed; width: 100%; box-sizing: border-box; z-index: 9999999;}.cky-consent-container .cky-consent-bar{background: #ffffff; border: 1px solid; padding: 16.5px 24px; box-shadow: 0 -1px 10px 0 #acabab4d;}.cky-banner-bottom{bottom: 0; left: 0;}.cky-banner-top{top: 0; left: 0;}.cky-custom-brand-logo-wrapper .cky-custom-brand-logo{width: 100px; height: auto; margin: 0 0 12px 0;}.cky-notice .cky-title{color: #212121; font-weight: 700; font-size: 18px; line-height: 24px; margin: 0 0 12px 0;}.cky-notice-group{display: flex; justify-content: space-between; align-items: center; font-size: 14px; line-height: 24px; font-weight: 400;}.cky-notice-des *,.cky-preference-content-wrapper *,.cky-accordion-header-des *,.cky-gpc-wrapper .cky-gpc-desc *{font-size: 14px;}.cky-notice-des{color: #212121; font-size: 14px; line-height: 24px; font-weight: 400;}.cky-notice-des img{height: 25px; width: 25px;}.cky-consent-bar .cky-notice-des p,.cky-gpc-wrapper .cky-gpc-desc p,.cky-preference-body-wrapper .cky-preference-content-wrapper p,.cky-accordion-header-wrapper .cky-accordion-header-des p,.cky-cookie-des-table li div:last-child p{color: inherit; margin-top: 0; overflow-wrap: break-word;}.cky-notice-des P:last-child,.cky-preference-content-wrapper p:last-child,.cky-cookie-des-table li div:last-child p:last-child,.cky-gpc-wrapper .cky-gpc-desc p:last-child{margin-bottom: 0;}.cky-notice-des a.cky-policy,.cky-notice-des button.cky-policy{font-size: 14px; color: #1863dc; white-space: nowrap; cursor: pointer; background: transparent; border: 1px solid; text-decoration: underline;}.cky-notice-des button.cky-policy{padding: 0;}.cky-notice-des a.cky-policy:focus-visible,.cky-notice-des button.cky-policy:focus-visible,.cky-preference-content-wrapper .cky-show-desc-btn:focus-visible,.cky-accordion-header .cky-accordion-btn:focus-visible,.cky-preference-header .cky-btn-close:focus-visible,.cky-switch input[type=\"checkbox\"]:focus-visible,.cky-footer-wrapper a:focus-visible,.cky-btn:focus-visible{outline: 2px solid #1863dc; outline-offset: 2px;}.cky-btn:focus:not(:focus-visible),.cky-accordion-header .cky-accordion-btn:focus:not(:focus-visible),.cky-preference-content-wrapper .cky-show-desc-btn:focus:not(:focus-visible),.cky-btn-revisit-wrapper .cky-btn-revisit:focus:not(:focus-visible),.cky-preference-header .cky-btn-close:focus:not(:focus-visible),.cky-consent-bar .cky-banner-btn-close:focus:not(:focus-visible){outline: 0;}button.cky-show-desc-btn:not(:hover):not(:active){color: #1863dc; background: transparent;}button.cky-accordion-btn:not(:hover):not(:active),button.cky-banner-btn-close:not(:hover):not(:active),button.cky-btn-close:not(:hover):not(:active),button.cky-btn-revisit:not(:hover):not(:active){background: transparent;}.cky-consent-bar button:hover,.cky-modal.cky-modal-open button:hover,.cky-consent-bar button:focus,.cky-modal.cky-modal-open button:focus{text-decoration: none;}.cky-notice-btn-wrapper{display: flex; justify-content: center; align-items: center; margin-left: 15px;}.cky-notice-btn-wrapper .cky-btn{text-shadow: none; box-shadow: none;}.cky-btn{font-size: 14px; font-family: inherit; line-height: 24px; padding: 8px 27px; font-weight: 500; margin: 0 8px 0 0; border-radius: 2px; white-space: nowrap; cursor: pointer; text-align: center; text-transform: none; min-height: 0;}.cky-btn:hover{opacity: 0.8;}.cky-btn-customize{color: #1863dc; background: transparent; border: 2px solid #1863dc;}.cky-btn-reject{color: #1863dc; background: transparent; border: 2px solid #1863dc;}.cky-btn-accept{background: #1863dc; color: #ffffff; border: 2px solid #1863dc;}.cky-btn:last-child{margin-right: 0;}@media (max-width: 768px){.cky-notice-group{display: block;}.cky-notice-btn-wrapper{margin-left: 0;}.cky-notice-btn-wrapper .cky-btn{flex: auto; max-width: 100%; margin-top: 10px; white-space: unset;}}@media (max-width: 576px){.cky-notice-btn-wrapper{flex-direction: column;}.cky-custom-brand-logo-wrapper, .cky-notice .cky-title, .cky-notice-des, .cky-notice-btn-wrapper{padding: 0 28px;}.cky-consent-container .cky-consent-bar{padding: 16.5px 0;}.cky-notice-des{max-height: 40vh; overflow-y: scroll;}.cky-notice-btn-wrapper .cky-btn{width: 100%; padding: 8px; margin-right: 0;}.cky-notice-btn-wrapper .cky-btn-accept{order: 1;}.cky-notice-btn-wrapper .cky-btn-reject{order: 3;}.cky-notice-btn-wrapper .cky-btn-customize{order: 2;}}@media (max-height: 480px){.cky-consent-container{max-height: 100vh;overflow-y: scroll}.cky-notice-des{max-height: unset;overflow-y: unset}.cky-preference-center{height: 100vh;overflow: auto !important}.cky-preference-center .cky-preference-body-wrapper{overflow: unset}}@media (max-width: 425px){.cky-custom-brand-logo-wrapper, .cky-notice .cky-title, .cky-notice-des, .cky-notice-btn-wrapper{padding: 0 24px;}.cky-notice-btn-wrapper{flex-direction: column;}.cky-btn{width: 100%; margin: 10px 0 0 0;}.cky-notice-btn-wrapper .cky-btn-customize{order: 2;}.cky-notice-btn-wrapper .cky-btn-reject{order: 3;}.cky-notice-btn-wrapper .cky-btn-accept{order: 1; margin-top: 16px;}}@media (max-width: 352px){.cky-notice .cky-title{font-size: 16px;}.cky-notice-des *{font-size: 12px;}.cky-notice-des, .cky-btn{font-size: 12px;}}.cky-modal.cky-modal-open{display: flex; visibility: visible; -webkit-transform: translate(-50%, -50%); -moz-transform: translate(-50%, -50%); -ms-transform: translate(-50%, -50%); -o-transform: translate(-50%, -50%); transform: translate(-50%, -50%); top: 50%; left: 50%; transition: all 1s ease;}.cky-modal{box-shadow: 0 32px 68px rgba(0, 0, 0, 0.3); margin: 0 auto; position: fixed; max-width: 100%; background: #ffffff; top: 50%; box-sizing: border-box; border-radius: 6px; z-index: 999999999; color: #212121; -webkit-transform: translate(-50%, 100%); -moz-transform: translate(-50%, 100%); -ms-transform: translate(-50%, 100%); -o-transform: translate(-50%, 100%); transform: translate(-50%, 100%); visibility: hidden; transition: all 0s ease;}.cky-preference-center{max-height: 79vh; overflow: hidden; width: 845px; overflow: hidden; flex: 1 1 0; display: flex; flex-direction: column; border-radius: 6px;}.cky-preference-header{display: flex; align-items: center; justify-content: space-between; padding: 22px 24px; border-bottom: 1px solid;}.cky-preference-header .cky-preference-title{font-size: 18px; font-weight: 700; line-height: 24px;}.cky-preference-header .cky-btn-close{margin: 0; cursor: pointer; vertical-align: middle; padding: 0; background: none; border: none; width: 24px; height: 24px; min-height: 0; line-height: 0; text-shadow: none; box-shadow: none;}.cky-preference-header .cky-btn-close img{margin: 0; height: 10px; width: 10px;}.cky-preference-body-wrapper{padding: 0 24px; flex: 1; overflow: auto; box-sizing: border-box;}.cky-preference-content-wrapper,.cky-gpc-wrapper .cky-gpc-desc{font-size: 14px; line-height: 24px; font-weight: 400; padding: 12px 0;}.cky-preference-content-wrapper{border-bottom: 1px solid;}.cky-preference-content-wrapper img{height: 25px; width: 25px;}.cky-preference-content-wrapper .cky-show-desc-btn{font-size: 14px; font-family: inherit; color: #1863dc; text-decoration: none; line-height: 24px; padding: 0; margin: 0; white-space: nowrap; cursor: pointer; background: transparent; border-color: transparent; text-transform: none; min-height: 0; text-shadow: none; box-shadow: none;}.cky-accordion-wrapper{margin-bottom: 10px;}.cky-accordion{border-bottom: 1px solid;}.cky-accordion:last-child{border-bottom: none;}.cky-accordion .cky-accordion-item{display: flex; margin-top: 10px;}.cky-accordion .cky-accordion-body{display: none;}.cky-accordion.cky-accordion-active .cky-accordion-body{display: block; padding: 0 22px; margin-bottom: 16px;}.cky-accordion-header-wrapper{cursor: pointer; width: 100%;}.cky-accordion-item .cky-accordion-header{display: flex; justify-content: space-between; align-items: center;}.cky-accordion-header .cky-accordion-btn{font-size: 16px; font-family: inherit; color: #212121; line-height: 24px; background: none; border: none; font-weight: 700; padding: 0; margin: 0; cursor: pointer; text-transform: none; min-height: 0; text-shadow: none; box-shadow: none;}.cky-accordion-header .cky-always-active{color: #008000; font-weight: 600; line-height: 24px; font-size: 14px;}.cky-accordion-header-des{font-size: 14px; line-height: 24px; margin: 10px 0 16px 0;}.cky-accordion-chevron{margin-right: 22px; position: relative; cursor: pointer;}.cky-accordion-chevron-hide{display: none;}.cky-accordion .cky-accordion-chevron i::before{content: \"\"; position: absolute; border-right: 1.4px solid; border-bottom: 1.4px solid; border-color: inherit; height: 6px; width: 6px; -webkit-transform: rotate(-45deg); -moz-transform: rotate(-45deg); -ms-transform: rotate(-45deg); -o-transform: rotate(-45deg); transform: rotate(-45deg); transition: all 0.2s ease-in-out; top: 8px;}.cky-accordion.cky-accordion-active .cky-accordion-chevron i::before{-webkit-transform: rotate(45deg); -moz-transform: rotate(45deg); -ms-transform: rotate(45deg); -o-transform: rotate(45deg); transform: rotate(45deg);}.cky-audit-table{background: #f4f4f4; border-radius: 6px;}.cky-audit-table .cky-empty-cookies-text{color: inherit; font-size: 12px; line-height: 24px; margin: 0; padding: 10px;}.cky-audit-table .cky-cookie-des-table{font-size: 12px; line-height: 24px; font-weight: normal; padding: 15px 10px; border-bottom: 1px solid; border-bottom-color: inherit; margin: 0;}.cky-audit-table .cky-cookie-des-table:last-child{border-bottom: none;}.cky-audit-table .cky-cookie-des-table li{list-style-type: none; display: flex; padding: 3px 0;}.cky-audit-table .cky-cookie-des-table li:first-child{padding-top: 0;}.cky-cookie-des-table li div:first-child{width: 100px; font-weight: 600; word-break: break-word; word-wrap: break-word;}.cky-cookie-des-table li div:last-child{flex: 1; word-break: break-word; word-wrap: break-word; margin-left: 8px;}.cky-footer-shadow{display: block; width: 100%; height: 40px; background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #ffffff 100%); position: absolute; bottom: calc(100% - 1px);}.cky-footer-wrapper{position: relative;}.cky-prefrence-btn-wrapper{display: flex; flex-wrap: wrap; align-items: center; justify-content: center; padding: 22px 24px; border-top: 1px solid;}.cky-prefrence-btn-wrapper .cky-btn{flex: auto; max-width: 100%; text-shadow: none; box-shadow: none;}.cky-btn-preferences{color: #1863dc; background: transparent; border: 2px solid #1863dc;}.cky-preference-header,.cky-preference-body-wrapper,.cky-preference-content-wrapper,.cky-accordion-wrapper,.cky-accordion,.cky-accordion-wrapper,.cky-footer-wrapper,.cky-prefrence-btn-wrapper{border-color: inherit;}@media (max-width: 845px){.cky-modal{max-width: calc(100% - 16px);}}@media (max-width: 576px){.cky-modal{max-width: 100%;}.cky-preference-center{max-height: 100vh;}.cky-prefrence-btn-wrapper{flex-direction: column;}.cky-accordion.cky-accordion-active .cky-accordion-body{padding-right: 0;}.cky-prefrence-btn-wrapper .cky-btn{width: 100%; margin: 10px 0 0 0;}.cky-prefrence-btn-wrapper .cky-btn-reject{order: 3;}.cky-prefrence-btn-wrapper .cky-btn-accept{order: 1; margin-top: 0;}.cky-prefrence-btn-wrapper .cky-btn-preferences{order: 2;}}@media (max-width: 425px){.cky-accordion-chevron{margin-right: 15px;}.cky-notice-btn-wrapper{margin-top: 0;}.cky-accordion.cky-accordion-active .cky-accordion-body{padding: 0 15px;}}@media (max-width: 352px){.cky-preference-header .cky-preference-title{font-size: 16px;}.cky-preference-header{padding: 16px 24px;}.cky-preference-content-wrapper *, .cky-accordion-header-des *{font-size: 12px;}.cky-preference-content-wrapper, .cky-preference-content-wrapper .cky-show-more, .cky-accordion-header .cky-always-active, .cky-accordion-header-des, .cky-preference-content-wrapper .cky-show-desc-btn, .cky-notice-des a.cky-policy{font-size: 12px;}.cky-accordion-header .cky-accordion-btn{font-size: 14px;}}.cky-switch{display: flex;}.cky-switch input[type=\"checkbox\"]{position: relative; width: 44px; height: 24px; margin: 0; background: #d0d5d2; -webkit-appearance: none; border-radius: 50px; cursor: pointer; outline: 0; border: none; top: 0;}.cky-switch input[type=\"checkbox\"]:checked{background: #1863dc;}.cky-switch input[type=\"checkbox\"]:before{position: absolute; content: \"\"; height: 20px; width: 20px; left: 2px; bottom: 2px; border-radius: 50%; background-color: white; -webkit-transition: 0.4s; transition: 0.4s; margin: 0;}.cky-switch input[type=\"checkbox\"]:after{display: none;}.cky-switch input[type=\"checkbox\"]:checked:before{-webkit-transform: translateX(20px); -ms-transform: translateX(20px); transform: translateX(20px);}@media (max-width: 425px){.cky-switch input[type=\"checkbox\"]{width: 38px; height: 21px;}.cky-switch input[type=\"checkbox\"]:before{height: 17px; width: 17px;}.cky-switch input[type=\"checkbox\"]:checked:before{-webkit-transform: translateX(17px); -ms-transform: translateX(17px); transform: translateX(17px);}}.cky-consent-bar .cky-banner-btn-close{position: absolute; right: 9px; top: 5px; background: none; border: none; cursor: pointer; padding: 0; margin: 0; min-height: 0; line-height: 0; height: 24px; width: 24px; text-shadow: none; box-shadow: none;}.cky-consent-bar .cky-banner-btn-close img{height: 9px; width: 9px; margin: 0;}.cky-notice-btn-wrapper .cky-btn-do-not-sell{font-size: 14px; line-height: 24px; padding: 6px 0; margin: 0; font-weight: 500; background: none; border-radius: 2px; border: none; cursor: pointer; text-align: left; color: #1863dc; background: transparent; border-color: transparent; box-shadow: none; text-shadow: none;}.cky-consent-bar .cky-banner-btn-close:focus-visible,.cky-notice-btn-wrapper .cky-btn-do-not-sell:focus-visible,.cky-opt-out-btn-wrapper .cky-btn:focus-visible,.cky-opt-out-checkbox-wrapper input[type=\"checkbox\"].cky-opt-out-checkbox:focus-visible{outline: 2px solid #1863dc; outline-offset: 2px;}@media (max-width: 768px){.cky-notice-btn-wrapper{margin-left: 0; margin-top: 10px; justify-content: left;}.cky-notice-btn-wrapper .cky-btn-do-not-sell{padding: 0;}}@media (max-width: 352px){.cky-notice-btn-wrapper .cky-btn-do-not-sell, .cky-notice-des a.cky-policy{font-size: 12px;}}.cky-opt-out-wrapper{padding: 12px 0;}.cky-opt-out-wrapper .cky-opt-out-checkbox-wrapper{display: flex; align-items: center;}.cky-opt-out-checkbox-wrapper .cky-opt-out-checkbox-label{font-size: 16px; font-weight: 700; line-height: 24px; margin: 0 0 0 12px; cursor: pointer;}.cky-opt-out-checkbox-wrapper input[type=\"checkbox\"].cky-opt-out-checkbox{background-color: #ffffff; border: 1px solid black; width: 20px; height: 18.5px; margin: 0; -webkit-appearance: none; position: relative; display: flex; align-items: center; justify-content: center; border-radius: 2px; cursor: pointer;}.cky-opt-out-checkbox-wrapper input[type=\"checkbox\"].cky-opt-out-checkbox:checked{background-color: #1863dc; border: none;}.cky-opt-out-checkbox-wrapper input[type=\"checkbox\"].cky-opt-out-checkbox:checked::after{left: 6px; bottom: 4px; width: 7px; height: 13px; border: solid #ffffff; border-width: 0 3px 3px 0; border-radius: 2px; -webkit-transform: rotate(45deg); -ms-transform: rotate(45deg); transform: rotate(45deg); content: \"\"; position: absolute; box-sizing: border-box;}.cky-opt-out-checkbox-wrapper.cky-disabled .cky-opt-out-checkbox-label,.cky-opt-out-checkbox-wrapper.cky-disabled input[type=\"checkbox\"].cky-opt-out-checkbox{cursor: no-drop;}.cky-gpc-wrapper{margin: 0 0 0 32px;}.cky-footer-wrapper .cky-opt-out-btn-wrapper{display: flex; flex-wrap: wrap; align-items: center; justify-content: center; padding: 22px 24px;}.cky-opt-out-btn-wrapper .cky-btn{flex: auto; max-width: 100%; text-shadow: none; box-shadow: none;}.cky-opt-out-btn-wrapper .cky-btn-cancel{border: 1px solid #dedfe0; background: transparent; color: #858585;}.cky-opt-out-btn-wrapper .cky-btn-confirm{background: #1863dc; color: #ffffff; border: 1px solid #1863dc;}@media (max-width: 352px){.cky-opt-out-checkbox-wrapper .cky-opt-out-checkbox-label{font-size: 14px;}.cky-gpc-wrapper .cky-gpc-desc, .cky-gpc-wrapper .cky-gpc-desc *{font-size: 12px;}.cky-opt-out-checkbox-wrapper input[type=\"checkbox\"].cky-opt-out-checkbox{width: 16px; height: 16px;}.cky-opt-out-checkbox-wrapper input[type=\"checkbox\"].cky-opt-out-checkbox:checked::after{left: 5px; bottom: 4px; width: 3px; height: 9px;}.cky-gpc-wrapper{margin: 0 0 0 28px;}}.video-placeholder-youtube{background-size: 100% 100%; background-position: center; background-repeat: no-repeat; background-color: #b2b0b059; position: relative; display: flex; align-items: center; justify-content: center; max-width: 100%;}.video-placeholder-text-youtube{text-align: center; align-items: center; padding: 10px 16px; background-color: #000000cc; color: #ffffff; border: 1px solid; border-radius: 2px; cursor: pointer;}.video-placeholder-normal{background-image: url(\"/wp-content/plugins/cookie-law-info/lite/frontend/images/placeholder.svg\"); background-size: 80px; background-position: center; background-repeat: no-repeat; background-color: #b2b0b059; position: relative; display: flex; align-items: flex-end; justify-content: center; max-width: 100%;}.video-placeholder-text-normal{align-items: center; padding: 10px 16px; text-align: center; border: 1px solid; border-radius: 2px; cursor: pointer;}.cky-rtl{direction: rtl; text-align: right;}.cky-rtl .cky-banner-btn-close{left: 9px; right: auto;}.cky-rtl .cky-notice-btn-wrapper .cky-btn:last-child{margin-right: 8px;}.cky-rtl .cky-notice-btn-wrapper .cky-btn:first-child{margin-right: 0;}.cky-rtl .cky-notice-btn-wrapper{margin-left: 0; margin-right: 15px;}.cky-rtl .cky-prefrence-btn-wrapper .cky-btn{margin-right: 8px;}.cky-rtl .cky-prefrence-btn-wrapper .cky-btn:first-child{margin-right: 0;}.cky-rtl .cky-accordion .cky-accordion-chevron i::before{border: none; border-left: 1.4px solid; border-top: 1.4px solid; left: 12px;}.cky-rtl .cky-accordion.cky-accordion-active .cky-accordion-chevron i::before{-webkit-transform: rotate(-135deg); -moz-transform: rotate(-135deg); -ms-transform: rotate(-135deg); -o-transform: rotate(-135deg); transform: rotate(-135deg);}@media (max-width: 768px){.cky-rtl .cky-notice-btn-wrapper{margin-right: 0;}}@media (max-width: 576px){.cky-rtl .cky-notice-btn-wrapper .cky-btn:last-child{margin-right: 0;}.cky-rtl .cky-prefrence-btn-wrapper .cky-btn{margin-right: 0;}.cky-rtl .cky-accordion.cky-accordion-active .cky-accordion-body{padding: 0 22px 0 0;}}@media (max-width: 425px){.cky-rtl .cky-accordion.cky-accordion-active .cky-accordion-body{padding: 0 15px 0 0;}}.cky-rtl .cky-opt-out-btn-wrapper .cky-btn{margin-right: 12px;}.cky-rtl .cky-opt-out-btn-wrapper .cky-btn:first-child{margin-right: 0;}.cky-rtl .cky-opt-out-checkbox-wrapper .cky-opt-out-checkbox-label{margin: 0 12px 0 0;}"};
+//# sourceURL=cookie-law-info-js-extra
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://nerc.gov.ng/wp-content/plugins/cookie-law-info/lite/frontend/js/script.min.js?ver=3.3.9.1" id="cookie-law-info-js"></script>
+
+<!-- Google tag (gtag.js) snippet added by Site Kit -->
+<!-- Google Analytics snippet added by Site Kit -->
+<script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=GT-WKPQH9JV" id="google_gtagjs-js" async></script>
+<script type="text/javascript" id="google_gtagjs-js-after">
+/* <![CDATA[ */
+window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}
+gtag("set","linker",{"domains":["nerc.gov.ng"]});
+gtag("js", new Date());
+gtag("set", "developer_id.dZTNiMT", true);
+gtag("config", "GT-WKPQH9JV");
+//# sourceURL=google_gtagjs-js-after
+/* ]]> */
+</script>
+<link rel="https://api.w.org/" href="https://nerc.gov.ng/wp-json/" /><link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://nerc.gov.ng/xmlrpc.php?rsd" />
+<meta name="generator" content="WordPress 6.9.4" />
+<style id="cky-style-inline">[data-cky-tag]{visibility:hidden;}</style><meta name="generator" content="Site Kit by Google 1.170.0" /><style type="text/css">
+#pojo-a11y-toolbar .pojo-a11y-toolbar-toggle a{ background-color: #ffdb5e;	color: #000000;}
+#pojo-a11y-toolbar .pojo-a11y-toolbar-overlay, #pojo-a11y-toolbar .pojo-a11y-toolbar-overlay ul.pojo-a11y-toolbar-items.pojo-a11y-links{ border-color: #ffdb5e;}
+body.pojo-a11y-focusable a:focus{ outline-style: solid !important;	outline-width: 1px !important;	outline-color: #FF0000 !important;}
+#pojo-a11y-toolbar{ top: 100px !important;}
+#pojo-a11y-toolbar .pojo-a11y-toolbar-overlay{ background-color: #ffffff;}
+#pojo-a11y-toolbar .pojo-a11y-toolbar-overlay ul.pojo-a11y-toolbar-items li.pojo-a11y-toolbar-item a, #pojo-a11y-toolbar .pojo-a11y-toolbar-overlay p.pojo-a11y-toolbar-title{ color: #333333;}
+#pojo-a11y-toolbar .pojo-a11y-toolbar-overlay ul.pojo-a11y-toolbar-items li.pojo-a11y-toolbar-item a.active{ background-color: #1e73be;	color: #ffffff;}
+@media (max-width: 767px) { #pojo-a11y-toolbar { top: 50px !important; } }</style><link rel="icon" href="https://nerc.gov.ng/wp-content/uploads/2023/12/favicon-32x32-1.png" sizes="32x32" />
+<link rel="icon" href="https://nerc.gov.ng/wp-content/uploads/2023/12/favicon-32x32-1.png" sizes="192x192" />
+<link rel="apple-touch-icon" href="https://nerc.gov.ng/wp-content/uploads/2023/12/favicon-32x32-1.png" />
+<meta name="msapplication-TileImage" content="https://nerc.gov.ng/wp-content/uploads/2023/12/favicon-32x32-1.png" />
+</head>
+
+<body>
+  <div class="wrapper position-relative">
+    <div class="preloader">
+      <div class="loading"><span></span><span></span><span></span><span></span></div>
+    </div><!-- /.preloader -->
+
+    <!-- =========================
+        Header
+    =========================== -->
+    <header class="header header-layout1">
+      <div class="header-topbar">
+        <div class="container">
+          <div class="row align-items-center pt-2">
+            <div class="col-12">
+              <div class="d-flex align-items-center justify-content-between">
+                <div class="logo-area">
+                  <a class="navbar-brand" href="https://nerc.gov.ng">
+                                         
+<figure class="wp-block-image size-full"><img decoding="async" width="216" height="71" src="https://nerc.gov.ng/wp-content/uploads/2024/03/nerc-logo1.png" alt="" class="wp-image-3353" srcset="https://nerc.gov.ng/wp-content/uploads/2024/03/nerc-logo1.png 216w, https://nerc.gov.ng/wp-content/uploads/2024/03/nerc-logo1-90x30.png 90w" sizes="(max-width: 216px) 100vw, 216px" /></figure>
+                  </a>
+                </div>
+                <div class="search-area">
+                                    <ul class="top-menu-center contact-list d-flex flex-wrap align-items-center list-unstyled mb-0">
+                                        <li>
+                      <a href="https://nerc.gov.ng/contact-nerc/" >
+                        <span>Contact Us</span>
+                        <i class="icon-arrow-right"></i>
+                      </a>
+                    </li>
+                                        <li>
+                      <a href="https://nerc.gov.ng/need-help/services/licencees/" >
+                        <span>Licencees</span>
+                        <i class="icon-arrow-right"></i>
+                      </a>
+                    </li>
+                                        <li>
+                      <a href="https://nerc.gov.ng/faq/" >
+                        <span>FAQs</span>
+                        <i class="icon-arrow-right"></i>
+                      </a>
+                    </li>
+                                        <li><div class="gtranslate_wrapper" id="gt-wrapper-11492941"></div></li>
+                    <li>
+                      <button class="action-btn-search2"><i class="icon-search"></i></button>
+                    </li>
+                                      </ul>
+                                  </div>
+                <div class="d-flex align-items-center">
+                  <div class="coa-img">
+                    
+<figure class="wp-block-image size-full is-resized"><a href="https://www.pebec.gov.ng/reportgov-ng" target="_blank" rel=" noreferrer noopener"><img decoding="async" width="328" height="128" src="https://nerc.gov.ng/wp-content/uploads/2024/05/Group_1__7_-removebg-preview-1.png" alt="" class="wp-image-3946" style="width:188px;height:auto" srcset="https://nerc.gov.ng/wp-content/uploads/2024/05/Group_1__7_-removebg-preview-1.png 328w, https://nerc.gov.ng/wp-content/uploads/2024/05/Group_1__7_-removebg-preview-1-300x117.png 300w, https://nerc.gov.ng/wp-content/uploads/2024/05/Group_1__7_-removebg-preview-1-90x35.png 90w, https://nerc.gov.ng/wp-content/uploads/2024/05/Group_1__7_-removebg-preview-1-324x126.png 324w" sizes="(max-width: 328px) 100vw, 328px" /></a></figure>
+                  </div>
+                </div>
+              </div>
+            </div><!-- /.col-12 -->
+          </div><!-- /.row -->
+        </div><!-- /.container -->
+      </div><!-- /.header-top -->
+      <nav class="navbar navbar-expand-lg sticky-navbar">
+        <div class="container">
+          <div class="mb-logo">
+            <a href="https://nerc.gov.ng">
+              
+<figure class="wp-block-image size-full"><img decoding="async" width="216" height="71" src="https://nerc.gov.ng/wp-content/uploads/2024/03/nerc-logo1.png" alt="" class="wp-image-3353" srcset="https://nerc.gov.ng/wp-content/uploads/2024/03/nerc-logo1.png 216w, https://nerc.gov.ng/wp-content/uploads/2024/03/nerc-logo1-90x30.png 90w" sizes="(max-width: 216px) 100vw, 216px" /></figure>
+            </a>
+          </div>
+          <button class="navbar-toggler" type="button">
+            <span class="menu-lines"><span></span></span>
+          </button>
+                    <div class="collapse navbar-collapse justify-content-center" id="mainNavigation">
+            <a class="navbar-brand logo-sticky" href="https://nerc.gov.ng">
+              
+<figure class="wp-block-image size-full"><img decoding="async" width="222" height="60" src="https://nerc.gov.ng/wp-content/uploads/2023/12/nerc-logo2-sm.png" alt="" class="wp-image-1886"/></figure>
+            </a>
+            <div class="main-mob-nav-container">
+              <ul id="menu-main-menu" class="navbar-nav"><li class="nav-item-logo"><a class="" href="https://nerc.gov.ng">
+<figure class="wp-block-image size-full"><img decoding="async" width="216" height="71" src="https://nerc.gov.ng/wp-content/uploads/2024/03/nerc-logo1.png" alt="" class="wp-image-3353" srcset="https://nerc.gov.ng/wp-content/uploads/2024/03/nerc-logo1.png 216w, https://nerc.gov.ng/wp-content/uploads/2024/03/nerc-logo1-90x30.png 90w" sizes="(max-width: 216px) 100vw, 216px" /></figure>
+</a></li><li id="nav-menu-item-1969" class="nav-item has-dropdown menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children " role="none"><a href="#" class="menu-link main-menu-link  nav-item-link dropdown-toggle  " role="menuitem"  data-bs-toggle="dropdown"  aria-haspopup="true" aria-label="About NERC. It has a dropdown submenu" >About NERC</a>
+<ul class="dropdown-menu" role="menu">
+	<li id="nav-menu-item-1970" class="nav-item has-dropdown menu-item menu-item-type-post_type menu-item-object-page " role="none"><a href="https://nerc.gov.ng/about-nerc/" class="menu-link sub-menu-link  nav-item-link  " role="menuitem"  aria-haspopup="true" aria-label="About NERC. It has a dropdown submenu" >About NERC</a></li>
+	<li id="nav-menu-item-1766" class="nav-item has-dropdown menu-item menu-item-type-post_type menu-item-object-page " role="none"><a href="https://nerc.gov.ng/mission-vision/" class="menu-link sub-menu-link  nav-item-link  " role="menuitem"  aria-haspopup="true" aria-label="Mission &#038; Vision. It has a dropdown submenu" >Mission &#038; Vision</a></li>
+	<li id="nav-menu-item-1830" class="nav-item has-dropdown menu-item menu-item-type-post_type menu-item-object-page " role="none"><a href="https://nerc.gov.ng/the-commission/" class="menu-link sub-menu-link  nav-item-link  " role="menuitem"  aria-haspopup="true" aria-label="NERC Structure. It has a dropdown submenu" >NERC Structure</a></li>
+	<li id="nav-menu-item-2108" class="nav-item has-dropdown menu-item menu-item-type-post_type menu-item-object-page " role="none"><a href="https://nerc.gov.ng/history-and-role/" class="menu-link sub-menu-link  nav-item-link  " role="menuitem"  aria-haspopup="true" aria-label="History and Role. It has a dropdown submenu" >History and Role</a></li>
+</ul>
+</li>
+<li id="nav-menu-item-1835" class="nav-item has-dropdown menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children " role="none"><a href="https://nerc.gov.ng/regulatory-instruments/" class="menu-link main-menu-link  nav-item-link dropdown-toggle  " role="menuitem"  data-bs-toggle="dropdown"  aria-haspopup="true" aria-label="Regulatory Instruments. It has a dropdown submenu" >Regulatory Instruments</a>
+<ul class="dropdown-menu" role="menu">
+	<li id="nav-menu-item-3364" class="nav-item has-dropdown menu-item menu-item-type-taxonomy menu-item-object-resource_tax " role="none"><a href="https://nerc.gov.ng/resource-category/regulations/" class="menu-link sub-menu-link  nav-item-link  " role="menuitem"  aria-haspopup="true" aria-label="Regulations. It has a dropdown submenu" >Regulations</a></li>
+	<li id="nav-menu-item-2111" class="nav-item has-dropdown menu-item menu-item-type-taxonomy menu-item-object-resource_tax " role="none"><a href="https://nerc.gov.ng/resource-category/codes/" class="menu-link sub-menu-link  nav-item-link  " role="menuitem"  aria-haspopup="true" aria-label="Codes. It has a dropdown submenu" >Codes</a></li>
+	<li id="nav-menu-item-2112" class="nav-item has-dropdown menu-item menu-item-type-taxonomy menu-item-object-resource_tax " role="none"><a href="https://nerc.gov.ng/resource-category/forms-manuals/" class="menu-link sub-menu-link  nav-item-link  " role="menuitem"  aria-haspopup="true" aria-label="Manuals. It has a dropdown submenu" >Manuals</a></li>
+	<li id="nav-menu-item-2552" class="nav-item has-dropdown menu-item menu-item-type-taxonomy menu-item-object-resource_tax " role="none"><a href="https://nerc.gov.ng/resource-category/market-documents/" class="menu-link sub-menu-link  nav-item-link  " role="menuitem"  aria-haspopup="true" aria-label="Market Documents. It has a dropdown submenu" >Market Documents</a></li>
+	<li id="nav-menu-item-2114" class="nav-item has-dropdown menu-item menu-item-type-taxonomy menu-item-object-resource_tax " role="none"><a href="https://nerc.gov.ng/resource-category/guidelines-standards/" class="menu-link sub-menu-link  nav-item-link  " role="menuitem"  aria-haspopup="true" aria-label="Standards. It has a dropdown submenu" >Standards</a></li>
+	<li id="nav-menu-item-2554" class="nav-item has-dropdown menu-item menu-item-type-taxonomy menu-item-object-resource_tax " role="none"><a href="https://nerc.gov.ng/resource-category/orders/" class="menu-link sub-menu-link  nav-item-link  " role="menuitem"  aria-haspopup="true" aria-label="Orders. It has a dropdown submenu" >Orders</a></li>
+</ul>
+</li>
+<li id="nav-menu-item-1838" class="nav-item has-dropdown menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children " role="none"><a href="#" class="menu-link main-menu-link  nav-item-link dropdown-toggle  " role="menuitem"  data-bs-toggle="dropdown"  aria-haspopup="true" aria-label="Services. It has a dropdown submenu" >Services</a>
+<ul class="dropdown-menu" role="menu">
+	<li id="nav-menu-item-3563" class="nav-item has-dropdown menu-item menu-item-type-post_type menu-item-object-nerc_forum " role="none"><a href="https://nerc.gov.ng/need-help/services/licencing-authorization/" class="menu-link sub-menu-link  nav-item-link  " role="menuitem"  aria-haspopup="true" aria-label="Licensing &#038; Authorization. It has a dropdown submenu" >Licensing &#038; Authorization</a></li>
+	<li id="nav-menu-item-3565" class="nav-item has-dropdown menu-item menu-item-type-post_type menu-item-object-nerc_forum " role="none"><a href="https://nerc.gov.ng/need-help/services/apply-for-mini-grid-permit-2/" class="menu-link sub-menu-link  nav-item-link  " role="menuitem"  aria-haspopup="true" aria-label="Mini Grids. It has a dropdown submenu" >Mini Grids</a></li>
+	<li id="nav-menu-item-3564" class="nav-item has-dropdown menu-item menu-item-type-post_type menu-item-object-nerc_forum " role="none"><a href="https://nerc.gov.ng/need-help/services/petitions-hearing-dispute-resolution/" class="menu-link sub-menu-link  nav-item-link  " role="menuitem"  aria-haspopup="true" aria-label="Petitions, Hearing &#038; Dispute Resolution. It has a dropdown submenu" >Petitions, Hearing &#038; Dispute Resolution</a></li>
+	<li id="nav-menu-item-3229" class="nav-item has-dropdown menu-item menu-item-type-taxonomy menu-item-object-resource_tax " role="none"><a href="https://nerc.gov.ng/resource-category/forms-manuals/" class="menu-link sub-menu-link  nav-item-link  " role="menuitem"  aria-haspopup="true" aria-label="NERC Forms. It has a dropdown submenu" >NERC Forms</a></li>
+</ul>
+</li>
+<li id="nav-menu-item-1781" class="nav-item has-dropdown menu-item menu-item-type-post_type_archive menu-item-object-nerc_resource " role="none"><a href="https://nerc.gov.ng/resources/" class="menu-link main-menu-link  nav-item-link  " role="menuitem"  aria-haspopup="true" aria-label="Resources. It has a dropdown submenu" >Resources</a></li>
+<li id="nav-menu-item-2089" class="nav-item has-dropdown menu-item menu-item-type-post_type_archive menu-item-object-nerc_media menu-item-has-children " role="none"><a href="https://nerc.gov.ng/media/" class="menu-link main-menu-link  nav-item-link dropdown-toggle  " role="menuitem"  data-bs-toggle="dropdown"  aria-haspopup="true" aria-label="Media Center. It has a dropdown submenu" >Media Center</a>
+<ul class="dropdown-menu" role="menu">
+	<li id="nav-menu-item-2090" class="nav-item has-dropdown menu-item menu-item-type-taxonomy menu-item-object-media_tax " role="none"><a href="https://nerc.gov.ng/media-category/news/" class="menu-link sub-menu-link  nav-item-link  " role="menuitem"  aria-haspopup="true" aria-label="News. It has a dropdown submenu" >News</a></li>
+	<li id="nav-menu-item-2091" class="nav-item has-dropdown menu-item menu-item-type-taxonomy menu-item-object-media_tax " role="none"><a href="https://nerc.gov.ng/media-category/events/" class="menu-link sub-menu-link  nav-item-link  " role="menuitem"  aria-haspopup="true" aria-label="Events. It has a dropdown submenu" >Events</a></li>
+	<li id="nav-menu-item-2094" class="nav-item has-dropdown menu-item menu-item-type-taxonomy menu-item-object-media_tax " role="none"><a href="https://nerc.gov.ng/media-category/tenders/" class="menu-link sub-menu-link  nav-item-link  " role="menuitem"  aria-haspopup="true" aria-label="Tenders. It has a dropdown submenu" >Tenders</a></li>
+	<li id="nav-menu-item-2271" class="nav-item has-dropdown menu-item menu-item-type-taxonomy menu-item-object-media_tax " role="none"><a href="https://nerc.gov.ng/media-category/photos-videos/" class="menu-link sub-menu-link  nav-item-link  " role="menuitem"  aria-haspopup="true" aria-label="Photos/Videos. It has a dropdown submenu" >Photos/Videos</a></li>
+</ul>
+</li>
+<li id="nav-menu-item-1883" class="nav-item has-dropdown menu-item menu-item-type-post_type menu-item-object-page need-help" role="none"><a href="https://nerc.gov.ng/need-help/" class="menu-link main-menu-link  nav-item-link  " role="menuitem"  aria-haspopup="true" aria-label="NEED HELP?. It has a dropdown submenu" >NEED HELP?</a></li>
+</ul>              <div class="top-nav-mob wow fadeUp">
+                                  <ul class="top-menu-center contact-list list-unstyled top-nav-mob-items">
+                                            <li>
+                        <a href="https://nerc.gov.ng/contact-nerc/" >
+                          <span>Contact Us</span>
+                          <i class="icon-arrow-right"></i>
+                        </a>
+                      </li>
+                                            <li>
+                        <a href="https://nerc.gov.ng/need-help/services/licencees/" >
+                          <span>Licencees</span>
+                          <i class="icon-arrow-right"></i>
+                        </a>
+                      </li>
+                                            <li>
+                        <a href="https://nerc.gov.ng/faq/" >
+                          <span>FAQs</span>
+                          <i class="icon-arrow-right"></i>
+                        </a>
+                      </li>
+                                            <li><div class="gtranslate_wrapper" id="gt-wrapper-71145825"></div></li>
+                      <li>
+                        <button class="action-btn-search2"><i class="icon-search"></i></button>
+                      </li>
+                                          </ul>
+                                  </div>
+            </div>
+                        <button class="close-mobile-menu d-block d-lg-none"><i class="fas fa-times"></i></button>
+          </div><!-- /.navbar-collapse -->
+        </div><!-- /.container -->
+        <div class="social-links-float wow fadeIn" data-wow-duration="2s">
+          <!-- <ul>
+            <li><a href="#"><i class="fa-brands fa-instagram"></i></a></li>
+            <li><a href="#"><i class="fa-brands fa-facebook-f"></i></a></li>
+            <li><a href="#"><i class="fa-brands fa-linkedin"></i></a></li>
+            <li><a href="#"><i class="fa-brands fa-youtube"></i></a></li>
+          </ul> -->
+                      <ul class="" role="menu">
+                                        <li role="none"><a role="menuitem" href="https://www.facebook.com/NERCNG/" target="_blank" title="Social Media: Facebook-f"><i class="fab fa-facebook-f" role="none"></i></a></li>
+                                        <li role="none"><a role="menuitem" href="https://x.com/nercng" target="_blank" title="Social Media: Fa-brands Fa-x-twitter"><i class="fa-brands fa-x-twitter" role="none"></i></a></li>
+                                        <li role="none"><a role="menuitem" href="https://www.instagram.com/nercng" target="_blank" title="Social Media: Instagram"><i class="fab fa-instagram" role="none"></i></a></li>
+                                        <li role="none"><a role="menuitem" href="https://www.google.com/search?q=nerc%C2%A0&sca_esv=601425548&rlz=1CDGOYI_enNG1047NG1047&hl=en-US&ei=ZXuyZbqvJvy0hbIPwdia0Ak&oq=nerc%C2%A0&gs_lp=EhNtb2JpbGUtZ3dzLXdpei1zZXJwIgZuZXJjwqAyCxAAGIAEGLEDGIMBMgUQABiABDIFEAAYgAQyBRAAGIAEMgUQABiABDIFEAAYgAQyBRAAGIAEMgUQABiABEi0NVCLFVjAIXACeAGQAQCYAfUCoAH-EKoBBTItNi4yuAEDyAEA-AEBwgIKEAAYRxjWBBiwA8ICCxAuGIAEGMcBGK8BwgIKEAAYgAQYigUYQ-IDBBgAIEGIBgGQBgQ&sclient=mobile-gws-wiz-serp" target="_blank" title="Social Media: Google"><i class="fab fa-google" role="none"></i></a></li>
+                                        <li role="none"><a role="menuitem" href="https://www.linkedin.com/company/nercng/" target="_blank" title="Social Media: Linkedin-in"><i class="fab fa-linkedin-in" role="none"></i></a></li>
+                                        <li role="none"><a role="menuitem" href="https://youtube.com/@nercng." target="_blank" title="Social Media: Youtube"><i class="fab fa-youtube" role="none"></i></a></li>
+                                <li role="none"><a role="menuitem" href="https://login.microsoftonline.com/?whr=nerc.gov.ng" target="_blank" title="Social Media: Email"><i class="far fa-envelope" role="none"></i></a></li>
+                            </ul>
+
+                </div>
+      </nav><!-- /.navabr -->
+      <div class="nerc-float-search">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-md-6">
+              <div class="form-container">
+                  <form action="https://nerc.gov.ng">
+                    <div class="input-group">
+                      <span class="input-group-text px-3"><i class="fa fa-search"></i></span>
+                      <input style="height: 46px;" type="text" name="s" class="form-control nerc-search-input" placeholder="What would you like to search?" autocomplete="off">
+                    </div>
+                  </form>
+              </div>
+                          <div class="search-sugs">
+              <div class="row justify-content-center">
+                <fieldset>
+                  <legend>suggestions</legend>
+                  <ul>
+                                        <li><a href="https://nerc.gov.ng/resource-category/codes/" target="_blank">Codes</a></li>
+                                        <li><a href="https://nerc.gov.ng/resource-category/hearing-petition/" target="_blank">Hearing &amp; Petition</a></li>
+                                        <li><a href="https://nerc.gov.ng/resource-category/metering/" target="_blank">Metering</a></li>
+                                        <li><a href="https://nerc.gov.ng/resource-category/guidelines-standards/" target="_blank">Guidelines &amp; Standards</a></li>
+                                      </ul>
+                </fieldset>
+              </div>
+            </div>
+                        </div>
+          </div>
+        </div>
+      </div>
+    </header><!-- /.Header --><main id="the-main-content" class="main">
+
+    <section class="home-banner ptb-100 light-green" role="region" aria-label="404 Page Banner">
+        <div class="container" aria-label="404 Page Content">
+            <div class="row align-items-centerX">
+                <div class="col-md-8">
+                    <div class="banner-text-area" aria-label="404 Page Banner">
+                        <nav aria-label="Breadcrum"><a title="HOME" href="https://nerc.gov.ng">HOME</a></nav>
+                        <h1>404 - Page Not Found</h1>
+                        <h2>Here are some useful links</h2>
+                        
+                    </div>
+                </div>
+                <!DOCTYPE html>
+<html lang="en-US">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name='robots' content='max-image-preview:large, noindex, follow' />
+	<title>WordPress &rsaquo; Error</title>
+	<style type="text/css">
+		html {
+			background: #f1f1f1;
+		}
+		body {
+			background: #fff;
+			border: 1px solid #ccd0d4;
+			color: #444;
+			font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+			margin: 2em auto;
+			padding: 1em 2em;
+			max-width: 700px;
+			-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .04);
+			box-shadow: 0 1px 1px rgba(0, 0, 0, .04);
+		}
+		h1 {
+			border-bottom: 1px solid #dadada;
+			clear: both;
+			color: #666;
+			font-size: 24px;
+			margin: 30px 0 0 0;
+			padding: 0;
+			padding-bottom: 7px;
+		}
+		#error-page {
+			margin-top: 50px;
+		}
+		#error-page p,
+		#error-page .wp-die-message {
+			font-size: 14px;
+			line-height: 1.5;
+			margin: 25px 0 20px;
+		}
+		#error-page code {
+			font-family: Consolas, Monaco, monospace;
+		}
+		ul li {
+			margin-bottom: 10px;
+			font-size: 14px ;
+		}
+		a {
+			color: #2271b1;
+		}
+		a:hover,
+		a:active {
+			color: #135e96;
+		}
+		a:focus {
+			color: #043959;
+			box-shadow: 0 0 0 2px #2271b1;
+			outline: 2px solid transparent;
+		}
+		.button {
+			background: #f3f5f6;
+			border: 1px solid #016087;
+			color: #016087;
+			display: inline-block;
+			text-decoration: none;
+			font-size: 13px;
+			line-height: 2;
+			height: 28px;
+			margin: 0;
+			padding: 0 10px 1px;
+			cursor: pointer;
+			-webkit-border-radius: 3px;
+			-webkit-appearance: none;
+			border-radius: 3px;
+			white-space: nowrap;
+			-webkit-box-sizing: border-box;
+			-moz-box-sizing:    border-box;
+			box-sizing:         border-box;
+
+			vertical-align: top;
+		}
+
+		.button.button-large {
+			line-height: 2.30769231;
+			min-height: 32px;
+			padding: 0 12px;
+		}
+
+		.button:hover,
+		.button:focus {
+			background: #f1f1f1;
+		}
+
+		.button:focus {
+			background: #f3f5f6;
+			border-color: #007cba;
+			-webkit-box-shadow: 0 0 0 1px #007cba;
+			box-shadow: 0 0 0 1px #007cba;
+			color: #016087;
+			outline: 2px solid transparent;
+			outline-offset: 0;
+		}
+
+		.button:active {
+			background: #f3f5f6;
+			border-color: #7e8993;
+			-webkit-box-shadow: none;
+			box-shadow: none;
+		}
+
+			</style>
+</head>
+<body id="error-page">
+	<div class="wp-die-message"><p>There has been a critical error on this website.</p><p><a href="https://wordpress.org/documentation/article/faq-troubleshooting/">Learn more about troubleshooting WordPress.</a></p></div></body>
+</html>
+	
