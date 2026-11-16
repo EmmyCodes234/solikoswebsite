@@ -13,6 +13,7 @@ import { jsPDF } from 'jspdf';
 import { usePulse } from '../context/PulseContext';
 import { sendInvoiceViaResend } from '../services/emailService';
 import { WhatsAppIcon } from '../components/WhatsAppIcon';
+import { NigeriaRoundFlag, USRoundFlag } from '../components/RoundFlags';
 
 export const PublicInvoiceView: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -20,7 +21,8 @@ export const PublicInvoiceView: React.FC = () => {
   const invoice = getInvoiceById(id || '');
 
   const [downloading, setDownloading] = useState(false);
-  const [copied, setCopied] = useState(false);
+  const [copiedLink, setCopiedLink] = useState(false);
+  const [copiedAccount, setCopiedAccount] = useState<string | null>(null);
   const [emailStatus, setEmailStatus] = useState<string | null>(null);
   const [sendingEmail, setSendingEmail] = useState(false);
 
@@ -54,6 +56,52 @@ export const PublicInvoiceView: React.FC = () => {
       currency: invoice.currency,
       maximumFractionDigits: 0,
     }).format(amt);
+  };
+
+  const handleCopyAccount = (accountNum: string) => {
+    navigator.clipboard.writeText(accountNum);
+    setCopiedAccount(accountNum);
+    setTimeout(() => setCopiedAccount(null), 2500);
+  };
+
+  const handleCopyLink = () => {
+    navigator.clipboard.writeText(window.location.href);
+    setCopiedLink(true);
+    setTimeout(() => setCopiedLink(false), 2500);
+  };
+
+  const handlePrint = () => {
+    window.print();
+  };
+
+  const getWhatsAppShareUrl = () => {
+    const cleanPhone = invoice.customer.phone.replace(/[\s\-\(\)\+]/g, '');
+    const currentUrl = window.location.href;
+    const text = encodeURIComponent(
+      `Hello ${invoice.customer.name},\n\nHere is your invoice ${invoice.invoiceNumber} from Solikos Energy LTD for ${formatMoney(
+        invoice.total
+      )}.\n\nYou can view and download your invoice here:\n${currentUrl}\n\nSolikos Energy LTD · Your Power, Our Priority`
+    );
+    return `https://wa.me/${cleanPhone}?text=${text}`;
+  };
+
+  const handleSendEmail = async () => {
+    if (!invoice.customer.email) {
+      const inputEmail = window.prompt('Enter client email address:');
+      if (!inputEmail) return;
+      setSendingEmail(true);
+      const res = await sendInvoiceViaResend(invoice, inputEmail);
+      setSendingEmail(false);
+      setEmailStatus(res.message);
+      setTimeout(() => setEmailStatus(null), 5000);
+      return;
+    }
+
+    setSendingEmail(true);
+    const res = await sendInvoiceViaResend(invoice);
+    setSendingEmail(false);
+    setEmailStatus(res.message);
+    setTimeout(() => setEmailStatus(null), 5000);
   };
 
   // Direct vector PDF generator: Clean, calm executive A4 letterhead layout
@@ -270,7 +318,8 @@ export const PublicInvoiceView: React.FC = () => {
         doc.setTextColor(68, 68, 68);
 
         invoice.bankAccounts.forEach((b) => {
-          doc.text(`${b.bankName}  ·  Account: ${b.accountNumber}  ·  Name: ${b.accountName} (${b.currency})`, margin, y);
+          const flagLabel = b.currency === 'USD' ? '[US / USD]' : '[NG / NGN]';
+          doc.text(`${b.bankName} ${flagLabel}  ·  Account: ${b.accountNumber}  ·  Name: ${b.accountName}`, margin, y);
           y += 4;
         });
       }
@@ -311,80 +360,67 @@ export const PublicInvoiceView: React.FC = () => {
     }
   };
 
-  const handleCopyLink = () => {
-    navigator.clipboard.writeText(window.location.href);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2500);
-  };
-
-  const handlePrint = () => {
-    window.print();
-  };
-
-  const getWhatsAppShareUrl = () => {
-    const cleanPhone = invoice.customer.phone.replace(/[\s\-\(\)\+]/g, '');
-    const currentUrl = window.location.href;
-    const text = encodeURIComponent(
-      `Hello ${invoice.customer.name},\n\nHere is your invoice ${invoice.invoiceNumber} from Solikos Energy LTD for ${formatMoney(
-        invoice.total
-      )}.\n\nYou can view and download your invoice here:\n${currentUrl}\n\nSolikos Energy LTD · Your Power, Our Priority`
-    );
-    return `https://wa.me/${cleanPhone}?text=${text}`;
-  };
-
-  const handleSendEmail = async () => {
-    if (!invoice.customer.email) {
-      const inputEmail = window.prompt('Enter client email address:');
-      if (!inputEmail) return;
-      setSendingEmail(true);
-      const res = await sendInvoiceViaResend(invoice, inputEmail);
-      setSendingEmail(false);
-      setEmailStatus(res.message);
-      setTimeout(() => setEmailStatus(null), 5000);
-      return;
-    }
-
-    setSendingEmail(true);
-    const res = await sendInvoiceViaResend(invoice);
-    setSendingEmail(false);
-    setEmailStatus(res.message);
-    setTimeout(() => setEmailStatus(null), 5000);
-  };
-
   const rcDisplay = settings.rcNumber.startsWith('RC') ? settings.rcNumber : `RC ${settings.rcNumber}`;
   const tinDisplay = settings.taxId.startsWith('TIN') ? settings.taxId : `TIN ${settings.taxId}`;
 
   return (
-    <div className="min-h-screen bg-[#FBFBFA] py-8 sm:py-12 px-4 sm:px-6 lg:px-8 font-sans text-[#111111] antialiased">
-      {/* Action Bar (Hidden in Print) */}
-      <div className="max-w-4xl mx-auto mb-6 flex flex-wrap items-center justify-between gap-3 bg-white py-2.5 px-4 rounded-lg border border-[#ECECEB] shadow-xs print:hidden">
-        <div className="flex items-center gap-2.5">
-          <img src="/solikos-icon.png" alt="Solikos" className="w-6 h-6 object-contain" />
-          <div className="flex items-center gap-1.5 text-xs">
-            <span className="font-semibold text-[#111111]">Solikos Energy</span>
-            <span className="text-[#CCCCCC]">·</span>
-            <span className="text-[#737373]">Invoice {invoice.invoiceNumber}</span>
+    <div className="min-h-screen bg-[#FBFBFA] py-4 sm:py-10 px-3 sm:px-6 lg:px-8 font-sans text-[#111111] antialiased">
+      {/* Action Bar (Optimized for Mobile & Desktop) */}
+      <div className="max-w-4xl mx-auto mb-4 sm:mb-6 bg-white p-3 sm:p-3.5 rounded-xl border border-[#ECECEB] shadow-xs print:hidden space-y-2.5">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <img src="/solikos-icon.png" alt="Solikos" className="w-5 h-5 sm:w-6 sm:h-6 object-contain" />
+            <div className="flex items-center gap-1.5 text-xs">
+              <span className="font-semibold text-[#111111]">Solikos Energy</span>
+              <span className="text-[#CCCCCC]">·</span>
+              <span className="text-[#737373] font-mono">{invoice.invoiceNumber}</span>
+            </div>
+          </div>
+
+          <div className="text-xs">
+            {invoice.status === 'paid' ? (
+              <span className="inline-flex items-center gap-1 text-[11px] font-medium text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-full">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                Paid
+              </span>
+            ) : (
+              <span className="inline-flex items-center gap-1 text-[11px] font-medium text-amber-800 bg-amber-50 px-2 py-0.5 rounded-full">
+                <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+                Pending
+              </span>
+            )}
           </div>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2">
+        {/* Action Buttons: 2-column grid on mobile, inline-flex on desktop */}
+        <div className="grid grid-cols-2 sm:flex sm:items-center sm:justify-end gap-2 pt-1 border-t border-[#F4F4F3] sm:border-0 sm:pt-0">
           {/* Official WhatsApp Button */}
           <a
             href={getWhatsAppShareUrl()}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 bg-[#25D366] hover:bg-[#20ba59] text-white text-xs font-medium px-3.5 py-1.5 rounded-md transition-colors shadow-xs"
+            className="inline-flex items-center justify-center gap-1.5 bg-[#25D366] hover:bg-[#20ba59] text-white text-xs font-medium px-3 py-2 rounded-lg transition-colors shadow-xs"
             title="Share via WhatsApp"
           >
             <WhatsAppIcon className="w-3.5 h-3.5" />
             <span>WhatsApp</span>
           </a>
 
+          {/* Download PDF */}
+          <button
+            onClick={handleDownloadPdf}
+            disabled={downloading}
+            className="inline-flex items-center justify-center gap-1.5 bg-[#111111] hover:bg-[#262626] text-white text-xs font-medium px-3 py-2 rounded-lg transition-colors shadow-xs"
+          >
+            <Download size={13} />
+            <span>{downloading ? 'Preparing...' : 'PDF'}</span>
+          </button>
+
           {/* Email */}
           <button
             onClick={handleSendEmail}
             disabled={sendingEmail}
-            className="inline-flex items-center gap-1.5 bg-[#FBFBFA] hover:bg-[#F4F4F3] border border-[#ECECEB] text-[#111111] text-xs font-medium px-3 py-1.5 rounded-md transition-colors"
+            className="inline-flex items-center justify-center gap-1.5 bg-[#FBFBFA] hover:bg-[#F4F4F3] border border-[#ECECEB] text-[#111111] text-xs font-medium px-2.5 py-2 sm:py-1.5 rounded-lg transition-colors"
           >
             <Mail size={13} className="text-[#666666]" />
             <span>{sendingEmail ? 'Sending...' : 'Email'}</span>
@@ -393,35 +429,25 @@ export const PublicInvoiceView: React.FC = () => {
           {/* Copy Link */}
           <button
             onClick={handleCopyLink}
-            className="inline-flex items-center gap-1.5 bg-[#FBFBFA] hover:bg-[#F4F4F3] border border-[#ECECEB] text-[#111111] text-xs font-medium px-3 py-1.5 rounded-md transition-colors"
+            className="inline-flex items-center justify-center gap-1.5 bg-[#FBFBFA] hover:bg-[#F4F4F3] border border-[#ECECEB] text-[#111111] text-xs font-medium px-2.5 py-2 sm:py-1.5 rounded-lg transition-colors"
           >
-            {copied ? <Check size={13} className="text-emerald-600" /> : <Copy size={13} className="text-[#666666]" />}
-            <span>{copied ? 'Copied' : 'Copy link'}</span>
+            {copiedLink ? <Check size={13} className="text-emerald-600" /> : <Copy size={13} className="text-[#666666]" />}
+            <span>{copiedLink ? 'Copied' : 'Link'}</span>
           </button>
 
-          {/* Print */}
+          {/* Print (Desktop only) */}
           <button
             onClick={handlePrint}
-            className="inline-flex items-center gap-1.5 bg-[#FBFBFA] hover:bg-[#F4F4F3] border border-[#ECECEB] text-[#111111] text-xs font-medium px-3 py-1.5 rounded-md transition-colors hidden sm:inline-flex"
+            className="hidden sm:inline-flex items-center justify-center gap-1.5 bg-[#FBFBFA] hover:bg-[#F4F4F3] border border-[#ECECEB] text-[#111111] text-xs font-medium px-2.5 py-1.5 rounded-lg transition-colors"
           >
             <Printer size={13} className="text-[#666666]" />
             <span>Print</span>
-          </button>
-
-          {/* PDF Download */}
-          <button
-            onClick={handleDownloadPdf}
-            disabled={downloading}
-            className="inline-flex items-center gap-1.5 bg-[#111111] hover:bg-[#262626] text-white text-xs font-medium px-3.5 py-1.5 rounded-md transition-colors shadow-xs"
-          >
-            <Download size={13} />
-            <span>{downloading ? 'Preparing...' : 'Download PDF'}</span>
           </button>
         </div>
       </div>
 
       {emailStatus && (
-        <div className="max-w-4xl mx-auto mb-4 p-3 rounded-md bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs flex items-center gap-2 print:hidden">
+        <div className="max-w-4xl mx-auto mb-4 p-3 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs flex items-center gap-2 print:hidden">
           <CheckCircle size={14} className="text-emerald-600 shrink-0" />
           <span>{emailStatus}</span>
         </div>
@@ -431,25 +457,25 @@ export const PublicInvoiceView: React.FC = () => {
       <div
         ref={invoiceRef}
         id="printable-invoice"
-        className="max-w-4xl mx-auto bg-white rounded-md border border-[#E7E7E5] shadow-[0_1px_3px_rgba(0,0,0,0.04),0_12px_28px_-6px_rgba(0,0,0,0.03)] p-8 sm:p-14 lg:p-16 space-y-10 print:border-none print:shadow-none print:p-0 print:m-0"
+        className="max-w-4xl mx-auto bg-white rounded-xl border border-[#E7E7E5] shadow-[0_1px_3px_rgba(0,0,0,0.04),0_12px_28px_-6px_rgba(0,0,0,0.03)] p-5 sm:p-10 lg:p-14 space-y-8 sm:space-y-10 print:border-none print:shadow-none print:p-0 print:m-0"
       >
         {/* Letterhead Top Header */}
-        <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-6 pb-8 border-b border-[#E7E7E5]">
+        <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-6 pb-6 sm:pb-8 border-b border-[#E7E7E5]">
           {/* Brand & Legal Info */}
           <div className="space-y-1.5">
-            <div className="flex items-center gap-3">
-              <img src="/solikos-icon.png" alt="Solikos Energy" className="w-9 h-9 object-contain shrink-0" />
+            <div className="flex items-center gap-2.5 sm:gap-3">
+              <img src="/solikos-icon.png" alt="Solikos Energy" className="w-8 h-8 sm:w-9 sm:h-9 object-contain shrink-0" />
               <div>
-                <span className="text-lg font-bold tracking-tight text-[#111111] block leading-none">
+                <span className="text-base sm:text-lg font-bold tracking-tight text-[#111111] block leading-none">
                   SOLIKOS ENERGY
                 </span>
-                <span className="text-[10px] text-[#888888] tracking-[0.22em] uppercase font-medium mt-0.5 block">
+                <span className="text-[9px] sm:text-[10px] text-[#888888] tracking-[0.22em] uppercase font-medium mt-0.5 block">
                   {settings.tagline || 'Your Power, Our Priority'}
                 </span>
               </div>
             </div>
 
-            <div className="text-xs text-[#666666] leading-relaxed pt-3 space-y-0.5 font-normal">
+            <div className="text-xs text-[#666666] leading-relaxed pt-2 sm:pt-3 space-y-0.5 font-normal">
               <p>{settings.address}</p>
               <p>
                 {rcDisplay} · {tinDisplay}
@@ -461,13 +487,13 @@ export const PublicInvoiceView: React.FC = () => {
           </div>
 
           {/* Invoice Meta */}
-          <div className="sm:text-right space-y-1">
-            <span className="text-2xl sm:text-3xl font-light tracking-tight text-[#111111] block uppercase">
+          <div className="sm:text-right space-y-1 pt-2 sm:pt-0 border-t border-[#F4F4F3] sm:border-0">
+            <span className="text-xl sm:text-3xl font-light tracking-tight text-[#111111] block uppercase">
               INVOICE
             </span>
-            <p className="font-mono text-xs font-semibold text-[#111111] mt-1">{invoice.invoiceNumber}</p>
+            <p className="font-mono text-xs font-semibold text-[#111111] mt-0.5 sm:mt-1">{invoice.invoiceNumber}</p>
 
-            <div className="text-xs text-[#666666] space-y-1 pt-1.5">
+            <div className="text-xs text-[#666666] space-y-0.5 sm:space-y-1 pt-1">
               <p>Issued: <span className="text-[#111111] font-medium">{invoice.issueDate}</span></p>
               <p>Due: <span className="text-[#111111] font-medium">{invoice.dueDate}</span></p>
               <div className="pt-1">
@@ -488,12 +514,12 @@ export const PublicInvoiceView: React.FC = () => {
         </div>
 
         {/* Billed To & Payment Terms Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 text-xs">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 text-xs">
           <div>
             <span className="text-[10px] font-semibold text-[#888888] tracking-[0.18em] uppercase block mb-1.5">
               Billed to
             </span>
-            <h2 className="text-base font-semibold text-[#111111]">{invoice.customer.name}</h2>
+            <h2 className="text-sm sm:text-base font-semibold text-[#111111]">{invoice.customer.name}</h2>
             <div className="text-xs text-[#555555] space-y-0.5 mt-1 font-normal leading-relaxed">
               <p className="font-mono">{invoice.customer.phone}</p>
               {invoice.customer.email && <p>{invoice.customer.email}</p>}
@@ -511,8 +537,8 @@ export const PublicInvoiceView: React.FC = () => {
           </div>
         </div>
 
-        {/* Line Items Table */}
-        <div className="overflow-x-auto">
+        {/* Desktop / Print Table View */}
+        <div className="hidden sm:block print:block overflow-x-auto">
           <table className="w-full text-left text-xs sm:text-sm border-t border-[#111111]">
             <thead className="border-b border-[#E7E7E5] text-[#666666] font-medium text-[11px] uppercase tracking-wider">
               <tr>
@@ -563,28 +589,100 @@ export const PublicInvoiceView: React.FC = () => {
           </table>
         </div>
 
+        {/* Mobile Item Cards View (100% Mobile Optimized) */}
+        <div className="sm:hidden print:hidden border-t border-[#111111] divide-y divide-[#F0F0EF]">
+          {invoice.items.map((item) => (
+            <div key={item.id} className="py-3.5 space-y-2">
+              <div className="flex items-start gap-2.5">
+                {item.image && (
+                  <div className="w-9 h-9 bg-[#FAFAFA] rounded border border-[#E7E7E5] p-1 shrink-0 flex items-center justify-center">
+                    <img src={item.image} alt={item.title} className="w-full h-full object-contain" />
+                  </div>
+                )}
+                <div className="flex-1">
+                  <div className="flex items-start justify-between gap-2">
+                    <h4 className="font-semibold text-xs text-[#111111] leading-tight">
+                      {item.title}
+                    </h4>
+                    {item.warranty && (
+                      <span className="text-[10px] text-[#737373] bg-[#F4F4F3] px-1.5 py-0.5 rounded shrink-0">
+                        {item.warranty}
+                      </span>
+                    )}
+                  </div>
+                  {item.specs && (
+                    <p className="text-[11px] text-[#666666] mt-0.5 leading-tight">
+                      {item.specs}
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              <div className="flex items-baseline justify-between pt-1 text-xs">
+                <span className="font-mono text-[#666666] text-[11px]">
+                  {item.quantity} × {formatMoney(item.unitPrice)}
+                </span>
+                <span className="font-mono font-semibold text-[#111111]">
+                  {formatMoney(item.total)}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+
         {/* Bank Details & Financial Totals */}
-        <div className="flex flex-col sm:flex-row justify-between gap-8 pt-4">
-          {/* Bank Accounts & Notes */}
-          <div className="sm:max-w-md space-y-4 text-xs">
+        <div className="flex flex-col sm:flex-row justify-between gap-6 sm:gap-8 pt-2 sm:pt-4">
+          {/* Bank Accounts with Circular Country Flags & 1-Tap Copy */}
+          <div className="sm:max-w-md space-y-3 text-xs order-2 sm:order-1">
             {invoice.bankAccounts && invoice.bankAccounts.length > 0 && (
               <div>
                 <span className="text-[10px] font-semibold text-[#888888] tracking-[0.18em] uppercase block mb-2">
                   Bank transfer details
                 </span>
-                <div className="space-y-2 bg-[#FAFAFA] p-3.5 rounded-md border border-[#E7E7E5]">
+                <div className="space-y-2.5 bg-[#FAFAFA] p-3 sm:p-4 rounded-lg border border-[#E7E7E5]">
                   {invoice.bankAccounts.map((b, i) => (
-                    <div key={i} className="text-xs">
-                      <div className="flex items-center justify-between">
-                        <span className="font-semibold text-[#111111]">{b.bankName}</span>
-                        <span className="text-[10px] font-medium text-[#737373] bg-[#EEEEED] px-1.5 py-0.2 rounded font-mono">
+                    <div key={i} className="text-xs pb-2.5 last:pb-0 border-b last:border-0 border-[#EEEEED]">
+                      {/* Bank header with Round Country Flag */}
+                      <div className="flex items-center justify-between gap-2">
+                        <div className="flex items-center gap-2">
+                          {b.currency === 'USD' ? (
+                            <USRoundFlag size={18} />
+                          ) : (
+                            <NigeriaRoundFlag size={18} />
+                          )}
+                          <span className="font-semibold text-[#111111]">{b.bankName}</span>
+                        </div>
+                        <span className="text-[10px] font-mono font-medium text-[#737373] bg-white border border-[#E7E7E5] px-1.5 py-0.5 rounded">
                           {b.currency}
                         </span>
                       </div>
-                      <p className="font-mono text-xs text-[#111111] font-medium mt-0.5">
-                        {b.accountNumber}
-                      </p>
-                      <p className="text-[11px] text-[#666666]">
+
+                      {/* Account Number with 1-Tap Copy */}
+                      <div className="flex items-center justify-between mt-1.5 bg-white px-2.5 py-1.5 rounded border border-[#ECECEB]">
+                        <span className="font-mono text-xs sm:text-sm font-bold text-[#111111] tracking-wider select-all">
+                          {b.accountNumber}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => handleCopyAccount(b.accountNumber)}
+                          className="inline-flex items-center gap-1 text-[11px] font-medium text-[#555555] hover:text-[#111111] py-0.5 px-1.5 rounded hover:bg-[#F4F4F3] transition-colors"
+                          title="Copy account number"
+                        >
+                          {copiedAccount === b.accountNumber ? (
+                            <>
+                              <Check size={11} className="text-emerald-600" />
+                              <span className="text-emerald-700 font-semibold text-[10px]">Copied</span>
+                            </>
+                          ) : (
+                            <>
+                              <Copy size={11} className="text-[#888888]" />
+                              <span className="text-[10px]">Copy</span>
+                            </>
+                          )}
+                        </button>
+                      </div>
+
+                      <p className="text-[11px] text-[#666666] mt-1">
                         {b.accountName}
                       </p>
                     </div>
@@ -604,27 +702,27 @@ export const PublicInvoiceView: React.FC = () => {
           </div>
 
           {/* Calculations Summary */}
-          <div className="w-full sm:w-80 space-y-2 text-xs self-start">
-            <div className="flex justify-between text-[#666666]">
+          <div className="w-full sm:w-84 sm:min-w-[340px] space-y-2 text-xs self-start order-1 sm:order-2 bg-[#FAFAFA] sm:bg-transparent p-3.5 sm:p-0 rounded-lg sm:rounded-none border sm:border-0 border-[#E7E7E5]">
+            <div className="flex justify-between text-[#666666] gap-4">
               <span>Subtotal</span>
               <span className="font-mono text-[#111111]">{formatMoney(invoice.subtotal)}</span>
             </div>
 
             {invoice.discountAmount > 0 && (
-              <div className="flex justify-between text-[#666666]">
+              <div className="flex justify-between text-[#666666] gap-4">
                 <span>Discount ({invoice.discountRate}%)</span>
                 <span className="font-mono text-emerald-700">-{formatMoney(invoice.discountAmount)}</span>
               </div>
             )}
 
-            <div className="flex justify-between text-[#666666]">
+            <div className="flex justify-between text-[#666666] gap-4">
               <span>VAT ({invoice.taxRate}%)</span>
               <span className="font-mono text-[#111111]">
                 {invoice.taxAmount > 0 ? `+${formatMoney(invoice.taxAmount)}` : 'Exempt'}
               </span>
             </div>
 
-            <div className="pt-2.5 border-t border-[#111111] flex justify-between items-baseline text-[#111111]">
+            <div className="pt-2 sm:pt-2.5 border-t border-[#111111] flex justify-between items-baseline text-[#111111] gap-4">
               <span className="font-semibold text-xs whitespace-nowrap">Total Amount Due</span>
               <span className="font-mono font-bold text-base sm:text-lg whitespace-nowrap">
                 {formatMoney(invoice.total)}
@@ -634,7 +732,7 @@ export const PublicInvoiceView: React.FC = () => {
         </div>
 
         {/* Corporate Sign-off & Footer */}
-        <div className="pt-8 border-t border-[#E7E7E5] flex flex-col sm:flex-row items-start sm:items-center justify-between text-xs text-[#888888] gap-3">
+        <div className="pt-6 sm:pt-8 border-t border-[#E7E7E5] flex flex-col sm:flex-row items-start sm:items-center justify-between text-xs text-[#888888] gap-3">
           <div>
             <p className="font-medium text-[#111111]">
               {settings.authorizedSignatoryName || 'Solikos Energy LTD'}
@@ -644,7 +742,7 @@ export const PublicInvoiceView: React.FC = () => {
             </p>
           </div>
 
-          <div className="text-right text-[11px] text-[#A3A3A3] space-y-0.5">
+          <div className="sm:text-right text-[11px] text-[#A3A3A3] space-y-0.5">
             <p>Thank you for choosing Solikos Energy.</p>
             <p>www.solikosenergyltd.com</p>
           </div>
