@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Shield, Lock, Mail, ArrowRight, CheckCircle2, AlertCircle } from 'lucide-react';
+import { Mail, Lock, AlertCircle, ArrowRight } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 export const PulseLogin: React.FC = () => {
@@ -26,7 +26,7 @@ export const PulseLogin: React.FC = () => {
     if (result.success) {
       navigate(from, { replace: true });
     } else {
-      setError(result.message || 'Login failed. Please verify credentials.');
+      setError(result.message || 'Invalid email or password.');
     }
   };
 
@@ -42,77 +42,63 @@ export const PulseLogin: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col justify-center items-center p-6 text-slate-900 font-sans">
-      <div className="w-full max-w-md">
-        {/* Brand Lockup */}
+    <div className="min-h-screen bg-[#FBFBFA] flex flex-col justify-center items-center p-6 text-[#111111] font-sans">
+      <div className="w-full max-w-sm">
+        {/* Brand */}
         <div className="flex flex-col items-center mb-8 text-center">
-          <div className="flex items-center gap-3 mb-2">
-            <img
-              src="/solikos-icon.png"
-              alt="Solikos Energy"
-              className="w-12 h-12 object-contain"
-            />
-            <div className="flex flex-col text-left leading-none">
-              <span className="text-2xl font-bold tracking-tight uppercase text-slate-900">
-                SOLIKOS
-              </span>
-              <span className="text-[10px] font-semibold tracking-[0.3em] uppercase text-amber-600 mt-1">
-                PULSE &bull; INVOICING
-              </span>
-            </div>
-          </div>
-          <p className="text-xs text-slate-500 font-medium mt-1">
-            Institutional Billing &amp; Invoicing Portal
+          <img
+            src="/solikos-icon.png"
+            alt="Solikos Energy"
+            className="w-10 h-10 object-contain mb-3"
+          />
+          <h1 className="text-xl font-semibold tracking-tight text-[#111111]">
+            Solikos Pulse
+          </h1>
+          <p className="text-xs text-[#737373] mt-1">
+            Sign in to manage invoices and clients.
           </p>
         </div>
 
         {/* Card */}
-        <div className="bg-white rounded-2xl shadow-xl shadow-slate-200/60 border border-slate-200 p-8 sm:p-10">
-          <div className="mb-6">
-            <h1 className="text-xl font-bold text-slate-900">Staff Authentication</h1>
-            <p className="text-xs text-slate-500 mt-1">
-              Sign in with your Solikos internal staff credentials to manage invoices and client accounts.
-            </p>
-          </div>
-
+        <div className="bg-white rounded-xl border border-[#ECECEB] p-6 sm:p-7 shadow-xs">
           {error && (
-            <div className="mb-6 p-3 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs flex items-center gap-2">
-              <AlertCircle size={16} className="shrink-0" />
+            <div className="mb-4 p-2.5 rounded-lg bg-red-50 border border-red-200 text-red-700 text-xs flex items-center gap-2">
+              <AlertCircle size={14} className="shrink-0" />
               <span>{error}</span>
             </div>
           )}
 
-          <form onSubmit={handleLogin} className="space-y-4">
+          <form onSubmit={handleLogin} className="space-y-3.5">
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1.5 uppercase tracking-wider">
-                Staff Email
+              <label className="block text-xs font-medium text-[#444444] mb-1">
+                Email
               </label>
               <div className="relative">
-                <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-[#A3A3A3]" size={14} />
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="name@solikosenergyltd.com"
+                  placeholder="admin@solikosenergyltd.com"
                   required
-                  className="w-full pl-10 pr-4 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-600 transition-all text-slate-900"
+                  className="w-full pl-9 pr-3 py-1.5 text-xs sm:text-sm bg-[#FBFBFA] border border-[#ECECEB] rounded-lg focus:bg-white focus:outline-none focus:border-[#111111] text-[#111111]"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1.5 uppercase tracking-wider">
+              <label className="block text-xs font-medium text-[#444444] mb-1">
                 Password
               </label>
               <div className="relative">
-                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-[#A3A3A3]" size={14} />
                 <input
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;"
+                  placeholder="••••••••"
                   required
-                  className="w-full pl-10 pr-4 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-600 transition-all text-slate-900"
+                  className="w-full pl-9 pr-3 py-1.5 text-xs sm:text-sm bg-[#FBFBFA] border border-[#ECECEB] rounded-lg focus:bg-white focus:outline-none focus:border-[#111111] text-[#111111]"
                 />
               </div>
             </div>
@@ -120,33 +106,29 @@ export const PulseLogin: React.FC = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-slate-900 hover:bg-slate-800 text-white font-semibold py-3 px-4 rounded-xl text-sm transition-all shadow-md shadow-slate-900/10 flex items-center justify-center gap-2 mt-2 disabled:opacity-50"
+              className="w-full bg-[#111111] hover:bg-[#222222] text-white text-xs font-medium py-2 px-3 rounded-lg flex items-center justify-center gap-1.5 transition-colors shadow-xs mt-2"
             >
-              <span>{loading ? 'Authenticating...' : 'Sign In to Solikos Pulse'}</span>
-              <ArrowRight size={16} />
+              <span>{loading ? 'Signing in...' : 'Sign in'}</span>
+              <ArrowRight size={13} />
             </button>
           </form>
 
-          {/* Quick Access Dev Helper */}
-          <div className="mt-6 pt-6 border-t border-slate-100 flex flex-col gap-2">
+          {/* Quick Login button */}
+          <div className="mt-4 pt-4 border-t border-[#F4F4F3] text-center">
             <button
               type="button"
               onClick={handleQuickLogin}
-              className="w-full bg-amber-50 hover:bg-amber-100 border border-amber-200 text-amber-800 text-xs font-semibold py-2 px-3 rounded-xl transition-colors flex items-center justify-center gap-1.5"
+              disabled={loading}
+              className="text-xs text-[#737373] hover:text-[#111111] font-medium transition-colors"
             >
-              <CheckCircle2 size={14} className="text-amber-600" />
-              <span>One-Click Staff Access (Demo)</span>
+              Sign in with demo credentials
             </button>
-            <p className="text-[11px] text-center text-slate-400 mt-1">
-              Internal portal protected by role-based session control.
-            </p>
           </div>
         </div>
 
-        {/* Footer */}
-        <div className="text-center mt-6 text-xs text-slate-400">
-          Solikos Energy LTD &bull; Victoria Island, Lagos &bull; Your Power, Our Priority
-        </div>
+        <p className="text-center text-[11px] text-[#A3A3A3] mt-6">
+          Solikos Energy LTD · Your Power, Our Priority
+        </p>
       </div>
     </div>
   );

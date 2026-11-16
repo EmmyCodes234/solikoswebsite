@@ -7,7 +7,6 @@ import {
   Check,
   MessageSquare,
   Mail,
-  Building2,
   AlertCircle,
   CheckCircle,
 } from 'lucide-react';
@@ -29,19 +28,19 @@ export const PublicInvoiceView: React.FC = () => {
 
   if (!invoice) {
     return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center p-6 text-slate-800">
-        <div className="bg-white p-8 rounded-2xl border border-slate-200 shadow-xl max-w-md text-center space-y-4">
-          <AlertCircle size={40} className="mx-auto text-amber-500" />
-          <h1 className="text-xl font-bold">Commercial Invoice Not Found</h1>
-          <p className="text-xs text-slate-500">
-            The requested invoice link may be invalid or has expired. Please contact Solikos Energy for assistance.
+      <div className="min-h-screen bg-[#FBFBFA] flex items-center justify-center p-6 text-[#111111]">
+        <div className="bg-white p-8 rounded-xl border border-[#ECECEB] shadow-sm max-w-md text-center space-y-4">
+          <AlertCircle size={36} className="mx-auto text-amber-600" />
+          <h1 className="text-lg font-semibold">Invoice not found</h1>
+          <p className="text-xs text-[#737373]">
+            This invoice link may be invalid or has expired. Please contact Solikos Energy for assistance.
           </p>
           <div className="pt-2">
             <Link
               to="/"
-              className="inline-block bg-slate-900 text-white text-xs font-semibold px-4 py-2 rounded-xl"
+              className="inline-block bg-[#111111] text-white text-xs font-medium px-4 py-2 rounded-lg"
             >
-              Return to Solikos Home
+              Back to Solikos home
             </Link>
           </div>
         </div>
@@ -57,7 +56,7 @@ export const PublicInvoiceView: React.FC = () => {
     }).format(amt);
   };
 
-  // Direct vector PDF generator: Zero dependencies on HTML-to-canvas CSS parsers
+  // Direct vector PDF generator: Clean, professional A4 letterhead layout
   const handleDownloadPdf = async () => {
     setDownloading(true);
 
@@ -72,238 +71,223 @@ export const PublicInvoiceView: React.FC = () => {
       const margin = 18;
       let y = margin;
 
-      // 1. Header Banner
-      doc.setFillColor(15, 23, 42); // slate-900
-      doc.rect(margin, y, pageWidth - margin * 2, 28, 'F');
-
-      // Solikos Branding in banner
+      // Header: Solikos letterhead
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(16);
-      doc.setTextColor(255, 255, 255);
-      doc.text('SOLIKOS', margin + 6, y + 12);
-
-      doc.setFontSize(8);
-      doc.setTextColor(245, 158, 11); // amber-500
-      doc.text('ENERGY  •  PULSE COMMERCIAL INVOICE', margin + 6, y + 18);
+      doc.setTextColor(17, 17, 17);
+      doc.text('SOLIKOS ENERGY', margin, y + 6);
 
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(8);
-      doc.setTextColor(148, 163, 184); // slate-400
-      doc.text('Your Power, Our Priority', margin + 6, y + 23);
+      doc.setTextColor(115, 115, 115);
+      doc.text(settings.tagline || 'Your Power, Our Priority', margin, y + 11);
+      doc.text(settings.address, margin, y + 15.5);
+      // Clean RC & TIN strings
+      const rcStr = settings.rcNumber.startsWith('RC') ? settings.rcNumber : `RC ${settings.rcNumber}`;
+      const tinStr = settings.taxId.startsWith('TIN') ? settings.taxId : `TIN ${settings.taxId}`;
+      doc.text(`${rcStr}  ·  ${tinStr}`, margin, y + 20);
+      doc.text(`Tel: ${settings.phone}  ·  Email: ${settings.email}`, margin, y + 24.5);
 
-      // Invoice # on right of banner
+      // Invoice info on right
       doc.setFont('helvetica', 'bold');
-      doc.setFontSize(12);
-      doc.setTextColor(255, 255, 255);
-      doc.text(invoice.invoiceNumber, pageWidth - margin - 6, y + 12, { align: 'right' });
-
-      doc.setFontSize(8);
-      doc.setTextColor(245, 158, 11);
-      doc.text(`STATUS: ${invoice.status.toUpperCase()}`, pageWidth - margin - 6, y + 18, { align: 'right' });
+      doc.setFontSize(18);
+      doc.setTextColor(17, 17, 17);
+      doc.text('INVOICE', pageWidth - margin, y + 6, { align: 'right' });
 
       doc.setFont('helvetica', 'normal');
-      doc.setFontSize(7.5);
-      doc.setTextColor(148, 163, 184);
-      doc.text(`Issued: ${invoice.issueDate}  |  Due: ${invoice.dueDate}`, pageWidth - margin - 6, y + 23, { align: 'right' });
-
-      y += 34;
-
-      // 2. Company Info & Client Info Box
-      doc.setFillColor(248, 250, 252); // slate-50
-      doc.setDrawColor(226, 232, 240); // slate-200
-      doc.roundedRect(margin, y, pageWidth - margin * 2, 30, 2, 2, 'FD');
-
-      // Left: Company Info
-      doc.setFont('helvetica', 'bold');
       doc.setFontSize(9);
-      doc.setTextColor(15, 23, 42);
-      doc.text(settings.companyName, margin + 5, y + 7);
+      doc.setTextColor(68, 68, 68);
+      doc.text(invoice.invoiceNumber, pageWidth - margin, y + 12, { align: 'right' });
 
-      doc.setFont('helvetica', 'normal');
-      doc.setFontSize(7.5);
-      doc.setTextColor(71, 85, 105);
-      doc.text(settings.address, margin + 5, y + 12);
-      doc.text(`RC: ${settings.rcNumber}  •  TIN: ${settings.taxId}`, margin + 5, y + 17);
-      doc.text(`Tel: ${settings.phone}  •  Email: ${settings.email}`, margin + 5, y + 22);
+      doc.setFontSize(8);
+      doc.setTextColor(115, 115, 115);
+      doc.text(`Issued: ${invoice.issueDate}`, pageWidth - margin, y + 17, { align: 'right' });
+      doc.text(`Due: ${invoice.dueDate}`, pageWidth - margin, y + 21.5, { align: 'right' });
 
-      // Right: Bill To
-      const rightX = pageWidth / 2 + 10;
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(invoice.status === 'paid' ? 16 : 180, invoice.status === 'paid' ? 149 : 115, invoice.status === 'paid' ? 84 : 20);
+      doc.text(`Status: ${invoice.status.toUpperCase()}`, pageWidth - margin, y + 26, { align: 'right' });
+
+      y += 32;
+
+      // Divider line
+      doc.setDrawColor(236, 236, 235);
+      doc.setLineWidth(0.3);
+      doc.line(margin, y, pageWidth - margin, y);
+
+      y += 6;
+
+      // Billed To Section
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(8);
-      doc.setTextColor(100, 116, 139);
-      doc.text('INVOICED TO (CLIENT):', rightX, y + 7);
+      doc.setTextColor(115, 115, 115);
+      doc.text('BILLED TO', margin, y + 4);
 
-      doc.setFontSize(9.5);
-      doc.setTextColor(15, 23, 42);
-      doc.text(invoice.customer.name, rightX, y + 13);
+      doc.setFontSize(10);
+      doc.setTextColor(17, 17, 17);
+      doc.text(invoice.customer.name, margin, y + 9.5);
 
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(8);
-      doc.setTextColor(71, 85, 105);
-      doc.text(`Phone: ${invoice.customer.phone}`, rightX, y + 18);
+      doc.setTextColor(68, 68, 68);
+      let clientY = y + 14;
+      doc.text(invoice.customer.phone, margin, clientY);
       if (invoice.customer.email) {
-        doc.text(`Email: ${invoice.customer.email}`, rightX, y + 23);
-      } else if (invoice.customer.address) {
-        doc.text(`Site: ${invoice.customer.address}`, rightX, y + 23);
+        clientY += 4.5;
+        doc.text(invoice.customer.email, margin, clientY);
+      }
+      if (invoice.customer.address) {
+        clientY += 4.5;
+        doc.text(invoice.customer.address, margin, clientY);
       }
 
-      y += 36;
+      y = Math.max(y + 24, clientY + 6);
 
-      // 3. Line Items Table Header
-      doc.setFillColor(241, 245, 249); // slate-100
+      // Line Items Table Header
+      doc.setFillColor(250, 250, 250);
       doc.rect(margin, y, pageWidth - margin * 2, 7, 'F');
+      doc.setDrawColor(236, 236, 235);
+      doc.line(margin, y + 7, pageWidth - margin, y + 7);
 
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(7.5);
-      doc.setTextColor(71, 85, 105);
-      doc.text('HARDWARE / SPECIFICATION', margin + 4, y + 4.8);
-      doc.text('WARRANTY', margin + 98, y + 4.8);
-      doc.text('QTY', margin + 122, y + 4.8, { align: 'center' });
-      doc.text('UNIT PRICE', margin + 148, y + 4.8, { align: 'right' });
-      doc.text('LINE TOTAL', pageWidth - margin - 4, y + 4.8, { align: 'right' });
+      doc.setTextColor(115, 115, 115);
+      doc.text('ITEM & SPECIFICATIONS', margin + 3, y + 4.8);
+      doc.text('QTY', margin + 115, y + 4.8, { align: 'center' });
+      doc.text('PRICE', margin + 142, y + 4.8, { align: 'right' });
+      doc.text('TOTAL', pageWidth - margin - 3, y + 4.8, { align: 'right' });
 
       y += 7;
 
       // Line Items Rows
       invoice.items.forEach((item) => {
-        doc.setDrawColor(241, 245, 249);
-        doc.line(margin, y + 11, pageWidth - margin, y + 11);
-
         doc.setFont('helvetica', 'bold');
         doc.setFontSize(8.5);
-        doc.setTextColor(15, 23, 42);
-        doc.text(item.title, margin + 4, y + 4.5);
+        doc.setTextColor(17, 17, 17);
+        doc.text(item.title, margin + 3, y + 4.5);
 
-        doc.setFont('helvetica', 'normal');
-        doc.setFontSize(6.5);
-        doc.setTextColor(100, 116, 139);
-        const specSummary = (item.specs || item.description || '').slice(0, 75);
-        doc.text(specSummary, margin + 4, y + 8.5);
-
-        // Warranty
+        // Warranty tag
         if (item.warranty) {
-          doc.setFont('helvetica', 'bold');
+          doc.setFont('helvetica', 'normal');
           doc.setFontSize(7);
-          doc.setTextColor(180, 83, 9); // amber-700
-          doc.text(item.warranty, margin + 98, y + 6);
+          doc.setTextColor(115, 115, 115);
+          doc.text(`(${item.warranty})`, margin + 3 + doc.getTextWidth(item.title) + 2, y + 4.5);
         }
 
-        // Qty
         doc.setFont('helvetica', 'normal');
+        doc.setFontSize(7);
+        doc.setTextColor(115, 115, 115);
+        const specSummary = (item.specs || item.description || '').slice(0, 80);
+        doc.text(specSummary, margin + 3, y + 8.5);
+
+        // Qty
         doc.setFontSize(8);
-        doc.setTextColor(51, 65, 85);
-        doc.text(item.quantity.toString(), margin + 122, y + 6, { align: 'center' });
+        doc.setTextColor(68, 68, 68);
+        doc.text(item.quantity.toString(), margin + 115, y + 6, { align: 'center' });
 
         // Price
-        doc.text(formatMoney(item.unitPrice), margin + 148, y + 6, { align: 'right' });
+        doc.text(formatMoney(item.unitPrice), margin + 142, y + 6, { align: 'right' });
 
         // Total
         doc.setFont('helvetica', 'bold');
-        doc.setTextColor(15, 23, 42);
-        doc.text(formatMoney(item.total), pageWidth - margin - 4, y + 6, { align: 'right' });
+        doc.setTextColor(17, 17, 17);
+        doc.text(formatMoney(item.total), pageWidth - margin - 3, y + 6, { align: 'right' });
+
+        doc.setDrawColor(244, 244, 243);
+        doc.line(margin, y + 11, pageWidth - margin, y + 11);
 
         y += 12;
       });
 
       y += 4;
 
-      // 4. Totals Block
+      // Totals Block
       const totalsX = pageWidth - margin - 75;
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(8);
-      doc.setTextColor(71, 85, 105);
+      doc.setTextColor(115, 115, 115);
       doc.text('Subtotal:', totalsX, y + 4);
-      doc.text(formatMoney(invoice.subtotal), pageWidth - margin - 4, y + 4, { align: 'right' });
+      doc.setTextColor(17, 17, 17);
+      doc.text(formatMoney(invoice.subtotal), pageWidth - margin - 3, y + 4, { align: 'right' });
 
       if (invoice.discountAmount > 0) {
         y += 5;
-        doc.setTextColor(5, 150, 105);
+        doc.setTextColor(115, 115, 115);
         doc.text(`Discount (${invoice.discountRate}%):`, totalsX, y + 4);
-        doc.text(`-${formatMoney(invoice.discountAmount)}`, pageWidth - margin - 4, y + 4, { align: 'right' });
+        doc.setTextColor(16, 149, 84);
+        doc.text(`-${formatMoney(invoice.discountAmount)}`, pageWidth - margin - 3, y + 4, { align: 'right' });
       }
 
       y += 5;
-      doc.setTextColor(71, 85, 105);
+      doc.setTextColor(115, 115, 115);
       doc.text(`VAT (${invoice.taxRate}%):`, totalsX, y + 4);
-      doc.text(invoice.taxAmount > 0 ? `+${formatMoney(invoice.taxAmount)}` : 'Exempt (Clean Energy)', pageWidth - margin - 4, y + 4, { align: 'right' });
+      doc.setTextColor(17, 17, 17);
+      doc.text(invoice.taxAmount > 0 ? `+${formatMoney(invoice.taxAmount)}` : 'Exempt', pageWidth - margin - 3, y + 4, { align: 'right' });
 
       y += 6;
-      doc.setFillColor(248, 250, 252);
-      doc.rect(totalsX - 3, y, 78, 9, 'F');
+      doc.setDrawColor(236, 236, 235);
+      doc.line(totalsX, y, pageWidth - margin, y);
+      y += 4;
+
       doc.setFont('helvetica', 'bold');
-      doc.setFontSize(9.5);
-      doc.setTextColor(180, 83, 9);
-      doc.text('Grand Total:', totalsX, y + 6);
-      doc.text(formatMoney(invoice.total), pageWidth - margin - 4, y + 6, { align: 'right' });
+      doc.setFontSize(10);
+      doc.setTextColor(17, 17, 17);
+      doc.text('Total:', totalsX, y + 4);
+      doc.text(formatMoney(invoice.total), pageWidth - margin - 3, y + 4, { align: 'right' });
 
-      y += 16;
+      y += 14;
 
-      // 5. Bank Details Box
+      // Bank Details
       if (invoice.bankAccounts && invoice.bankAccounts.length > 0) {
-        doc.setFillColor(248, 250, 252);
-        doc.setDrawColor(226, 232, 240);
-        doc.roundedRect(margin, y, pageWidth - margin * 2, 22, 2, 2, 'FD');
-
         doc.setFont('helvetica', 'bold');
+        doc.setFontSize(8);
+        doc.setTextColor(115, 115, 115);
+        doc.text('PAYMENT DETAILS', margin, y);
+
+        y += 4.5;
+        doc.setFont('helvetica', 'normal');
         doc.setFontSize(7.5);
-        doc.setTextColor(15, 23, 42);
-        doc.text('OFFICIAL CORPORATE REMITTANCE BANK ACCOUNTS:', margin + 4, y + 5);
+        doc.setTextColor(68, 68, 68);
 
-        let bankX = margin + 4;
-        invoice.bankAccounts.slice(0, 2).forEach((bank) => {
-          doc.setFont('helvetica', 'bold');
-          doc.setFontSize(7.5);
-          doc.setTextColor(51, 65, 85);
-          doc.text(`${bank.bankName} (${bank.currency})`, bankX, y + 10);
-
-          doc.setFont('helvetica', 'normal');
-          doc.setFontSize(7);
-          doc.text(`Beneficiary: ${bank.accountName}`, bankX, y + 14);
-
-          doc.setFont('helvetica', 'bold');
-          doc.setFontSize(8);
-          doc.setTextColor(180, 83, 9);
-          doc.text(`A/C: ${bank.accountNumber}`, bankX, y + 18);
-
-          bankX += 85;
+        invoice.bankAccounts.forEach((b) => {
+          doc.text(`${b.bankName}  ·  Account: ${b.accountNumber}  ·  Name: ${b.accountName} (${b.currency})`, margin, y);
+          y += 4;
         });
-
-        y += 26;
       }
 
-      // 6. Signatory & Terms
-      doc.setFont('helvetica', 'bold');
+      // Terms & Notes
+      if (invoice.paymentTerms || invoice.notes) {
+        y += 2;
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(8);
+        doc.setTextColor(115, 115, 115);
+        doc.text('TERMS & NOTES', margin, y);
+
+        y += 4.5;
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(7.5);
+        doc.setTextColor(115, 115, 115);
+
+        if (invoice.paymentTerms) {
+          doc.text(`Payment: ${invoice.paymentTerms}`, margin, y);
+          y += 4;
+        }
+        if (invoice.notes) {
+          doc.text(`Notes: ${invoice.notes}`, margin, y);
+          y += 4;
+        }
+      }
+
+      // Footer
+      const footerY = doc.internal.pageSize.getHeight() - 14;
+      doc.setDrawColor(236, 236, 235);
+      doc.line(margin, footerY - 4, pageWidth - margin, footerY - 4);
+
+      doc.setFont('helvetica', 'normal');
       doc.setFontSize(7);
-      doc.setTextColor(100, 116, 139);
-      doc.text('PAYMENT MILESTONES & TERMS:', margin, y + 4);
+      doc.setTextColor(163, 163, 163);
+      doc.text('Thank you for choosing Solikos Energy  ·  www.solikosenergyltd.com', margin, footerY);
 
-      doc.setFont('helvetica', 'normal');
-      doc.setFontSize(6.5);
-      doc.setTextColor(71, 85, 105);
-      const splitTerms = doc.splitTextToSize(invoice.paymentTerms || settings.defaultPaymentTerms, 110);
-      doc.text(splitTerms, margin, y + 8);
-
-      // Signature block on right
-      const sigX = pageWidth - margin - 45;
-      doc.setFont('helvetica', 'bold');
-      doc.setFontSize(9);
-      doc.setTextColor(15, 23, 42);
-      doc.text(settings.authorizedSignatoryName, sigX, y + 4, { align: 'center' });
-
-      doc.setDrawColor(203, 213, 225);
-      doc.line(sigX - 25, y + 6, sigX + 25, y + 6);
-
-      doc.setFont('helvetica', 'normal');
-      doc.setFontSize(6.5);
-      doc.setTextColor(100, 116, 139);
-      doc.text(settings.authorizedSignatoryTitle, sigX, y + 9.5, { align: 'center' });
-
-      doc.setFont('helvetica', 'bold');
-      doc.setFontSize(6);
-      doc.setTextColor(180, 83, 9);
-      doc.text('SOLIKOS ENERGY • CORPORATE SEAL', sigX, y + 13, { align: 'center' });
-
-      // Save PDF file
       doc.save(`Solikos_Invoice_${invoice.invoiceNumber}.pdf`);
     } catch (err) {
       console.error('PDF generation error:', err);
@@ -327,16 +311,16 @@ export const PublicInvoiceView: React.FC = () => {
     const cleanPhone = invoice.customer.phone.replace(/[\s\-\(\)\+]/g, '');
     const currentUrl = window.location.href;
     const text = encodeURIComponent(
-      `Hello ${invoice.customer.name},\n\nYour official commercial invoice (${invoice.invoiceNumber}) from Solikos Energy LTD for ${formatMoney(
+      `Hello ${invoice.customer.name},\n\nHere is your invoice ${invoice.invoiceNumber} from Solikos Energy LTD for ${formatMoney(
         invoice.total
-      )} is ready.\n\nReview specifications and download your vector PDF here:\n${currentUrl}\n\nSolikos Energy LTD - Your Power, Our Priority.`
+      )}.\n\nYou can view and download your invoice here:\n${currentUrl}\n\nSolikos Energy LTD · Your Power, Our Priority`
     );
     return `https://wa.me/${cleanPhone}?text=${text}`;
   };
 
   const handleSendEmail = async () => {
     if (!invoice.customer.email) {
-      const inputEmail = window.prompt('Enter client email address to send invoice:');
+      const inputEmail = window.prompt('Enter client email address:');
       if (!inputEmail) return;
       setSendingEmail(true);
       const res = await sendInvoiceViaResend(invoice, inputEmail);
@@ -354,56 +338,53 @@ export const PublicInvoiceView: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-100/80 py-8 px-4 sm:px-6 lg:px-8 font-sans text-slate-900 selection:bg-amber-100">
+    <div className="min-h-screen bg-[#FBFBFA] py-8 px-4 sm:px-6 lg:px-8 font-sans text-[#111111]">
       {/* Action Bar (Hidden in Print) */}
-      <div className="max-w-4xl mx-auto mb-6 flex flex-wrap items-center justify-between gap-3 bg-white p-3 sm:p-4 rounded-2xl border border-slate-200 shadow-sm print:hidden">
-        <div className="flex items-center gap-2.5">
-          <img src="/solikos-icon.png" alt="Solikos" className="w-8 h-8 object-contain" />
-          <div className="flex flex-col leading-none">
-            <span className="font-extrabold text-sm uppercase text-slate-900">Solikos Pulse</span>
-            <span className="text-[9px] font-bold tracking-widest text-amber-600 uppercase">
-              Digital Document
-            </span>
-          </div>
+      <div className="max-w-3xl mx-auto mb-6 flex flex-wrap items-center justify-between gap-3 bg-white p-3 rounded-xl border border-[#ECECEB] shadow-xs print:hidden">
+        <div className="flex items-center gap-2">
+          <img src="/solikos-icon.png" alt="Solikos" className="w-6 h-6 object-contain" />
+          <span className="font-semibold text-xs tracking-tight text-[#111111]">
+            Solikos Pulse
+          </span>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2">
-          {/* WhatsApp Direct */}
+        <div className="flex flex-wrap items-center gap-1.5">
+          {/* WhatsApp */}
           <a
             href={getWhatsAppShareUrl()}
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold px-3.5 py-2 rounded-xl flex items-center gap-1.5 shadow-xs transition-colors"
+            className="bg-[#25D366] hover:bg-[#20ba59] text-white text-xs font-medium px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-colors"
           >
-            <MessageSquare size={14} />
+            <MessageSquare size={13} />
             <span>WhatsApp</span>
           </a>
 
-          {/* Email Resend */}
+          {/* Email */}
           <button
             onClick={handleSendEmail}
             disabled={sendingEmail}
-            className="bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-semibold px-3 py-2 rounded-xl flex items-center gap-1.5 transition-colors"
+            className="bg-[#F4F4F3] hover:bg-[#EAEAEA] text-[#111111] text-xs font-medium px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-colors"
           >
-            <Mail size={14} />
-            <span>{sendingEmail ? 'Dispatching...' : 'Email'}</span>
+            <Mail size={13} />
+            <span>{sendingEmail ? 'Sending...' : 'Email'}</span>
           </button>
 
           {/* Copy Link */}
           <button
             onClick={handleCopyLink}
-            className="bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-semibold px-3 py-2 rounded-xl flex items-center gap-1.5 transition-colors"
+            className="bg-[#F4F4F3] hover:bg-[#EAEAEA] text-[#111111] text-xs font-medium px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-colors"
           >
-            {copied ? <Check size={14} className="text-emerald-600" /> : <Copy size={14} />}
-            <span>{copied ? 'Copied!' : 'Copy Link'}</span>
+            {copied ? <Check size={13} className="text-emerald-600" /> : <Copy size={13} />}
+            <span>{copied ? 'Copied' : 'Copy link'}</span>
           </button>
 
           {/* Print */}
           <button
             onClick={handlePrint}
-            className="bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-semibold px-3 py-2 rounded-xl flex items-center gap-1.5 transition-colors hidden sm:flex"
+            className="bg-[#F4F4F3] hover:bg-[#EAEAEA] text-[#111111] text-xs font-medium px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-colors hidden sm:flex"
           >
-            <Printer size={14} />
+            <Printer size={13} />
             <span>Print</span>
           </button>
 
@@ -411,160 +392,139 @@ export const PublicInvoiceView: React.FC = () => {
           <button
             onClick={handleDownloadPdf}
             disabled={downloading}
-            className="bg-amber-600 hover:bg-amber-500 text-white text-xs font-semibold px-4 py-2 rounded-xl flex items-center gap-1.5 shadow-sm transition-all"
+            className="bg-[#111111] hover:bg-[#222222] text-white text-xs font-medium px-3.5 py-1.5 rounded-lg flex items-center gap-1.5 transition-colors shadow-xs"
           >
-            <Download size={14} />
-            <span>{downloading ? 'Generating PDF...' : 'Download PDF'}</span>
+            <Download size={13} />
+            <span>{downloading ? 'Preparing...' : 'Download PDF'}</span>
           </button>
         </div>
       </div>
 
       {emailStatus && (
-        <div className="max-w-4xl mx-auto mb-4 p-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-xs flex items-center gap-2 print:hidden">
-          <CheckCircle size={15} className="text-amber-600 shrink-0" />
+        <div className="max-w-3xl mx-auto mb-4 p-3 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs flex items-center gap-2 print:hidden">
+          <CheckCircle size={14} className="text-emerald-600 shrink-0" />
           <span>{emailStatus}</span>
         </div>
       )}
 
-      {/* Invoice A4 Paper Sheet */}
+      {/* Invoice Letterhead Sheet */}
       <div
         ref={invoiceRef}
         id="printable-invoice"
-        className="max-w-4xl mx-auto bg-white rounded-3xl border border-slate-200/80 shadow-xl p-8 sm:p-12 lg:p-14 space-y-8 print:border-none print:shadow-none print:p-0 print:m-0"
+        className="max-w-3xl mx-auto bg-white rounded-xl border border-[#ECECEB] shadow-xs p-8 sm:p-12 space-y-8 print:border-none print:shadow-none print:p-0 print:m-0"
       >
-        {/* Top Header */}
-        <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-6 pb-8 border-b border-slate-200">
-          {/* Company Brand */}
-          <div className="space-y-2">
-            <div className="flex items-center gap-3">
-              <img src="/solikos-icon.png" alt="Solikos Energy" className="w-12 h-12 object-contain shrink-0" />
-              <div className="flex flex-col leading-none">
-                <span className="text-2xl font-black tracking-tight uppercase text-slate-900">
-                  SOLIKOS
+        {/* Letterhead Header */}
+        <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-6 pb-6 border-b border-[#ECECEB]">
+          {/* Solikos Branding */}
+          <div className="space-y-1.5">
+            <div className="flex items-center gap-2.5">
+              <img src="/solikos-icon.png" alt="Solikos Energy" className="w-8 h-8 object-contain shrink-0" />
+              <div>
+                <span className="text-base font-bold tracking-tight text-[#111111] block leading-none">
+                  SOLIKOS ENERGY
                 </span>
-                <span className="text-[10px] font-bold tracking-[0.3em] uppercase text-amber-600 mt-1">
-                  ENERGY
+                <span className="text-[10px] text-[#737373] tracking-wider uppercase font-medium">
+                  {settings.tagline || 'Your Power, Our Priority'}
                 </span>
               </div>
             </div>
 
-            <p className="text-xs font-bold text-slate-700 tracking-wide uppercase pt-1">
-              {settings.tagline}
-            </p>
-
-            <div className="text-xs text-slate-500 space-y-0.5 pt-1">
+            <div className="text-xs text-[#737373] space-y-0.5 pt-2">
               <p>{settings.address}</p>
               <p>
-                RC: <span className="font-mono">{settings.rcNumber}</span> &bull; TIN:{' '}
-                <span className="font-mono">{settings.taxId}</span>
+                {settings.rcNumber.startsWith('RC') ? settings.rcNumber : `RC ${settings.rcNumber}`} · {settings.taxId.startsWith('TIN') ? settings.taxId : `TIN ${settings.taxId}`}
               </p>
               <p>
-                Email: {settings.email} &bull; Tel: {settings.phone}
+                {settings.phone} · {settings.email}
               </p>
             </div>
           </div>
 
-          {/* Invoice Identity */}
-          <div className="sm:text-right space-y-2">
-            <span className="inline-block bg-slate-900 text-white font-mono font-bold text-xs uppercase px-3 py-1 rounded-full tracking-widest">
-              Commercial Invoice
+          {/* Invoice Meta */}
+          <div className="sm:text-right space-y-1">
+            <span className="text-xl font-bold tracking-tight text-[#111111] block">
+              INVOICE
             </span>
+            <p className="font-mono text-xs text-[#444444] font-medium">{invoice.invoiceNumber}</p>
 
-            <h2 className="text-xl sm:text-2xl font-black font-mono text-slate-900 pt-1">
-              {invoice.invoiceNumber}
-            </h2>
-
-            <div className="text-xs text-slate-600 space-y-1">
-              <p>
-                <span className="text-slate-400">Issue Date:</span>{' '}
-                <span className="font-semibold text-slate-800">{invoice.issueDate}</span>
-              </p>
-              <p>
-                <span className="text-slate-400">Due Date:</span>{' '}
-                <span className="font-semibold text-slate-800">{invoice.dueDate}</span>
-              </p>
-              <p>
-                <span className="text-slate-400">Status:</span>{' '}
-                <span
-                  className={`font-bold uppercase text-[11px] px-2 py-0.5 rounded-full ${
-                    invoice.status === 'paid'
-                      ? 'bg-emerald-100 text-emerald-800'
-                      : 'bg-amber-100 text-amber-800'
-                  }`}
-                >
-                  {invoice.status}
-                </span>
-              </p>
+            <div className="text-xs text-[#737373] space-y-0.5 pt-1">
+              <p>Issued: {invoice.issueDate}</p>
+              <p>Due: {invoice.dueDate}</p>
+              <div className="pt-1">
+                {invoice.status === 'paid' ? (
+                  <span className="inline-flex items-center gap-1.5 text-xs font-medium text-emerald-800">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                    Paid
+                  </span>
+                ) : (
+                  <span className="inline-flex items-center gap-1.5 text-xs font-medium text-amber-800">
+                    <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+                    Pending
+                  </span>
+                )}
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Bill To Info */}
-        <div className="p-6 bg-slate-50 rounded-2xl border border-slate-100 grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <span className="text-[10px] font-mono uppercase tracking-widest text-slate-400 block mb-1">
-              Invoiced To (Client)
-            </span>
-            <h3 className="font-bold text-base text-slate-900">{invoice.customer.name}</h3>
-            {invoice.customer.address && (
-              <p className="text-xs text-slate-600 mt-1">{invoice.customer.address}</p>
-            )}
-          </div>
-
-          <div className="sm:text-right">
-            <span className="text-[10px] font-mono uppercase tracking-widest text-slate-400 block mb-1">
-              Contact Verified
-            </span>
-            <p className="text-xs font-mono font-bold text-slate-800">{invoice.customer.phone}</p>
-            {invoice.customer.email && (
-              <p className="text-xs text-slate-600 mt-0.5">{invoice.customer.email}</p>
-            )}
+        {/* Billed To */}
+        <div>
+          <span className="text-[11px] font-medium text-[#737373] uppercase tracking-wider block mb-1">
+            Billed to
+          </span>
+          <h3 className="font-semibold text-sm text-[#111111]">{invoice.customer.name}</h3>
+          <div className="text-xs text-[#737373] mt-0.5 space-y-0.5">
+            <p className="font-mono">{invoice.customer.phone}</p>
+            {invoice.customer.email && <p>{invoice.customer.email}</p>}
+            {invoice.customer.address && <p>{invoice.customer.address}</p>}
           </div>
         </div>
 
         {/* Line Items Table */}
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs sm:text-sm">
-            <thead className="bg-slate-100/70 border-b border-slate-200 text-slate-600 font-bold uppercase text-[10px] tracking-wider">
+            <thead className="bg-[#FAFAFA] border-b border-[#ECECEB] text-[#737373] font-medium text-[11px]">
               <tr>
-                <th className="py-3 px-4">Hardware Item &amp; Technical Specifications</th>
-                <th className="py-3 px-3 text-center">Qty</th>
-                <th className="py-3 px-3 text-right">Unit Price</th>
-                <th className="py-3 px-4 text-right">Line Total</th>
+                <th className="py-2.5 px-3">Item</th>
+                <th className="py-2.5 px-2 text-center">Qty</th>
+                <th className="py-2.5 px-3 text-right">Price</th>
+                <th className="py-2.5 px-3 text-right">Total</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
+            <tbody className="divide-y divide-[#F4F4F3]">
               {invoice.items.map((item) => (
-                <tr key={item.id} className="hover:bg-slate-50/50">
-                  <td className="py-4 px-4">
+                <tr key={item.id} className="hover:bg-[#FAFAFA]/60">
+                  <td className="py-3 px-3">
                     <div className="flex items-start gap-3">
                       {item.image && (
-                        <div className="w-12 h-12 bg-white rounded-lg border border-slate-200 p-1 shrink-0 flex items-center justify-center">
+                        <div className="w-10 h-10 bg-white rounded-md border border-[#ECECEB] p-1 shrink-0 flex items-center justify-center">
                           <img src={item.image} alt={item.title} className="w-full h-full object-contain" />
                         </div>
                       )}
                       <div>
-                        <div className="font-bold text-slate-900 flex items-center gap-2">
+                        <div className="font-medium text-xs sm:text-sm text-[#111111] flex items-center gap-2">
                           <span>{item.title}</span>
                           {item.warranty && (
-                            <span className="bg-amber-100 text-amber-900 text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0">
+                            <span className="text-[10px] text-[#737373] bg-[#EEEEED] px-1.5 py-0.5 rounded">
                               {item.warranty}
                             </span>
                           )}
                         </div>
                         {item.specs && (
-                          <div className="text-[11px] text-slate-500 font-mono mt-0.5">
+                          <div className="text-xs text-[#737373] mt-0.5">
                             {item.specs}
                           </div>
                         )}
                       </div>
                     </div>
                   </td>
-                  <td className="py-4 px-3 text-center font-mono text-slate-700">{item.quantity}</td>
-                  <td className="py-4 px-3 text-right font-mono text-slate-700">
+                  <td className="py-3 px-2 text-center font-mono text-xs text-[#444444]">
+                    {item.quantity}
+                  </td>
+                  <td className="py-3 px-3 text-right font-mono text-xs text-[#444444]">
                     {formatMoney(item.unitPrice)}
                   </td>
-                  <td className="py-4 px-4 text-right font-mono font-bold text-slate-900">
+                  <td className="py-3 px-3 text-right font-mono text-xs font-medium text-[#111111]">
                     {formatMoney(item.total)}
                   </td>
                 </tr>
@@ -573,98 +533,81 @@ export const PublicInvoiceView: React.FC = () => {
           </table>
         </div>
 
-        {/* Calculation Totals */}
-        <div className="flex flex-col sm:flex-row justify-between gap-6 pt-4 border-t border-slate-200">
-          <div className="sm:max-w-xs space-y-2">
-            <span className="text-[10px] font-mono uppercase tracking-widest text-slate-400 block">
-              Payment Milestones
-            </span>
-            <p className="text-xs text-slate-600 leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
-              {invoice.paymentTerms}
-            </p>
-          </div>
-
-          <div className="w-full sm:w-72 space-y-2 text-xs">
-            <div className="flex justify-between text-slate-600">
-              <span>Subtotal:</span>
-              <span className="font-mono font-semibold text-slate-800">
-                {formatMoney(invoice.subtotal)}
-              </span>
-            </div>
-
-            {invoice.discountAmount > 0 && (
-              <div className="flex justify-between text-emerald-600">
-                <span>Discount ({invoice.discountRate}%):</span>
-                <span className="font-mono font-semibold">-{formatMoney(invoice.discountAmount)}</span>
+        {/* Totals & Notes Section */}
+        <div className="flex flex-col sm:flex-row justify-between gap-6 pt-4 border-t border-[#ECECEB]">
+          {/* Bank Details & Terms */}
+          <div className="sm:max-w-sm space-y-3 text-xs">
+            {invoice.bankAccounts && invoice.bankAccounts.length > 0 && (
+              <div>
+                <span className="text-[11px] font-medium text-[#737373] uppercase tracking-wider block mb-1">
+                  Bank details
+                </span>
+                <div className="space-y-1 text-xs text-[#444444] bg-[#FAFAFA] p-3 rounded-lg border border-[#ECECEB]">
+                  {invoice.bankAccounts.map((b, i) => (
+                    <div key={i}>
+                      <span className="font-medium text-[#111111]">{b.bankName}</span>
+                      <p className="font-mono text-[11px] text-[#737373]">
+                        {b.accountNumber} · {b.accountName} ({b.currency})
+                      </p>
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
 
-            <div className="flex justify-between text-slate-600">
-              <span>VAT / Tax ({invoice.taxRate}%):</span>
-              <span className="font-mono font-semibold">
-                {invoice.taxAmount > 0 ? `+${formatMoney(invoice.taxAmount)}` : 'Exempt (Clean Energy)'}
+            {invoice.paymentTerms && (
+              <div>
+                <span className="text-[11px] font-medium text-[#737373] uppercase tracking-wider block mb-0.5">
+                  Payment terms
+                </span>
+                <p className="text-xs text-[#737373]">{invoice.paymentTerms}</p>
+              </div>
+            )}
+
+            {invoice.notes && (
+              <div>
+                <span className="text-[11px] font-medium text-[#737373] uppercase tracking-wider block mb-0.5">
+                  Notes
+                </span>
+                <p className="text-xs text-[#737373]">{invoice.notes}</p>
+              </div>
+            )}
+          </div>
+
+          {/* Calculation */}
+          <div className="w-full sm:w-64 space-y-1.5 text-xs self-start">
+            <div className="flex justify-between text-[#737373]">
+              <span>Subtotal</span>
+              <span className="font-mono text-[#111111]">{formatMoney(invoice.subtotal)}</span>
+            </div>
+
+            {invoice.discountAmount > 0 && (
+              <div className="flex justify-between text-emerald-700">
+                <span>Discount ({invoice.discountRate}%)</span>
+                <span className="font-mono">-{formatMoney(invoice.discountAmount)}</span>
+              </div>
+            )}
+
+            <div className="flex justify-between text-[#737373]">
+              <span>VAT ({invoice.taxRate}%)</span>
+              <span className="font-mono text-[#111111]">
+                {invoice.taxAmount > 0 ? `+${formatMoney(invoice.taxAmount)}` : 'Exempt'}
               </span>
             </div>
 
-            <div className="pt-2 border-t border-slate-200 flex justify-between items-baseline">
-              <span className="font-bold text-slate-900 text-sm">Grand Total:</span>
-              <span className="font-mono font-black text-xl text-amber-700">
+            <div className="pt-2 border-t border-[#ECECEB] flex justify-between items-baseline text-[#111111]">
+              <span className="font-medium">Total</span>
+              <span className="font-mono font-semibold text-base">
                 {formatMoney(invoice.total)}
               </span>
             </div>
           </div>
         </div>
 
-        {/* Bank Wire Information */}
-        {invoice.bankAccounts && invoice.bankAccounts.length > 0 && (
-          <div className="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-900 flex items-center gap-2">
-              <Building2 size={16} className="text-amber-600" />
-              <span>Official Corporate Remittance Account Details</span>
-            </h4>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-              {invoice.bankAccounts.map((b, i) => (
-                <div key={i} className="p-3 bg-white rounded-xl border border-slate-100 space-y-1">
-                  <div className="font-bold text-slate-800">
-                    {b.bankName} ({b.currency})
-                  </div>
-                  <div className="text-slate-500">
-                    Beneficiary:{' '}
-                    <span className="font-semibold text-slate-700">{b.accountName}</span>
-                  </div>
-                  <div className="font-mono font-black text-sm text-slate-900">
-                    Account: {b.accountNumber}
-                  </div>
-                  {b.swiftCode && (
-                    <div className="text-[11px] font-mono text-slate-400">
-                      SWIFT: {b.swiftCode}
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Endorsements / Digital Signatory */}
-        <div className="pt-8 border-t border-slate-200 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-6">
-          <div className="text-xs text-slate-500 max-w-md space-y-1">
-            <p className="font-bold text-slate-700">Warranty &amp; Supply Terms:</p>
-            <p className="leading-relaxed">{invoice.notes || settings.defaultNotes}</p>
-          </div>
-
-          <div className="text-center sm:text-right shrink-0">
-            <div className="font-serif italic text-lg font-bold text-slate-900 mb-1">
-              {settings.authorizedSignatoryName}
-            </div>
-            <div className="h-0.5 w-40 bg-slate-300 sm:ml-auto my-1.5" />
-            <div className="text-[10px] font-mono text-slate-600 uppercase tracking-widest font-bold">
-              {settings.authorizedSignatoryTitle}
-            </div>
-            <div className="text-[9px] text-amber-600 font-mono font-bold mt-1">
-              SOLIKOS ENERGY &bull; AUTHORIZED ENDORSEMENT
-            </div>
-          </div>
+        {/* Footer */}
+        <div className="pt-6 border-t border-[#ECECEB] flex flex-col sm:flex-row items-center justify-between text-xs text-[#A3A3A3] gap-2">
+          <span>Thank you for choosing Solikos Energy.</span>
+          <span>www.solikosenergyltd.com</span>
         </div>
       </div>
     </div>

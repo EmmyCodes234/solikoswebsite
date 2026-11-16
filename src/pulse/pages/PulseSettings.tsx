@@ -1,10 +1,5 @@
 import React, { useState } from 'react';
 import {
-  Settings,
-  Building2,
-  CreditCard,
-  Percent,
-  FileCheck,
   Save,
   CheckCircle2,
   Plus,
@@ -57,190 +52,181 @@ export const PulseSettings: React.FC = () => {
   };
 
   return (
-    <div className="space-y-8 max-w-4xl mx-auto pb-16">
+    <div className="space-y-6 max-w-4xl mx-auto pb-16">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-slate-200">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#ECECEB]">
         <div>
-          <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-amber-600 font-semibold mb-1">
-            <span>Solikos Pulse</span>
-            <span>&bull;</span>
-            <span>Administration</span>
-          </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-            Company &amp; Banking Settings
-          </h1>
-          <p className="text-xs text-slate-500 mt-1">
-            Configure default billing parameters, official remittance bank accounts, and legal entity details.
+          <h1 className="text-2xl font-semibold tracking-tight text-[#111111]">Settings</h1>
+          <p className="text-xs text-[#737373] mt-1">
+            Company information, bank accounts, and invoice defaults.
           </p>
         </div>
 
         <button
           onClick={handleSave}
-          className="bg-amber-600 hover:bg-amber-500 text-white font-semibold px-5 py-2.5 rounded-xl text-xs sm:text-sm flex items-center gap-2 shadow-sm transition-all self-start sm:self-auto"
+          className="bg-[#111111] hover:bg-[#222222] text-white text-xs font-medium px-4 py-2.5 rounded-lg flex items-center gap-1.5 transition-colors self-start sm:self-auto shadow-xs"
         >
-          {saved ? <CheckCircle2 size={16} /> : <Save size={16} />}
-          <span>{saved ? 'Saved Successfully' : 'Save Changes'}</span>
+          {saved ? <CheckCircle2 size={15} /> : <Save size={15} />}
+          <span>{saved ? 'Saved' : 'Save changes'}</span>
         </button>
       </div>
 
-      <form onSubmit={handleSave} className="space-y-8">
-        {/* 1. Legal Entity Profile */}
-        <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-4">
-          <div className="flex items-center gap-2 border-b border-slate-100 pb-3">
-            <Building2 size={18} className="text-amber-600" />
-            <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wider">
-              1. Corporate Legal Identity
-            </h2>
-          </div>
+      <form onSubmit={handleSave} className="space-y-6">
+        {/* 1. Company Information */}
+        <div className="bg-white p-5 rounded-xl border border-[#ECECEB] space-y-4">
+          <h2 className="text-xs font-medium text-[#111111] uppercase tracking-wider border-b border-[#F4F4F3] pb-3">
+            Company information
+          </h2>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">Company Legal Name</label>
+              <label className="block text-xs font-medium text-[#444444] mb-1">Company name</label>
               <input
                 type="text"
                 value={formData.companyName}
                 onChange={(e) => handleChange('companyName', e.target.value)}
-                className="w-full px-3.5 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl"
+                className="w-full px-3 py-1.5 text-xs sm:text-sm bg-[#FBFBFA] border border-[#ECECEB] rounded-lg focus:bg-white focus:outline-none focus:border-[#111111] text-[#111111]"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">Company Slogan</label>
+              <label className="block text-xs font-medium text-[#444444] mb-1">Slogan</label>
               <input
                 type="text"
                 value={formData.tagline}
                 onChange={(e) => handleChange('tagline', e.target.value)}
-                className="w-full px-3.5 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl"
+                className="w-full px-3 py-1.5 text-xs sm:text-sm bg-[#FBFBFA] border border-[#ECECEB] rounded-lg focus:bg-white focus:outline-none focus:border-[#111111] text-[#111111]"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">RC / Corporate Reg Number</label>
+              <label className="block text-xs font-medium text-[#444444] mb-1">RC Number</label>
               <input
                 type="text"
                 value={formData.rcNumber}
                 onChange={(e) => handleChange('rcNumber', e.target.value)}
-                className="w-full px-3.5 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl font-mono"
+                className="w-full px-3 py-1.5 text-xs sm:text-sm bg-[#FBFBFA] border border-[#ECECEB] rounded-lg focus:bg-white focus:outline-none focus:border-[#111111] text-[#111111] font-mono"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">Tax ID / TIN</label>
+              <label className="block text-xs font-medium text-[#444444] mb-1">TIN / Tax ID</label>
               <input
                 type="text"
                 value={formData.taxId}
                 onChange={(e) => handleChange('taxId', e.target.value)}
-                className="w-full px-3.5 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl font-mono"
+                className="w-full px-3 py-1.5 text-xs sm:text-sm bg-[#FBFBFA] border border-[#ECECEB] rounded-lg focus:bg-white focus:outline-none focus:border-[#111111] text-[#111111] font-mono"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">Official Billing Email</label>
+              <label className="block text-xs font-medium text-[#444444] mb-1">Email address</label>
               <input
                 type="email"
                 value={formData.email}
                 onChange={(e) => handleChange('email', e.target.value)}
-                className="w-full px-3.5 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl"
+                className="w-full px-3 py-1.5 text-xs sm:text-sm bg-[#FBFBFA] border border-[#ECECEB] rounded-lg focus:bg-white focus:outline-none focus:border-[#111111] text-[#111111]"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">Official Support Phone</label>
+              <label className="block text-xs font-medium text-[#444444] mb-1">Phone number</label>
               <input
                 type="tel"
                 value={formData.phone}
                 onChange={(e) => handleChange('phone', e.target.value)}
-                className="w-full px-3.5 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl font-mono"
+                className="w-full px-3 py-1.5 text-xs sm:text-sm bg-[#FBFBFA] border border-[#ECECEB] rounded-lg focus:bg-white focus:outline-none focus:border-[#111111] text-[#111111] font-mono"
               />
             </div>
 
             <div className="sm:col-span-2">
-              <label className="block text-xs font-semibold text-slate-700 mb-1">Headquarters Address</label>
+              <label className="block text-xs font-medium text-[#444444] mb-1">Office address</label>
               <input
                 type="text"
                 value={formData.address}
                 onChange={(e) => handleChange('address', e.target.value)}
-                className="w-full px-3.5 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl"
+                className="w-full px-3 py-1.5 text-xs sm:text-sm bg-[#FBFBFA] border border-[#ECECEB] rounded-lg focus:bg-white focus:outline-none focus:border-[#111111] text-[#111111]"
               />
             </div>
           </div>
         </div>
 
-        {/* 2. Official Remittance Bank Accounts */}
-        <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-4">
-          <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-            <div className="flex items-center gap-2">
-              <CreditCard size={18} className="text-amber-600" />
-              <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wider">
-                2. Official Remittance Bank Accounts
-              </h2>
-            </div>
+        {/* 2. Bank Accounts */}
+        <div className="bg-white p-5 rounded-xl border border-[#ECECEB] space-y-4">
+          <div className="flex items-center justify-between border-b border-[#F4F4F3] pb-3">
+            <h2 className="text-xs font-medium text-[#111111] uppercase tracking-wider">
+              Bank accounts
+            </h2>
             <button
               type="button"
               onClick={handleAddBank}
-              className="text-xs font-semibold text-amber-700 bg-amber-50 hover:bg-amber-100 px-3 py-1.5 rounded-lg border border-amber-200 flex items-center gap-1 transition-colors"
+              className="bg-[#F4F4F3] hover:bg-[#EAEAEA] text-[#111111] text-xs font-medium px-2.5 py-1.5 rounded-lg flex items-center gap-1 transition-colors"
             >
-              <Plus size={14} />
-              <span>Add Account</span>
+              <Plus size={13} />
+              <span>Add account</span>
             </button>
           </div>
 
-          <div className="space-y-4">
+          <div className="space-y-3">
             {formData.bankAccounts.map((bank, idx) => (
               <div
                 key={idx}
-                className="p-4 rounded-xl border border-slate-200 bg-slate-50/50 space-y-3 relative"
+                className="p-3.5 rounded-lg border border-[#ECECEB] bg-[#FAFAFA] space-y-3"
               >
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold font-mono text-slate-700">
-                    Account #{idx + 1} &bull; {bank.currency}
-                  </span>
+                  <span className="text-xs font-medium text-[#111111]">Account {idx + 1}</span>
                   {formData.bankAccounts.length > 1 && (
                     <button
                       type="button"
                       onClick={() => handleRemoveBank(idx)}
-                      className="text-slate-400 hover:text-red-600 transition-colors"
-                      title="Remove Bank Account"
+                      className="text-[#A3A3A3] hover:text-red-600 p-1"
+                      title="Remove account"
                     >
-                      <Trash2 size={16} />
+                      <Trash2 size={13} />
                     </button>
                   )}
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
                   <div>
-                    <label className="text-[10px] font-semibold text-slate-600 block mb-0.5">
-                      Bank Name
-                    </label>
+                    <label className="block text-[11px] text-[#737373] mb-1">Currency</label>
+                    <select
+                      value={bank.currency}
+                      onChange={(e) => handleBankChange(idx, 'currency', e.target.value)}
+                      className="w-full px-2 py-1.5 text-xs bg-white border border-[#ECECEB] rounded-md text-[#111111]"
+                    >
+                      <option value="NGN">NGN (₦)</option>
+                      <option value="USD">USD ($)</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] text-[#737373] mb-1">Bank name</label>
                     <input
                       type="text"
                       value={bank.bankName}
                       onChange={(e) => handleBankChange(idx, 'bankName', e.target.value)}
-                      className="w-full px-3 py-1.5 text-xs bg-white border border-slate-200 rounded-lg"
+                      className="w-full px-2 py-1.5 text-xs bg-white border border-[#ECECEB] rounded-md text-[#111111]"
                     />
                   </div>
 
                   <div>
-                    <label className="text-[10px] font-semibold text-slate-600 block mb-0.5">
-                      Beneficiary Account Name
-                    </label>
+                    <label className="block text-[11px] text-[#737373] mb-1">Account name</label>
                     <input
                       type="text"
                       value={bank.accountName}
                       onChange={(e) => handleBankChange(idx, 'accountName', e.target.value)}
-                      className="w-full px-3 py-1.5 text-xs bg-white border border-slate-200 rounded-lg"
+                      className="w-full px-2 py-1.5 text-xs bg-white border border-[#ECECEB] rounded-md text-[#111111]"
                     />
                   </div>
 
                   <div>
-                    <label className="text-[10px] font-semibold text-slate-600 block mb-0.5">
-                      Account Number
-                    </label>
+                    <label className="block text-[11px] text-[#737373] mb-1">Account number</label>
                     <input
                       type="text"
                       value={bank.accountNumber}
                       onChange={(e) => handleBankChange(idx, 'accountNumber', e.target.value)}
-                      className="w-full px-3 py-1.5 text-xs font-mono font-bold bg-white border border-slate-200 rounded-lg"
+                      className="w-full px-2 py-1.5 text-xs bg-white border border-[#ECECEB] rounded-md text-[#111111] font-mono"
                     />
                   </div>
                 </div>
@@ -249,53 +235,52 @@ export const PulseSettings: React.FC = () => {
           </div>
         </div>
 
-        {/* 3. Defaults & Terms */}
-        <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-4">
-          <div className="flex items-center gap-2 border-b border-slate-100 pb-3">
-            <Percent size={18} className="text-amber-600" />
-            <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wider">
-              3. Default Commercial Terms &amp; VAT
-            </h2>
-          </div>
+        {/* 3. Invoice Defaults */}
+        <div className="bg-white p-5 rounded-xl border border-[#ECECEB] space-y-4">
+          <h2 className="text-xs font-medium text-[#111111] uppercase tracking-wider border-b border-[#F4F4F3] pb-3">
+            Invoice defaults
+          </h2>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">
-                Default Statutory VAT / Tax Rate (%)
-              </label>
+              <label className="block text-xs font-medium text-[#444444] mb-1">Default currency</label>
               <select
-                value={formData.defaultTaxRate}
-                onChange={(e) => handleChange('defaultTaxRate', Number(e.target.value))}
-                className="w-full px-3.5 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl"
+                value={formData.defaultCurrency}
+                onChange={(e) => handleChange('defaultCurrency', e.target.value)}
+                className="w-full px-3 py-1.5 text-xs sm:text-sm bg-[#FBFBFA] border border-[#ECECEB] rounded-lg focus:bg-white focus:outline-none focus:border-[#111111] text-[#111111]"
               >
-                <option value={0}>0% (Clean Energy / Solar Tax Exemption)</option>
-                <option value={7.5}>7.5% (Standard Federal VAT)</option>
+                <option value="NGN">NGN (₦)</option>
+                <option value="USD">USD ($)</option>
               </select>
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">
-                Default Currency
-              </label>
-              <select
-                value={formData.defaultCurrency}
-                onChange={(e) => handleChange('defaultCurrency', e.target.value as any)}
-                className="w-full px-3.5 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl font-bold"
-              >
-                <option value="NGN">NGN (₦) - Nigerian Naira</option>
-                <option value="USD">USD ($) - United States Dollar</option>
-              </select>
+              <label className="block text-xs font-medium text-[#444444] mb-1">Default VAT rate (%)</label>
+              <input
+                type="number"
+                value={formData.defaultTaxRate}
+                onChange={(e) => handleChange('defaultTaxRate', Number(e.target.value))}
+                className="w-full px-3 py-1.5 text-xs sm:text-sm bg-[#FBFBFA] border border-[#ECECEB] rounded-lg focus:bg-white focus:outline-none focus:border-[#111111] text-[#111111]"
+              />
             </div>
 
             <div className="sm:col-span-2">
-              <label className="block text-xs font-semibold text-slate-700 mb-1">
-                Default Milestone Payment Schedule
-              </label>
+              <label className="block text-xs font-medium text-[#444444] mb-1">Default payment terms</label>
               <textarea
                 rows={2}
                 value={formData.defaultPaymentTerms}
                 onChange={(e) => handleChange('defaultPaymentTerms', e.target.value)}
-                className="w-full p-3 text-xs bg-slate-50 border border-slate-200 rounded-xl"
+                className="w-full p-2.5 text-xs bg-[#FBFBFA] border border-[#ECECEB] rounded-lg focus:bg-white focus:outline-none focus:border-[#111111] text-[#111111]"
+              />
+            </div>
+
+            <div className="sm:col-span-2">
+              <label className="block text-xs font-medium text-[#444444] mb-1">Default warranty &amp; notes</label>
+              <textarea
+                rows={2}
+                value={formData.defaultNotes}
+                onChange={(e) => handleChange('defaultNotes', e.target.value)}
+                className="w-full p-2.5 text-xs bg-[#FBFBFA] border border-[#ECECEB] rounded-lg focus:bg-white focus:outline-none focus:border-[#111111] text-[#111111]"
               />
             </div>
           </div>

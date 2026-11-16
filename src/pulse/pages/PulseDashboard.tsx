@@ -3,17 +3,12 @@ import { Link } from 'react-router-dom';
 import {
   FileText,
   Search,
-  PlusCircle,
-  ExternalLink,
-  MessageSquare,
-  CheckCircle,
-  Trash2,
-  Calendar,
-  DollarSign,
-  TrendingUp,
-  Clock,
+  Plus,
   ArrowUpRight,
-  Filter,
+  MessageSquare,
+  CheckCircle2,
+  Trash2,
+  RotateCcw,
 } from 'lucide-react';
 import { usePulse } from '../context/PulseContext';
 import { InvoiceStatus, Invoice } from '../types';
@@ -23,14 +18,17 @@ export const PulseDashboard: React.FC = () => {
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState<'all' | InvoiceStatus>('all');
 
-  // Stats calculation
-  const totalBilled = invoices.reduce((acc, inv) => acc + inv.total, 0);
+  // Stats
+  const totalInvoiced = invoices.reduce((acc, inv) => acc + inv.total, 0);
   const totalPaid = invoices
     .filter((inv) => inv.status === 'paid')
     .reduce((acc, inv) => acc + inv.total, 0);
-  const pendingAmount = invoices
+  const totalPending = invoices
     .filter((inv) => inv.status === 'issued')
     .reduce((acc, inv) => acc + inv.total, 0);
+
+  const paidCount = invoices.filter((i) => i.status === 'paid').length;
+  const pendingCount = invoices.filter((i) => i.status === 'issued').length;
 
   const formatMoney = (amount: number, currency: string = 'NGN') => {
     return new Intl.NumberFormat('en-NG', {
@@ -52,35 +50,40 @@ export const PulseDashboard: React.FC = () => {
     return matchesStatus && matchesSearch;
   });
 
-  const getStatusBadge = (status: InvoiceStatus) => {
+  const renderStatus = (status: InvoiceStatus) => {
     switch (status) {
       case 'paid':
         return (
-          <span className="bg-emerald-50 text-emerald-700 border border-emerald-200 text-[11px] font-semibold px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+          <span className="inline-flex items-center gap-1.5 text-xs font-medium text-neutral-800">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
             Paid
           </span>
         );
       case 'issued':
         return (
-          <span className="bg-amber-50 text-amber-700 border border-amber-200 text-[11px] font-semibold px-2.5 py-0.5 rounded-full uppercase tracking-wider">
-            Issued / Pending
+          <span className="inline-flex items-center gap-1.5 text-xs font-medium text-neutral-800">
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+            Pending
           </span>
         );
       case 'draft':
         return (
-          <span className="bg-slate-100 text-slate-700 border border-slate-200 text-[11px] font-semibold px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+          <span className="inline-flex items-center gap-1.5 text-xs font-medium text-neutral-500">
+            <span className="w-1.5 h-1.5 rounded-full bg-neutral-400" />
             Draft
           </span>
         );
       case 'overdue':
         return (
-          <span className="bg-red-50 text-red-700 border border-red-200 text-[11px] font-semibold px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+          <span className="inline-flex items-center gap-1.5 text-xs font-medium text-red-700">
+            <span className="w-1.5 h-1.5 rounded-full bg-red-500" />
             Overdue
           </span>
         );
       default:
         return (
-          <span className="bg-slate-100 text-slate-600 text-[11px] font-semibold px-2.5 py-0.5 rounded-full uppercase">
+          <span className="inline-flex items-center gap-1.5 text-xs font-medium text-neutral-600">
+            <span className="w-1.5 h-1.5 rounded-full bg-neutral-400" />
             {status}
           </span>
         );
@@ -92,174 +95,157 @@ export const PulseDashboard: React.FC = () => {
     const origin = window.location.origin;
     const invoiceUrl = `${origin}/inv/${inv.id}`;
     const text = encodeURIComponent(
-      `Hello ${inv.customer.name},\n\nYour official commercial invoice (${inv.invoiceNumber}) from Solikos Energy LTD for ${formatMoney(
+      `Hello ${inv.customer.name},\n\nHere is your invoice ${inv.invoiceNumber} from Solikos Energy LTD for ${formatMoney(
         inv.total,
         inv.currency
-      )} is ready.\n\nYou can review your hardware specifications and download the PDF here:\n${invoiceUrl}\n\nSolikos Energy LTD - Your Power, Our Priority.`
+      )}.\n\nYou can view and download your invoice here:\n${invoiceUrl}\n\nSolikos Energy LTD · Your Power, Our Priority`
     );
     return `https://wa.me/${cleanPhone}?text=${text}`;
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 max-w-6xl mx-auto">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2">
         <div>
-          <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-amber-600 font-semibold mb-1">
-            <span>Solikos Pulse</span>
-            <span>&bull;</span>
-            <span>Commercial Invoicing</span>
-          </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-            Invoices Management
-          </h1>
+          <h1 className="text-2xl font-semibold tracking-tight text-[#111111]">Invoices</h1>
+          <p className="text-xs text-[#737373] mt-1">Create, track, and share client invoices.</p>
         </div>
 
         <Link
           to="/pulse/create"
-          className="bg-amber-600 hover:bg-amber-500 text-white font-semibold px-5 py-2.5 rounded-xl text-xs sm:text-sm flex items-center justify-center gap-2 shadow-sm transition-all hover:scale-[1.02] self-start sm:self-auto"
+          className="bg-[#111111] hover:bg-[#222222] text-white text-xs font-medium px-4 py-2.5 rounded-lg flex items-center justify-center gap-1.5 transition-colors self-start sm:self-auto shadow-xs"
         >
-          <PlusCircle size={16} />
-          <span>New Invoice</span>
+          <Plus size={15} />
+          <span>New invoice</span>
         </Link>
       </div>
 
       {/* Metric Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
-          <div className="flex items-center justify-between mb-3 text-slate-500">
-            <span className="text-xs font-semibold uppercase tracking-wider">Total Invoiced</span>
-            <div className="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center text-slate-700">
-              <TrendingUp size={16} />
-            </div>
-          </div>
-          <p className="text-xl sm:text-2xl font-extrabold text-slate-900">
-            {formatMoney(totalBilled, 'NGN')}
+        <div className="bg-white p-5 rounded-xl border border-[#ECECEB]">
+          <span className="text-xs font-medium text-[#737373]">Total invoiced</span>
+          <p className="text-2xl font-semibold text-[#111111] tracking-tight mt-1">
+            {formatMoney(totalInvoiced, 'NGN')}
           </p>
-          <span className="text-[11px] text-slate-400 mt-1 block">
-            {invoices.length} commercial transactions
+          <span className="text-xs text-[#A3A3A3] mt-1 block">
+            {invoices.length} {invoices.length === 1 ? 'invoice' : 'invoices'}
           </span>
         </div>
 
-        <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
-          <div className="flex items-center justify-between mb-3 text-emerald-600">
-            <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
-              Total Collected
-            </span>
-            <div className="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-600">
-              <CheckCircle size={16} />
-            </div>
-          </div>
-          <p className="text-xl sm:text-2xl font-extrabold text-emerald-700">
+        <div className="bg-white p-5 rounded-xl border border-[#ECECEB]">
+          <span className="text-xs font-medium text-[#737373]">Paid</span>
+          <p className="text-2xl font-semibold text-[#111111] tracking-tight mt-1">
             {formatMoney(totalPaid, 'NGN')}
           </p>
-          <span className="text-[11px] text-slate-400 mt-1 block">
-            {invoices.filter((i) => i.status === 'paid').length} paid invoices
+          <span className="text-xs text-[#A3A3A3] mt-1 block">
+            {paidCount} {paidCount === 1 ? 'invoice' : 'invoices'}
           </span>
         </div>
 
-        <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
-          <div className="flex items-center justify-between mb-3 text-amber-600">
-            <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
-              Pending / Issued
-            </span>
-            <div className="w-8 h-8 rounded-lg bg-amber-50 flex items-center justify-center text-amber-600">
-              <Clock size={16} />
-            </div>
-          </div>
-          <p className="text-xl sm:text-2xl font-extrabold text-amber-700">
-            {formatMoney(pendingAmount, 'NGN')}
+        <div className="bg-white p-5 rounded-xl border border-[#ECECEB]">
+          <span className="text-xs font-medium text-[#737373]">Pending</span>
+          <p className="text-2xl font-semibold text-[#111111] tracking-tight mt-1">
+            {formatMoney(totalPending, 'NGN')}
           </p>
-          <span className="text-[11px] text-slate-400 mt-1 block">
-            Awaiting client remittance
+          <span className="text-xs text-[#A3A3A3] mt-1 block">
+            {pendingCount} {pendingCount === 1 ? 'invoice' : 'invoices'}
           </span>
         </div>
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex flex-col sm:flex-row gap-4 items-stretch sm:items-center justify-between">
+      <div className="bg-white p-2.5 rounded-xl border border-[#ECECEB] flex flex-col sm:flex-row gap-3 items-stretch sm:items-center justify-between">
         <div className="relative flex-1">
-          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-[#A3A3A3]" size={15} />
           <input
             type="text"
-            placeholder="Search by client name, phone number, or invoice #..."
+            placeholder="Search by client or invoice number..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-600 text-slate-900"
+            className="w-full pl-9 pr-3 py-1.5 text-xs sm:text-sm bg-[#FBFBFA] border border-[#ECECEB] rounded-lg focus:bg-white focus:outline-none focus:border-[#111111] text-[#111111] placeholder:text-[#A3A3A3] transition-colors"
           />
         </div>
 
         {/* Status Filters */}
-        <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0">
-          {(['all', 'issued', 'paid', 'draft'] as const).map((st) => (
+        <div className="flex items-center gap-1 overflow-x-auto pb-1 sm:pb-0">
+          {(
+            [
+              { key: 'all', label: 'All' },
+              { key: 'issued', label: 'Pending' },
+              { key: 'paid', label: 'Paid' },
+              { key: 'draft', label: 'Draft' },
+            ] as const
+          ).map((item) => (
             <button
-              key={st}
-              onClick={() => setStatusFilter(st)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold capitalize whitespace-nowrap transition-colors ${
-                statusFilter === st
-                  ? 'bg-slate-900 text-white'
-                  : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+              key={item.key}
+              onClick={() => setStatusFilter(item.key)}
+              className={`px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-colors ${
+                statusFilter === item.key
+                  ? 'bg-[#111111] text-white'
+                  : 'text-[#666666] hover:text-[#111111] hover:bg-[#F4F4F3]'
               }`}
             >
-              {st === 'all' ? 'All Invoices' : st}
+              {item.label}
             </button>
           ))}
         </div>
       </div>
 
       {/* Invoices List / Table */}
-      <div className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+      <div className="bg-white rounded-xl border border-[#ECECEB] overflow-hidden">
         {filtered.length === 0 ? (
-          <div className="p-12 text-center">
-            <FileText size={40} className="mx-auto text-slate-300 mb-3" />
-            <h3 className="text-sm font-bold text-slate-700">No invoices found</h3>
-            <p className="text-xs text-slate-400 mt-1 mb-4">
-              {search ? 'Try adjusting your search criteria.' : 'Create your first commercial invoice.'}
+          <div className="py-14 px-6 text-center">
+            <FileText size={32} className="mx-auto text-[#CCCCCC] mb-2.5" />
+            <h3 className="text-sm font-medium text-[#111111]">No invoices found</h3>
+            <p className="text-xs text-[#737373] mt-1 mb-4">
+              {search ? 'Try searching with different keywords.' : 'Create your first invoice to get started.'}
             </p>
             <Link
               to="/pulse/create"
-              className="inline-flex items-center gap-2 bg-amber-600 text-white text-xs font-semibold px-4 py-2 rounded-xl"
+              className="inline-flex items-center gap-1.5 bg-[#111111] text-white text-xs font-medium px-3.5 py-2 rounded-lg hover:bg-[#222222] transition-colors"
             >
-              <PlusCircle size={14} />
-              <span>New Invoice</span>
+              <Plus size={14} />
+              <span>New invoice</span>
             </Link>
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs sm:text-sm">
-              <thead className="bg-slate-50 border-b border-slate-200 text-slate-500 font-semibold uppercase text-[10px] tracking-wider">
+              <thead className="bg-[#FAFAFA] border-b border-[#ECECEB] text-[#737373] font-medium text-[11px]">
                 <tr>
-                  <th className="py-3.5 px-4 sm:px-6">Invoice #</th>
-                  <th className="py-3.5 px-4">Client</th>
-                  <th className="py-3.5 px-4">Date</th>
-                  <th className="py-3.5 px-4">Total Amount</th>
-                  <th className="py-3.5 px-4">Status</th>
-                  <th className="py-3.5 px-4 sm:px-6 text-right">Actions</th>
+                  <th className="py-3 px-5">Invoice</th>
+                  <th className="py-3 px-4">Client</th>
+                  <th className="py-3 px-4">Date</th>
+                  <th className="py-3 px-4">Amount</th>
+                  <th className="py-3 px-4">Status</th>
+                  <th className="py-3 px-5 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-[#F4F4F3]">
                 {filtered.map((inv) => (
-                  <tr key={inv.id} className="hover:bg-slate-50/80 transition-colors">
+                  <tr key={inv.id} className="hover:bg-[#FAFAFA] transition-colors">
                     {/* Invoice ID */}
-                    <td className="py-4 px-4 sm:px-6 font-mono font-bold text-slate-900">
+                    <td className="py-3.5 px-5 font-mono text-xs font-medium text-[#111111]">
                       <Link
                         to={`/inv/${inv.id}`}
                         target="_blank"
-                        className="hover:text-amber-600 transition-colors flex items-center gap-1.5"
+                        className="hover:text-amber-700 transition-colors inline-flex items-center gap-1"
+                        title="Open invoice"
                       >
                         <span>{inv.invoiceNumber}</span>
-                        <ExternalLink size={12} className="text-slate-400" />
+                        <ArrowUpRight size={12} className="text-[#A3A3A3]" />
                       </Link>
                     </td>
 
                     {/* Customer */}
-                    <td className="py-4 px-4">
-                      <div className="font-semibold text-slate-900">{inv.customer.name}</div>
-                      <div className="text-xs text-slate-500 font-mono flex items-center gap-2 mt-0.5">
+                    <td className="py-3.5 px-4">
+                      <div className="font-medium text-[#111111]">{inv.customer.name}</div>
+                      <div className="text-xs text-[#737373] mt-0.5">
                         <span>{inv.customer.phone}</span>
                         {inv.customer.email && (
                           <>
-                            <span>&bull;</span>
+                            <span className="mx-1.5 text-[#CCCCCC]">·</span>
                             <span className="truncate max-w-[140px]">{inv.customer.email}</span>
                           </>
                         )}
@@ -267,59 +253,59 @@ export const PulseDashboard: React.FC = () => {
                     </td>
 
                     {/* Date */}
-                    <td className="py-4 px-4 text-xs text-slate-600 whitespace-nowrap">
-                      <div>Issued: {inv.issueDate}</div>
-                      <div className="text-slate-400 text-[11px]">Due: {inv.dueDate}</div>
+                    <td className="py-3.5 px-4 text-xs text-[#737373] whitespace-nowrap">
+                      <div>Issued {inv.issueDate}</div>
+                      <div className="text-[#A3A3A3] text-[11px]">Due {inv.dueDate}</div>
                     </td>
 
                     {/* Total Amount */}
-                    <td className="py-4 px-4 font-bold text-slate-900 whitespace-nowrap">
+                    <td className="py-3.5 px-4 font-medium text-[#111111] whitespace-nowrap">
                       {formatMoney(inv.total, inv.currency)}
                     </td>
 
                     {/* Status */}
-                    <td className="py-4 px-4 whitespace-nowrap">{getStatusBadge(inv.status)}</td>
+                    <td className="py-3.5 px-4 whitespace-nowrap">{renderStatus(inv.status)}</td>
 
                     {/* Actions */}
-                    <td className="py-4 px-4 sm:px-6 text-right whitespace-nowrap">
-                      <div className="flex items-center justify-end gap-1.5">
-                        {/* WhatsApp Action */}
+                    <td className="py-3.5 px-5 text-right whitespace-nowrap">
+                      <div className="flex items-center justify-end gap-1">
+                        {/* WhatsApp Link */}
                         <a
                           href={getWhatsAppShareUrl(inv)}
                           target="_blank"
                           rel="noopener noreferrer"
-                          title="Share to Client WhatsApp"
-                          className="p-1.5 text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors"
+                          title="Share on WhatsApp"
+                          className="p-1.5 text-[#555555] hover:text-[#111111] hover:bg-[#F4F4F3] rounded-md transition-colors"
                         >
-                          <MessageSquare size={16} />
+                          <MessageSquare size={15} />
                         </a>
 
-                        {/* Public Link */}
+                        {/* View link */}
                         <Link
                           to={`/inv/${inv.id}`}
                           target="_blank"
-                          title="View Digital Invoice"
-                          className="p-1.5 text-slate-600 hover:bg-slate-100 rounded-lg transition-colors"
+                          title="View digital invoice"
+                          className="p-1.5 text-[#555555] hover:text-[#111111] hover:bg-[#F4F4F3] rounded-md transition-colors"
                         >
-                          <ArrowUpRight size={16} />
+                          <ArrowUpRight size={15} />
                         </Link>
 
-                        {/* Status Toggle */}
+                        {/* Toggle Paid / Pending */}
                         {inv.status !== 'paid' ? (
                           <button
                             onClick={() => updateInvoiceStatus(inv.id, 'paid')}
-                            title="Mark as Paid"
-                            className="p-1.5 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors"
+                            title="Mark as paid"
+                            className="p-1.5 text-[#555555] hover:text-emerald-700 hover:bg-emerald-50 rounded-md transition-colors"
                           >
-                            <CheckCircle size={16} />
+                            <CheckCircle2 size={15} />
                           </button>
                         ) : (
                           <button
                             onClick={() => updateInvoiceStatus(inv.id, 'issued')}
-                            title="Mark as Pending"
-                            className="p-1.5 text-emerald-600 hover:text-amber-600 hover:bg-amber-50 rounded-lg transition-colors"
+                            title="Mark as pending"
+                            className="p-1.5 text-emerald-700 hover:text-amber-700 hover:bg-amber-50 rounded-md transition-colors"
                           >
-                            <CheckCircle size={16} />
+                            <RotateCcw size={15} />
                           </button>
                         )}
 
@@ -330,10 +316,10 @@ export const PulseDashboard: React.FC = () => {
                               deleteInvoice(inv.id);
                             }
                           }}
-                          title="Delete Invoice"
-                          className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                          title="Delete invoice"
+                          className="p-1.5 text-[#A3A3A3] hover:text-red-600 hover:bg-red-50 rounded-md transition-colors"
                         >
-                          <Trash2 size={16} />
+                          <Trash2 size={15} />
                         </button>
                       </div>
                     </td>

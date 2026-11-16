@@ -3,18 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import {
   Plus,
   Trash2,
-  Cpu,
-  Layers,
+  Package,
   ArrowRight,
-  Shield,
   Save,
-  Eye,
-  Check,
-  ChevronDown,
-  Sparkles,
   Phone,
   Mail,
-  User as UserIcon,
   MapPin,
   X,
 } from 'lucide-react';
@@ -64,7 +57,7 @@ export const PulseInvoiceBuilder: React.FC = () => {
   const [paymentTerms, setPaymentTerms] = useState(settings.defaultPaymentTerms);
   const [notes, setNotes] = useState(settings.defaultNotes);
 
-  // Hardware Picker Modal
+  // Catalog Picker Modal
   const [catalogModalOpen, setCatalogModalOpen] = useState(false);
 
   // Auto-fill from existing contacts
@@ -139,11 +132,11 @@ export const PulseInvoiceBuilder: React.FC = () => {
 
   const handleSave = (status: 'issued' | 'draft' = 'issued') => {
     if (!customerName.trim()) {
-      alert('Please enter a Customer or Business Name.');
+      alert('Please enter a customer name.');
       return;
     }
     if (!customerPhone.trim()) {
-      alert('Please enter a Customer Phone Number (Required).');
+      alert('Please enter a customer phone number.');
       return;
     }
 
@@ -174,7 +167,7 @@ export const PulseInvoiceBuilder: React.FC = () => {
     navigate(`/inv/${newInvoice.id}`);
   };
 
-  const formatCurrencySymbol = (amt: number) => {
+  const formatCurrency = (amt: number) => {
     return new Intl.NumberFormat('en-NG', {
       style: 'currency',
       currency: currency,
@@ -183,161 +176,151 @@ export const PulseInvoiceBuilder: React.FC = () => {
   };
 
   return (
-    <div className="space-y-8 max-w-5xl mx-auto pb-16">
+    <div className="space-y-6 max-w-5xl mx-auto pb-16">
       {/* Top Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-200">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#ECECEB]">
         <div>
-          <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-amber-600 font-semibold mb-1">
-            <span>Solikos Pulse</span>
-            <span>&bull;</span>
-            <span>Commercial Builder</span>
-          </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-            Create Commercial Invoice
-          </h1>
+          <h1 className="text-2xl font-semibold tracking-tight text-[#111111]">New invoice</h1>
+          <p className="text-xs text-[#737373] mt-1">Create and issue an invoice for your client.</p>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
           <button
             type="button"
             onClick={() => handleSave('draft')}
-            className="px-4 py-2.5 rounded-xl border border-slate-200 text-slate-700 bg-white hover:bg-slate-50 text-xs sm:text-sm font-semibold transition-colors flex items-center gap-1.5"
+            className="px-3.5 py-2 rounded-lg border border-[#ECECEB] text-[#111111] bg-white hover:bg-[#F4F4F3] text-xs font-medium transition-colors flex items-center gap-1.5"
           >
-            <Save size={15} />
-            <span>Save Draft</span>
+            <Save size={14} />
+            <span>Save draft</span>
           </button>
           <button
             type="button"
             onClick={() => handleSave('issued')}
-            className="px-5 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-white text-xs sm:text-sm font-semibold transition-all shadow-sm flex items-center gap-2"
+            className="px-4 py-2 rounded-lg bg-[#111111] hover:bg-[#222222] text-white text-xs font-medium transition-colors shadow-xs flex items-center gap-1.5"
           >
-            <span>Issue &amp; View Digital Invoice</span>
-            <ArrowRight size={15} />
+            <span>Issue invoice</span>
+            <ArrowRight size={14} />
           </button>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left 2 Cols: Form */}
-        <div className="lg:col-span-2 space-y-8">
+        <div className="lg:col-span-2 space-y-6">
           {/* 1. Client Card */}
-          <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-4">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-              <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wider flex items-center gap-2">
-                <UserIcon size={16} className="text-amber-600" />
-                <span>1. Customer Details</span>
+          <div className="bg-white p-5 rounded-xl border border-[#ECECEB] space-y-4">
+            <div className="flex items-center justify-between border-b border-[#F4F4F3] pb-3">
+              <h2 className="text-xs font-medium text-[#111111] uppercase tracking-wider">
+                Client details
               </h2>
-              <span className="text-[11px] text-slate-400 font-medium">
-                Phone &amp; Name Required
-              </span>
+              <span className="text-[11px] text-[#A3A3A3]">Name &amp; phone required</span>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">
-                  Customer / Business Name <span className="text-red-500">*</span>
+                <label className="block text-xs font-medium text-[#444444] mb-1">
+                  Client name <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="text"
                   placeholder="e.g. Dangote Agro Hub LTD"
                   value={customerName}
                   onChange={(e) => setCustomerName(e.target.value)}
-                  className="w-full px-3.5 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-600"
+                  className="w-full px-3 py-1.5 text-xs sm:text-sm bg-[#FBFBFA] border border-[#ECECEB] rounded-lg focus:bg-white focus:outline-none focus:border-[#111111] text-[#111111]"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">
-                  Phone Number (WhatsApp Ready) <span className="text-red-500">*</span>
+                <label className="block text-xs font-medium text-[#444444] mb-1">
+                  Phone number <span className="text-red-500">*</span>
                 </label>
                 <div className="relative">
-                  <Phone size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+                  <Phone size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#A3A3A3]" />
                   <input
                     type="tel"
                     placeholder="e.g. +234 803 344 0084"
                     value={customerPhone}
                     onChange={(e) => setCustomerPhone(e.target.value)}
                     onBlur={handlePhoneBlur}
-                    className="w-full pl-10 pr-3.5 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-600 font-mono"
+                    className="w-full pl-9 pr-3 py-1.5 text-xs sm:text-sm bg-[#FBFBFA] border border-[#ECECEB] rounded-lg focus:bg-white focus:outline-none focus:border-[#111111] text-[#111111] font-mono"
                     required
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">
-                  Email Address <span className="text-slate-400 font-normal">(Optional)</span>
+                <label className="block text-xs font-medium text-[#444444] mb-1">
+                  Email <span className="text-[#A3A3A3] font-normal">(optional)</span>
                 </label>
                 <div className="relative">
-                  <Mail size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+                  <Mail size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#A3A3A3]" />
                   <input
                     type="email"
-                    placeholder="procurement@company.com"
+                    placeholder="client@company.com"
                     value={customerEmail}
                     onChange={(e) => setCustomerEmail(e.target.value)}
-                    className="w-full pl-10 pr-3.5 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-600"
+                    className="w-full pl-9 pr-3 py-1.5 text-xs sm:text-sm bg-[#FBFBFA] border border-[#ECECEB] rounded-lg focus:bg-white focus:outline-none focus:border-[#111111] text-[#111111]"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">
-                  Project Site Address <span className="text-slate-400 font-normal">(Optional)</span>
+                <label className="block text-xs font-medium text-[#444444] mb-1">
+                  Address <span className="text-[#A3A3A3] font-normal">(optional)</span>
                 </label>
                 <div className="relative">
-                  <MapPin size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+                  <MapPin size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#A3A3A3]" />
                   <input
                     type="text"
                     placeholder="Victoria Island, Lagos"
                     value={customerAddress}
                     onChange={(e) => setCustomerAddress(e.target.value)}
-                    className="w-full pl-10 pr-3.5 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-600"
+                    className="w-full pl-9 pr-3 py-1.5 text-xs sm:text-sm bg-[#FBFBFA] border border-[#ECECEB] rounded-lg focus:bg-white focus:outline-none focus:border-[#111111] text-[#111111]"
                   />
                 </div>
               </div>
             </div>
           </div>
 
-          {/* 2. Line Items Builder */}
-          <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-4">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-              <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wider flex items-center gap-2">
-                <Layers size={16} className="text-amber-600" />
-                <span>2. Hardware &amp; Line Items</span>
+          {/* 2. Line Items */}
+          <div className="bg-white p-5 rounded-xl border border-[#ECECEB] space-y-4">
+            <div className="flex items-center justify-between border-b border-[#F4F4F3] pb-3">
+              <h2 className="text-xs font-medium text-[#111111] uppercase tracking-wider">
+                Items
               </h2>
 
               <div className="flex items-center gap-2">
                 <button
                   type="button"
                   onClick={() => setCatalogModalOpen(true)}
-                  className="bg-amber-50 hover:bg-amber-100 text-amber-800 text-xs font-semibold px-3 py-1.5 rounded-lg border border-amber-200 flex items-center gap-1.5 transition-colors"
+                  className="bg-[#F4F4F3] hover:bg-[#EAEAEA] text-[#111111] text-xs font-medium px-2.5 py-1.5 rounded-lg flex items-center gap-1.5 transition-colors"
                 >
-                  <Cpu size={14} className="text-amber-600" />
-                  <span>Catalog Picker (9 Hardware Models)</span>
+                  <Package size={13} />
+                  <span>Add from catalog</span>
                 </button>
                 <button
                   type="button"
                   onClick={() => handleAddItem()}
-                  className="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1"
+                  className="bg-[#F4F4F3] hover:bg-[#EAEAEA] text-[#111111] text-xs font-medium px-2.5 py-1.5 rounded-lg transition-colors flex items-center gap-1"
                 >
-                  <Plus size={14} />
-                  <span>Custom Item</span>
+                  <Plus size={13} />
+                  <span>Custom item</span>
                 </button>
               </div>
             </div>
 
             {/* Line Items List */}
-            <div className="space-y-4">
-              {items.map((item, idx) => (
+            <div className="space-y-3">
+              {items.map((item) => (
                 <div
                   key={item.id}
-                  className="p-4 rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-slate-50 transition-colors space-y-3"
+                  className="p-3.5 rounded-lg border border-[#ECECEB] bg-[#FAFAFA] space-y-2.5"
                 >
-                  <div className="flex items-start gap-4">
+                  <div className="flex items-start gap-3">
                     {/* Item Thumbnail */}
                     {item.image && (
-                      <div className="w-14 h-14 bg-white rounded-lg border border-slate-200 p-1 shrink-0 flex items-center justify-center">
+                      <div className="w-12 h-12 bg-white rounded-md border border-[#ECECEB] p-1 shrink-0 flex items-center justify-center">
                         <img src={item.image} alt={item.title} className="w-full h-full object-contain" />
                       </div>
                     )}
@@ -346,14 +329,14 @@ export const PulseInvoiceBuilder: React.FC = () => {
                       <div className="flex items-center justify-between gap-2">
                         <input
                           type="text"
-                          placeholder="Item Name / Model"
+                          placeholder="Item name / model"
                           value={item.title}
                           onChange={(e) => updateItem(item.id, 'title', e.target.value)}
-                          className="font-bold text-sm text-slate-900 bg-transparent border-b border-transparent hover:border-slate-300 focus:border-amber-600 focus:outline-none w-full"
+                          className="font-medium text-xs sm:text-sm text-[#111111] bg-transparent border-b border-transparent hover:border-[#CCCCCC] focus:border-[#111111] focus:outline-none w-full"
                         />
 
                         {item.warranty && (
-                          <span className="bg-amber-100 text-amber-900 text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0">
+                          <span className="text-[11px] text-[#737373] bg-[#EEEEED] px-2 py-0.5 rounded shrink-0">
                             {item.warranty}
                           </span>
                         )}
@@ -361,24 +344,24 @@ export const PulseInvoiceBuilder: React.FC = () => {
                         <button
                           type="button"
                           onClick={() => removeItem(item.id)}
-                          className="text-slate-400 hover:text-red-600 p-1 transition-colors"
+                          className="text-[#A3A3A3] hover:text-red-600 p-1 transition-colors"
                           title="Remove item"
                         >
-                          <Trash2 size={16} />
+                          <Trash2 size={14} />
                         </button>
                       </div>
 
                       <input
                         type="text"
-                        placeholder="Description &amp; Specifications"
+                        placeholder="Description &amp; specifications"
                         value={item.specs || item.description}
                         onChange={(e) => updateItem(item.id, 'specs', e.target.value)}
-                        className="text-xs text-slate-600 bg-transparent border-b border-transparent hover:border-slate-300 focus:border-amber-600 focus:outline-none w-full"
+                        className="text-xs text-[#737373] bg-transparent border-b border-transparent hover:border-[#CCCCCC] focus:border-[#111111] focus:outline-none w-full"
                       />
 
-                      <div className="grid grid-cols-3 gap-3 pt-2">
+                      <div className="grid grid-cols-3 gap-3 pt-1">
                         <div>
-                          <label className="text-[10px] font-mono uppercase text-slate-500 block mb-0.5">
+                          <label className="text-[10px] text-[#737373] block mb-0.5">
                             Quantity
                           </label>
                           <input
@@ -386,12 +369,12 @@ export const PulseInvoiceBuilder: React.FC = () => {
                             min="1"
                             value={item.quantity}
                             onChange={(e) => updateItem(item.id, 'quantity', e.target.value)}
-                            className="w-full px-2.5 py-1.5 text-xs font-mono font-semibold bg-white border border-slate-200 rounded-lg"
+                            className="w-full px-2 py-1 text-xs font-mono font-medium bg-white border border-[#ECECEB] rounded-md"
                           />
                         </div>
 
                         <div>
-                          <label className="text-[10px] font-mono uppercase text-slate-500 block mb-0.5">
+                          <label className="text-[10px] text-[#737373] block mb-0.5">
                             Unit Price ({currency})
                           </label>
                           <input
@@ -399,16 +382,16 @@ export const PulseInvoiceBuilder: React.FC = () => {
                             min="0"
                             value={item.unitPrice}
                             onChange={(e) => updateItem(item.id, 'unitPrice', e.target.value)}
-                            className="w-full px-2.5 py-1.5 text-xs font-mono font-semibold bg-white border border-slate-200 rounded-lg"
+                            className="w-full px-2 py-1 text-xs font-mono font-medium bg-white border border-[#ECECEB] rounded-md"
                           />
                         </div>
 
                         <div>
-                          <label className="text-[10px] font-mono uppercase text-slate-500 block mb-0.5">
-                            Line Total
+                          <label className="text-[10px] text-[#737373] block mb-0.5">
+                            Total
                           </label>
-                          <div className="w-full px-2.5 py-1.5 text-xs font-mono font-bold text-slate-900 bg-slate-100 rounded-lg">
-                            {formatCurrencySymbol(item.total)}
+                          <div className="w-full px-2 py-1 text-xs font-mono font-medium text-[#111111] bg-[#EEEEED] rounded-md">
+                            {formatCurrency(item.total)}
                           </div>
                         </div>
                       </div>
@@ -419,95 +402,95 @@ export const PulseInvoiceBuilder: React.FC = () => {
             </div>
           </div>
 
-          {/* 3. Commercial Terms & Notes */}
-          <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-4">
-            <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wider border-b border-slate-100 pb-3">
-              3. Commercial Milestone Terms &amp; Policies
+          {/* 3. Payment Terms & Notes */}
+          <div className="bg-white p-5 rounded-xl border border-[#ECECEB] space-y-4">
+            <h2 className="text-xs font-medium text-[#111111] uppercase tracking-wider border-b border-[#F4F4F3] pb-3">
+              Payment terms &amp; notes
             </h2>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">
-                Payment Milestones
+              <label className="block text-xs font-medium text-[#444444] mb-1">
+                Payment terms
               </label>
               <textarea
                 rows={2}
                 value={paymentTerms}
                 onChange={(e) => setPaymentTerms(e.target.value)}
-                className="w-full p-3 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-amber-500/20 text-slate-800"
+                className="w-full p-2.5 text-xs bg-[#FBFBFA] border border-[#ECECEB] rounded-lg focus:bg-white focus:outline-none focus:border-[#111111] text-[#111111]"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">
-                Warranty &amp; Delivery Terms
+              <label className="block text-xs font-medium text-[#444444] mb-1">
+                Warranty &amp; notes
               </label>
               <textarea
                 rows={2}
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
-                className="w-full p-3 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-amber-500/20 text-slate-800"
+                className="w-full p-2.5 text-xs bg-[#FBFBFA] border border-[#ECECEB] rounded-lg focus:bg-white focus:outline-none focus:border-[#111111] text-[#111111]"
               />
             </div>
           </div>
         </div>
 
-        {/* Right Col: Meta & Totals */}
-        <div className="space-y-6">
-          {/* Metadata Card */}
-          <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-4">
-            <h2 className="text-xs font-bold text-slate-900 uppercase tracking-wider border-b border-slate-100 pb-2">
-              Invoice Settings
+        {/* Right Col: Details & Totals */}
+        <div className="space-y-5">
+          {/* Details Card */}
+          <div className="bg-white p-5 rounded-xl border border-[#ECECEB] space-y-3.5">
+            <h2 className="text-xs font-medium text-[#111111] uppercase tracking-wider border-b border-[#F4F4F3] pb-2">
+              Invoice details
             </h2>
 
             <div>
-              <label className="block text-[11px] font-semibold text-slate-600 mb-1">
-                Invoice Number
+              <label className="block text-[11px] font-medium text-[#737373] mb-1">
+                Invoice number
               </label>
               <input
                 type="text"
                 value={invoiceNumber}
                 onChange={(e) => setInvoiceNumber(e.target.value)}
-                className="w-full px-3 py-1.5 text-xs font-mono font-bold bg-slate-50 border border-slate-200 rounded-lg text-slate-900"
+                className="w-full px-2.5 py-1.5 text-xs font-mono font-medium bg-[#FBFBFA] border border-[#ECECEB] rounded-md text-[#111111]"
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-2 gap-2.5">
               <div>
-                <label className="block text-[11px] font-semibold text-slate-600 mb-1">
-                  Issue Date
+                <label className="block text-[11px] font-medium text-[#737373] mb-1">
+                  Issue date
                 </label>
                 <input
                   type="date"
                   value={issueDate}
                   onChange={(e) => setIssueDate(e.target.value)}
-                  className="w-full px-2.5 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-lg text-slate-800"
+                  className="w-full px-2 py-1.5 text-xs bg-[#FBFBFA] border border-[#ECECEB] rounded-md text-[#111111]"
                 />
               </div>
               <div>
-                <label className="block text-[11px] font-semibold text-slate-600 mb-1">
-                  Due Date
+                <label className="block text-[11px] font-medium text-[#737373] mb-1">
+                  Due date
                 </label>
                 <input
                   type="date"
                   value={dueDate}
                   onChange={(e) => setDueDate(e.target.value)}
-                  className="w-full px-2.5 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-lg text-slate-800"
+                  className="w-full px-2 py-1.5 text-xs bg-[#FBFBFA] border border-[#ECECEB] rounded-md text-[#111111]"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-[11px] font-semibold text-slate-600 mb-1">
-                Billing Currency
+              <label className="block text-[11px] font-medium text-[#737373] mb-1">
+                Currency
               </label>
               <div className="grid grid-cols-2 gap-2">
                 <button
                   type="button"
                   onClick={() => setCurrency('NGN')}
-                  className={`py-1.5 text-xs font-bold rounded-lg border transition-all ${
+                  className={`py-1.5 text-xs font-medium rounded-md border transition-colors ${
                     currency === 'NGN'
-                      ? 'bg-amber-600 text-white border-amber-600 shadow-xs'
-                      : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
+                      ? 'bg-[#111111] text-white border-[#111111]'
+                      : 'bg-[#FBFBFA] text-[#737373] border-[#ECECEB] hover:text-[#111111]'
                   }`}
                 >
                   NGN (₦)
@@ -515,10 +498,10 @@ export const PulseInvoiceBuilder: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setCurrency('USD')}
-                  className={`py-1.5 text-xs font-bold rounded-lg border transition-all ${
+                  className={`py-1.5 text-xs font-medium rounded-md border transition-colors ${
                     currency === 'USD'
-                      ? 'bg-amber-600 text-white border-amber-600 shadow-xs'
-                      : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
+                      ? 'bg-[#111111] text-white border-[#111111]'
+                      : 'bg-[#FBFBFA] text-[#737373] border-[#ECECEB] hover:text-[#111111]'
                   }`}
                 >
                   USD ($)
@@ -527,20 +510,20 @@ export const PulseInvoiceBuilder: React.FC = () => {
             </div>
           </div>
 
-          {/* Summary / Calculations Card */}
-          <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-4">
-            <h2 className="text-xs font-bold text-slate-900 uppercase tracking-wider border-b border-slate-100 pb-2">
-              Financial Summary
+          {/* Summary Card */}
+          <div className="bg-white p-5 rounded-xl border border-[#ECECEB] space-y-3.5">
+            <h2 className="text-xs font-medium text-[#111111] uppercase tracking-wider border-b border-[#F4F4F3] pb-2">
+              Summary
             </h2>
 
-            <div className="space-y-2.5 text-xs">
-              <div className="flex justify-between text-slate-600">
+            <div className="space-y-2 text-xs">
+              <div className="flex justify-between text-[#737373]">
                 <span>Subtotal</span>
-                <span className="font-mono font-semibold">{formatCurrencySymbol(subtotal)}</span>
+                <span className="font-mono font-medium text-[#111111]">{formatCurrency(subtotal)}</span>
               </div>
 
               {/* Discount */}
-              <div className="flex items-center justify-between text-slate-600 gap-2">
+              <div className="flex items-center justify-between text-[#737373] gap-2">
                 <span>Discount (%)</span>
                 <input
                   type="number"
@@ -548,41 +531,41 @@ export const PulseInvoiceBuilder: React.FC = () => {
                   max="100"
                   value={discountRate}
                   onChange={(e) => setDiscountRate(Number(e.target.value) || 0)}
-                  className="w-16 px-2 py-0.5 text-right font-mono text-xs border border-slate-200 rounded bg-slate-50"
+                  className="w-14 px-1.5 py-0.5 text-right font-mono text-xs border border-[#ECECEB] rounded bg-[#FBFBFA]"
                 />
               </div>
 
               {discountAmount > 0 && (
-                <div className="flex justify-between text-emerald-600">
-                  <span>Discount Applied</span>
-                  <span className="font-mono font-semibold">-{formatCurrencySymbol(discountAmount)}</span>
+                <div className="flex justify-between text-emerald-700">
+                  <span>Discount</span>
+                  <span className="font-mono font-medium">-{formatCurrency(discountAmount)}</span>
                 </div>
               )}
 
               {/* Tax/VAT */}
-              <div className="flex items-center justify-between text-slate-600 gap-2">
-                <span>VAT / Tax (%)</span>
+              <div className="flex items-center justify-between text-[#737373] gap-2">
+                <span>VAT</span>
                 <select
                   value={taxRate}
                   onChange={(e) => setTaxRate(Number(e.target.value))}
-                  className="text-xs border border-slate-200 rounded px-1.5 py-0.5 bg-slate-50"
+                  className="text-xs border border-[#ECECEB] rounded px-1.5 py-0.5 bg-[#FBFBFA]"
                 >
-                  <option value={0}>0% (Clean Energy Exemption)</option>
-                  <option value={7.5}>7.5% (Standard VAT)</option>
+                  <option value={0}>0%</option>
+                  <option value={7.5}>7.5%</option>
                 </select>
               </div>
 
               {taxAmount > 0 && (
-                <div className="flex justify-between text-slate-600">
+                <div className="flex justify-between text-[#737373]">
                   <span>VAT ({taxRate}%)</span>
-                  <span className="font-mono font-semibold">+{formatCurrencySymbol(taxAmount)}</span>
+                  <span className="font-mono font-medium text-[#111111]">+{formatCurrency(taxAmount)}</span>
                 </div>
               )}
 
-              <div className="pt-3 border-t border-slate-200 flex justify-between items-baseline text-slate-900">
-                <span className="font-bold text-sm">Grand Total</span>
-                <span className="font-mono font-extrabold text-lg text-amber-700">
-                  {formatCurrencySymbol(grandTotal)}
+              <div className="pt-2.5 border-t border-[#ECECEB] flex justify-between items-baseline text-[#111111]">
+                <span className="font-medium text-xs">Total</span>
+                <span className="font-mono font-semibold text-lg">
+                  {formatCurrency(grandTotal)}
                 </span>
               </div>
             </div>
@@ -590,10 +573,10 @@ export const PulseInvoiceBuilder: React.FC = () => {
             <button
               type="button"
               onClick={() => handleSave('issued')}
-              className="w-full bg-slate-900 hover:bg-slate-800 text-white font-semibold py-3 px-4 rounded-xl text-xs sm:text-sm transition-all shadow-md flex items-center justify-center gap-2 mt-4"
+              className="w-full bg-[#111111] hover:bg-[#222222] text-white font-medium py-2.5 px-3 rounded-lg text-xs transition-colors flex items-center justify-center gap-1.5 mt-3 shadow-xs"
             >
-              <span>Issue &amp; Generate Digital Invoice</span>
-              <ArrowRight size={15} />
+              <span>Issue invoice</span>
+              <ArrowRight size={14} />
             </button>
           </div>
         </div>
@@ -601,49 +584,46 @@ export const PulseInvoiceBuilder: React.FC = () => {
 
       {/* Catalog Selector Modal */}
       {catalogModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-xs">
-          <div className="bg-white rounded-2xl border border-slate-200 max-w-2xl w-full max-h-[85vh] flex flex-col shadow-2xl">
-            <div className="p-4 border-b border-slate-100 flex items-center justify-between">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/30 backdrop-blur-xs">
+          <div className="bg-white rounded-xl border border-[#ECECEB] max-w-xl w-full max-h-[80vh] flex flex-col shadow-xl">
+            <div className="p-4 border-b border-[#ECECEB] flex items-center justify-between">
               <div>
-                <h3 className="font-bold text-sm text-slate-900">Solikos Hardware Catalog</h3>
-                <p className="text-xs text-slate-500">Pick any verified hardware item from the invoice catalog.</p>
+                <h3 className="font-semibold text-sm text-[#111111]">Hardware catalog</h3>
+                <p className="text-xs text-[#737373]">Select a product to add to the invoice.</p>
               </div>
               <button
                 type="button"
                 onClick={() => setCatalogModalOpen(false)}
-                className="p-1.5 text-slate-400 hover:text-slate-700 rounded-lg"
+                className="p-1 text-[#A3A3A3] hover:text-[#111111] rounded-md"
               >
-                <X size={18} />
+                <X size={16} />
               </button>
             </div>
 
-            <div className="p-4 overflow-y-auto space-y-2 flex-1 divide-y divide-slate-100">
+            <div className="p-3 overflow-y-auto space-y-1.5 flex-1 divide-y divide-[#F4F4F3]">
               {productsData.map((prod) => (
                 <div
                   key={prod.id}
                   onClick={() => handleAddItem(prod)}
-                  className="pt-3 first:pt-0 flex items-center justify-between gap-4 p-2 rounded-xl hover:bg-slate-50 cursor-pointer transition-colors"
+                  className="pt-2 first:pt-0 flex items-center justify-between gap-3 p-2 rounded-lg hover:bg-[#FBFBFA] cursor-pointer transition-colors"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 bg-white rounded-lg border border-slate-200 p-1 shrink-0 flex items-center justify-center">
+                    <div className="w-10 h-10 bg-white rounded-md border border-[#ECECEB] p-1 shrink-0 flex items-center justify-center">
                       <img src={prod.image} alt={prod.name} className="w-full h-full object-contain" />
                     </div>
                     <div>
-                      <h4 className="text-xs font-bold text-slate-900">{prod.name}</h4>
-                      <p className="text-[11px] text-slate-500">{prod.highlight}</p>
+                      <h4 className="text-xs font-medium text-[#111111]">{prod.name}</h4>
+                      <p className="text-[11px] text-[#737373]">{prod.highlight}</p>
                     </div>
                   </div>
 
                   <div className="flex items-center gap-2 shrink-0">
-                    <span className="text-[10px] font-bold bg-amber-50 text-amber-800 border border-amber-200 px-2 py-0.5 rounded-full">
+                    <span className="text-[10px] text-[#737373] bg-[#EEEEED] px-2 py-0.5 rounded">
                       {prod.warranty}
                     </span>
-                    <button
-                      type="button"
-                      className="bg-slate-900 text-white text-[11px] font-semibold px-3 py-1 rounded-lg"
-                    >
+                    <span className="text-xs font-medium text-[#111111] hover:underline">
                       Add
-                    </button>
+                    </span>
                   </div>
                 </div>
               ))}
