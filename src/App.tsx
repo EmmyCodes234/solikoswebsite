@@ -39,6 +39,7 @@ export const App: React.FC = () => {
             <Route index element={<Home />} />
             <Route path="introduction" element={<Introduction />} />
             <Route path="solutions" element={<Solutions />} />
+            <Route path="products" element={<Solutions />} />
             <Route path="why-solikos" element={<WhySolikos />} />
             <Route path="impact" element={<Impact />} />
             <Route path="partnership" element={<Partnership />} />

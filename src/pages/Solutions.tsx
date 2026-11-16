@@ -1,308 +1,284 @@
-import React, { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { Plus } from 'lucide-react';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
+import { 
+  Zap, 
+  ShieldCheck, 
+  Layers, 
+  ArrowUpRight, 
+  X, 
+  SlidersHorizontal,
+  CheckCircle2,
+  Cpu
+} from 'lucide-react';
 import PageHeader from '../components/PageHeader';
 import BottomNavSection from '../components/BottomNavSection';
-
-export interface SolutionItem {
-  id: string;
-  title: string;
-  headline: string;
-  desc: string;
-  img: string;
-}
-
-export const solutionsData: SolutionItem[] = [
-  {
-    id: 'Generation & Distribution',
-    title: 'Interconnected Mini-Grids',
-    headline: 'Universal access at scale.',
-    desc: 'We deploy utility-scale interconnected mini-grids within DisCo footprints. By retrofitting existing networks with solar-hybrid power, we deliver 24/7 reliability for productive use in urban and peri-urban hubs.',
-    img: '/assets/solar-2-new.png',
-  },
-  {
-    id: 'Advisory & Compliance',
-    title: 'Regulatory Liaison',
-    headline: 'Navigating the power landscape.',
-    desc: 'Large-scale energy deployment requires project bankability. From grid compliance to financial project structuring, our experts guide your energy investments from blueprint to operational commissioning.',
-    img: '/assets/solar-3-new.png',
-  },
-  {
-    id: 'Installation & Management',
-    title: 'Asset Lifecycle Management',
-    headline: 'Predictable performance.',
-    desc: 'We treat solar infrastructure as high-yield energy assets. Our end-to-end management covers everything from EPC to long-term O&M, ensuring your systems are precision-engineered for the West African and continental climates and optimized for ROI.',
-    img: '/assets/solar-1-new.png',
-  },
-];
-
-const FlowCard: React.FC<{ children: React.ReactNode; className?: string; rx?: number }> = ({
-  children,
-  className = '',
-  rx = 40,
-}) => {
-  return (
-    <div className={`relative group ${className}`}>
-      <div className="absolute inset-0 pointer-events-none z-50">
-        <svg className="absolute inset-0 w-full h-full" width="100%" height="100%">
-          <rect
-            x="0"
-            y="0"
-            width="100%"
-            height="100%"
-            rx={rx}
-            ry={rx}
-            fill="none"
-            stroke="rgba(255,255,255,0.05)"
-            strokeWidth="1"
-          />
-          <rect
-            x="0"
-            y="0"
-            width="100%"
-            height="100%"
-            rx={rx}
-            ry={rx}
-            fill="none"
-            stroke="#F4F4F4"
-            strokeWidth="2"
-            strokeDasharray="150 2000"
-            className="opacity-0 group-hover:opacity-100 transition-opacity duration-700"
-            style={{ animation: 'energyFlow 3s linear infinite' }}
-          />
-        </svg>
-      </div>
-      {children}
-    </div>
-  );
-};
-
-export const StackingSolutions: React.FC = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ['start start', 'end start'],
-  });
-
-  const titleOpacity = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
-  const contentOpacity = useTransform(scrollYProgress, [0.3, 0.5], [0, 1]);
-
-  return (
-    <div className="relative bg-black pb-32">
-      {/* Card 0 */}
-      <div ref={containerRef} className="h-[100dvh] relative z-10">
-        <div className="h-full w-full overflow-hidden flex items-center justify-center">
-          <motion.div
-            className="absolute inset-0 flex items-center justify-center whitespace-nowrap pointer-events-none"
-            style={{ opacity: titleOpacity }}
-          >
-            <h1 className="text-[22vw] md:text-[18vw] font-bold text-[#F4F4F4] leading-[0.75] tracking-tighter">
-              Solikos
-            </h1>
-          </motion.div>
-
-          <div className="absolute inset-0 w-full h-full">
-            <img
-              src={solutionsData[0].img}
-              className="absolute inset-0 w-full h-full object-cover"
-              alt={solutionsData[0].title}
-            />
-            <div className="absolute inset-0 bg-black/40" />
-            <motion.div
-              style={{ opacity: contentOpacity }}
-              className="absolute inset-0 p-6 md:p-12 flex flex-col justify-between text-[#F4F4F4]"
-            >
-              <div className="flex justify-between items-start w-full mt-24 md:mt-32">
-                <div>
-                  <h2 className="text-5xl md:text-8xl lg:text-[9vw] font-medium tracking-tighter leading-none max-w-5xl">
-                    {solutionsData[0].title}
-                  </h2>
-                  <p className="text-2xl md:text-4xl font-light mt-4 text-[#EAEAEA]">
-                    {solutionsData[0].headline}
-                  </p>
-                </div>
-                <span className="text-xl md:text-2xl font-medium mt-4 hidden md:block">
-                  (Scroll)
-                </span>
-              </div>
-
-              <div className="flex items-center gap-4 md:gap-6 max-w-md mb-24 md:mb-8">
-                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-white/30 flex items-center justify-center backdrop-blur-sm shrink-0">
-                  <Plus size={20} />
-                </div>
-                <p className="text-sm md:text-base font-medium leading-tight">
-                  {solutionsData[0].desc}
-                </p>
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </div>
-
-      {/* Card 1 */}
-      <div className="sticky top-0 h-[100dvh] w-full pt-8 md:pt-12 z-20">
-        <FlowCard rx={40} className="w-full h-full">
-          <div className="w-full h-full relative rounded-t-[40px] overflow-hidden shadow-[0_-20px_50px_rgba(0,0,0,0.6)] bg-black">
-            <img
-              src={solutionsData[1].img}
-              className="absolute inset-0 w-full h-full object-cover"
-              alt={solutionsData[1].title}
-            />
-            <div className="absolute inset-0 bg-black/40" />
-            <div className="absolute inset-0 p-6 md:p-12 flex flex-col justify-between text-[#F4F4F4]">
-              <div className="flex justify-between items-start w-full mt-16 md:mt-20">
-                <div>
-                  <h2 className="text-5xl md:text-8xl lg:text-[9vw] font-medium tracking-tighter leading-none max-w-5xl">
-                    {solutionsData[1].title}
-                  </h2>
-                  <p className="text-2xl md:text-4xl font-light mt-4 text-[#EAEAEA]">
-                    {solutionsData[1].headline}
-                  </p>
-                </div>
-                <span className="text-xl md:text-2xl font-medium mt-4 hidden md:block">
-                  (Scroll)
-                </span>
-              </div>
-
-              <div className="flex items-center gap-4 md:gap-6 max-w-md mb-24 md:mb-8">
-                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-white/30 flex items-center justify-center backdrop-blur-sm shrink-0">
-                  <Plus size={20} />
-                </div>
-                <p className="text-sm md:text-base font-medium leading-tight">
-                  {solutionsData[1].desc}
-                </p>
-              </div>
-            </div>
-          </div>
-        </FlowCard>
-      </div>
-
-      {/* Card 2 */}
-      <div className="sticky top-0 h-[100dvh] w-full pt-16 md:pt-24 z-30">
-        <FlowCard rx={40} className="w-full h-full">
-          <div className="w-full h-full relative rounded-t-[40px] overflow-hidden shadow-[0_-20px_50px_rgba(0,0,0,0.6)] bg-black">
-            <img
-              src={solutionsData[2].img}
-              className="absolute inset-0 w-full h-full object-cover"
-              alt={solutionsData[2].title}
-            />
-            <div className="absolute inset-0 bg-black/40" />
-            <div className="absolute inset-0 p-6 md:p-12 flex flex-col justify-between text-[#F4F4F4]">
-              <div className="flex justify-between items-start w-full mt-16 md:mt-20">
-                <div>
-                  <h2 className="text-5xl md:text-8xl lg:text-[9vw] font-medium tracking-tighter leading-none max-w-5xl">
-                    {solutionsData[2].title}
-                  </h2>
-                  <p className="text-2xl md:text-4xl font-light mt-4 text-[#EAEAEA]">
-                    {solutionsData[2].headline}
-                  </p>
-                </div>
-                <span className="text-xl md:text-2xl font-medium mt-4 hidden md:block">
-                  (Scroll)
-                </span>
-              </div>
-
-              <div className="flex items-center gap-4 md:gap-6 max-w-md mb-24 md:mb-8">
-                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-white/30 flex items-center justify-center backdrop-blur-sm shrink-0">
-                  <Plus size={20} />
-                </div>
-                <p className="text-sm md:text-base font-medium leading-tight">
-                  {solutionsData[2].desc}
-                </p>
-              </div>
-            </div>
-          </div>
-        </FlowCard>
-      </div>
-    </div>
-  );
-};
+import { productsData, productCategories, Product } from '../data/products';
 
 export const Solutions: React.FC = () => {
+  const [activeCategory, setActiveCategory] = useState<string>('all');
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+
+  const filteredProducts = activeCategory === 'all'
+    ? productsData
+    : productsData.filter((p) => p.category === activeCategory);
+
   return (
-    <main className="bg-black min-h-screen">
+    <main className="bg-black min-h-screen text-[#F4F4F4]">
+      {/* 1. Header */}
       <PageHeader
-        title="Industrial Stability."
-        subtitle="Distributed Energy Assets"
+        title="Hardware Systems."
+        subtitle="Energy Storage & Hybrid Inverters"
         image="/assets/solar-1-new.png"
       />
 
-      {/* 1. Intro Section */}
-      <section className="py-24 md:py-32 px-6 md:px-8 border-b border-white/5">
-        <div className="container mx-auto">
-          <div className="max-w-4xl">
-            <h2 className="text-4xl md:text-5xl font-medium tracking-tighter mb-8 italic text-[#F4F4F4]">
-              Asset Management as a Service.
+      {/* 2. Catalog Section */}
+      <section className="py-20 md:py-28 px-6 md:px-12 max-w-[1800px] mx-auto">
+        {/* Section Intro & Filter Controls */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16 pb-8 border-b border-white/10">
+          <div>
+            <div className="flex items-center gap-2 mb-3 text-xs font-mono uppercase tracking-[0.25em] text-[#B5B0A1]">
+              <Cpu size={14} />
+              <span>Certified Technical Catalog</span>
+            </div>
+            <h2 className="text-3xl md:text-5xl font-medium tracking-tight text-[#F4F4F4]">
+              Deployed Hardware &amp; Storage
             </h2>
-            <p className="text-xl md:text-2xl text-[#A3A3A3] leading-relaxed mb-12">
-              We treat solar infrastructure as high-yield energy assets. Solikos engineers scalable renewable energy solutions tailored for commercial and industrial resilience. Our solutions are designed to replace fossil fuel-heavy operations with predictable, climate-resilient systems.
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-              <div>
-                <h4 className="text-[#F4F4F4] font-medium mb-4 text-xl">Bankability.</h4>
-                <p className="text-[#A3A3A3] leading-relaxed">
-                  Every project is structured to meet international financial standards, ensuring ease of debt and equity financing.
-                </p>
-              </div>
-              <div>
-                <h4 className="text-[#F4F4F4] font-medium mb-4 text-xl">Predictability.</h4>
-                <p className="text-[#A3A3A3] leading-relaxed">
-                  Switch from volatile fossil fuel CAPEX to stable solar OPEX. We manage the volatility so you can manage your growth.
-                </p>
-              </div>
-            </div>
           </div>
+
+          {/* Category Filter Pills */}
+          <div className="flex flex-wrap gap-2">
+            {productCategories.map((cat) => {
+              const count = cat.id === 'all' 
+                ? productsData.length 
+                : productsData.filter((p) => p.category === cat.id).length;
+              const isActive = activeCategory === cat.id;
+
+              return (
+                <button
+                  key={cat.id}
+                  onClick={() => setActiveCategory(cat.id)}
+                  className={`px-5 py-2.5 rounded-full text-xs font-medium tracking-wide transition-all duration-300 flex items-center gap-2 ${
+                    isActive
+                      ? 'bg-[#F4F4F4] text-black shadow-lg font-semibold'
+                      : 'bg-white/5 text-[#A3A3A3] hover:text-white hover:bg-white/10 border border-white/5'
+                  }`}
+                >
+                  <span>{cat.label}</span>
+                  <span
+                    className={`text-[10px] px-1.5 py-0.5 rounded-full ${
+                      isActive ? 'bg-black/10 text-black' : 'bg-white/10 text-[#888]'
+                    }`}
+                  >
+                    {count}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* 3. Products Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <AnimatePresence mode="popLayout">
+            {filteredProducts.map((product) => (
+              <motion.div
+                key={product.id}
+                layout
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.35, ease: 'easeOut' }}
+                className="group bg-[#141414] hover:bg-[#181818] rounded-3xl border border-white/10 hover:border-[#B5B0A1]/50 transition-all duration-500 flex flex-col justify-between overflow-hidden shadow-xl"
+              >
+                {/* Product Image Frame */}
+                <div 
+                  onClick={() => setSelectedProduct(product)}
+                  className="relative w-full aspect-square bg-[#FDFDFD] p-8 flex items-center justify-center overflow-hidden cursor-pointer"
+                >
+                  <picture>
+                    <source srcSet={product.image} type="image/webp" />
+                    <img
+                      src={product.fallbackImage}
+                      alt={product.name}
+                      loading="lazy"
+                      className="w-full h-full object-contain transform group-hover:scale-105 transition-transform duration-500 ease-out"
+                    />
+                  </picture>
+
+                  {/* Top Badges */}
+                  <div className="absolute top-4 left-4 right-4 flex items-center justify-between pointer-events-none">
+                    <span className="bg-black/80 backdrop-blur-md text-[#F4F4F4] text-[10px] uppercase font-mono tracking-wider px-3 py-1 rounded-full border border-white/10">
+                      {product.categoryLabel}
+                    </span>
+                    <span className="bg-[#B5B0A1]/90 text-black text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full shadow-sm">
+                      {product.warranty}
+                    </span>
+                  </div>
+
+                  {/* Quick Preview Hover Indicator */}
+                  <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
+                    <span className="bg-black/80 text-white text-xs font-medium px-4 py-2 rounded-full backdrop-blur-sm border border-white/20">
+                      Quick View
+                    </span>
+                  </div>
+                </div>
+
+                {/* Content & Specs */}
+                <div className="p-6 md:p-8 flex-1 flex flex-col justify-between">
+                  <div>
+                    <div className="flex items-center gap-2 text-xs font-mono text-[#B5B0A1] mb-2">
+                      <Zap size={13} />
+                      <span>{product.highlight}</span>
+                    </div>
+
+                    <h3 className="text-xl md:text-2xl font-bold tracking-tight text-[#F4F4F4] group-hover:text-white transition-colors mb-3">
+                      {product.name}
+                    </h3>
+
+                    <p className="text-sm text-[#888] leading-relaxed mb-6">
+                      {product.tagline}
+                    </p>
+
+                    {/* Quick Specs Pill Badges */}
+                    <div className="grid grid-cols-2 gap-2 mb-6">
+                      <div className="bg-white/5 rounded-xl p-3 border border-white/5">
+                        <span className="text-[10px] font-mono uppercase tracking-wider text-[#666] block">
+                          Output / Storage
+                        </span>
+                        <span className="text-sm font-semibold text-[#EAEAEA]">
+                          {product.keySpecs.powerOrCapacity}
+                        </span>
+                      </div>
+                      <div className="bg-white/5 rounded-xl p-3 border border-white/5">
+                        <span className="text-[10px] font-mono uppercase tracking-wider text-[#666] block">
+                          Voltage Rating
+                        </span>
+                        <span className="text-sm font-semibold text-[#EAEAEA]">
+                          {product.keySpecs.voltage}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Actions */}
+                  <div className="pt-4 border-t border-white/10 flex items-center justify-between gap-4">
+                    <button
+                      onClick={() => setSelectedProduct(product)}
+                      className="text-xs font-medium text-[#A3A3A3] hover:text-white transition-colors underline underline-offset-4"
+                    >
+                      Specifications
+                    </button>
+
+                    <Link
+                      to={`/partnership?product=${encodeURIComponent(product.name)}`}
+                      className="bg-[#F4F4F4] hover:bg-white text-black px-4 py-2 rounded-full text-xs font-semibold flex items-center gap-2 hover:scale-105 transition-all shadow-md"
+                    >
+                      <span>Reserve</span>
+                      <ArrowUpRight size={14} strokeWidth={2.5} />
+                    </Link>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </AnimatePresence>
         </div>
       </section>
 
-      {/* 2. Institutional Advisory Section */}
-      <section className="py-24 md:py-40 px-6 md:px-8 border-b border-white/5 bg-[#050505]">
-        <div className="container mx-auto max-w-7xl">
-          <div className="flex flex-col lg:flex-row gap-16 lg:gap-32 items-center">
-            <div className="lg:w-1/2">
-              <span className="text-xs font-bold text-[#444] uppercase tracking-[0.4em] mb-8 block font-mono">
-                Expert Consulting
-              </span>
-              <h2 className="text-4xl md:text-6xl font-medium tracking-tighter mb-8 leading-[0.9] text-[#F4F4F4]">
-                Institutional Advisory &amp; Liaison.
-              </h2>
-              <p className="text-xl text-[#A3A3A3] leading-relaxed mb-12">
-                Large-scale energy deployment is often bottlenecked by bureaucratic complexity. Our specialized consultancy arm provides regulatory navigation as a product, de-risking your transition from day one.
-              </p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                <div>
-                  <h4 className="text-[#F4F4F4] font-medium mb-3 tracking-tight">
-                    Grid Compliance Standards
-                  </h4>
-                  <p className="text-[#A3A3A3] text-sm leading-relaxed">
-                    We manage the full licensing lifecycle for Distributed Energy Resources (DERs) up to 10MW.
-                  </p>
+      {/* 4. Product Specs Modal Dialog */}
+      <AnimatePresence>
+        {selectedProduct && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8 bg-black/80 backdrop-blur-md">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ duration: 0.3 }}
+              className="bg-[#181818] border border-white/15 rounded-3xl w-full max-w-3xl max-h-[90vh] overflow-y-auto shadow-2xl relative"
+            >
+              {/* Close Button */}
+              <button
+                onClick={() => setSelectedProduct(null)}
+                className="absolute top-6 right-6 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors z-20"
+                aria-label="Close dialog"
+              >
+                <X size={18} />
+              </button>
+
+              <div className="p-6 md:p-10">
+                <div className="flex flex-col md:flex-row gap-8 items-center mb-8">
+                  {/* Modal Product Image */}
+                  <div className="w-full md:w-1/2 aspect-square bg-[#FDFDFD] rounded-2xl p-6 flex items-center justify-center shrink-0">
+                    <picture>
+                      <source srcSet={selectedProduct.image} type="image/webp" />
+                      <img
+                        src={selectedProduct.fallbackImage}
+                        alt={selectedProduct.name}
+                        className="w-full h-full object-contain"
+                      />
+                    </picture>
+                  </div>
+
+                  {/* Modal Title & Highlights */}
+                  <div className="w-full md:w-1/2 flex flex-col justify-center">
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="bg-white/10 text-white text-[10px] uppercase font-mono tracking-wider px-3 py-1 rounded-full">
+                        {selectedProduct.categoryLabel}
+                      </span>
+                      <span className="bg-[#B5B0A1] text-black text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full">
+                        {selectedProduct.warranty}
+                      </span>
+                    </div>
+
+                    <h3 className="text-2xl md:text-3xl font-bold tracking-tight text-white mb-3">
+                      {selectedProduct.name}
+                    </h3>
+
+                    <p className="text-sm text-[#A3A3A3] leading-relaxed mb-6">
+                      {selectedProduct.tagline}
+                    </p>
+
+                    <Link
+                      to={`/partnership?product=${encodeURIComponent(selectedProduct.name)}`}
+                      onClick={() => setSelectedProduct(null)}
+                      className="w-full bg-[#F4F4F4] hover:bg-white text-black py-3 rounded-full text-xs font-bold uppercase tracking-wider text-center flex items-center justify-center gap-2 shadow-lg transition-transform hover:scale-[1.02]"
+                    >
+                      <span>Inquire / Reserve Unit</span>
+                      <ArrowUpRight size={14} strokeWidth={2.5} />
+                    </Link>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="text-[#F4F4F4] font-medium mb-3 tracking-tight">
-                    Financing &amp; Compliance
-                  </h4>
-                  <p className="text-[#A3A3A3] text-sm leading-relaxed">
-                    Expert project structuring and infrastructure financing via global energy compliance platforms.
-                  </p>
+
+                {/* Detailed Specifications Table */}
+                <div className="pt-6 border-t border-white/10">
+                  <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-[#B5B0A1] mb-4">
+                    <SlidersHorizontal size={14} />
+                    <span>Technical Datasheet Specifications</span>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    {selectedProduct.detailedSpecs.map((spec, i) => (
+                      <div
+                        key={i}
+                        className="bg-white/5 p-4 rounded-xl border border-white/5 flex flex-col justify-center"
+                      >
+                        <span className="text-[11px] font-mono text-[#777] uppercase tracking-wider mb-1">
+                          {spec.label}
+                        </span>
+                        <span className="text-sm font-semibold text-[#F4F4F4]">
+                          {spec.value}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="lg:w-1/2 w-full">
-              <img
-                src="/assets/solar-3-new.png"
-                alt="Regulatory Advisory"
-                className="w-full aspect-square md:aspect-[4/3] object-cover rounded-3xl"
-              />
-            </div>
+            </motion.div>
           </div>
-        </div>
-      </section>
+        )}
+      </AnimatePresence>
 
-      {/* 3. Stacking Solutions Cards */}
-      <StackingSolutions />
-
-      {/* 4. Bottom Navigation Section */}
+      {/* 5. Bottom Navigation */}
       <BottomNavSection />
     </main>
   );

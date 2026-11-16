@@ -12,7 +12,7 @@ interface NavigationDrawerProps {
 const navLinks = [
   { name: 'Welcome', path: '/' },
   { name: 'Introduction', path: '/introduction' },
-  { name: 'Solutions', path: '/solutions' },
+  { name: 'Products & Systems', path: '/solutions' },
   { name: 'Why Solikos', path: '/why-solikos' },
   { name: 'Impact', path: '/impact' },
   { name: 'Partnership', path: '/partnership' },

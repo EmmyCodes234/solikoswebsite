@@ -25,3 +25,6 @@ dist-ssr
 
 # Temporary recovery artifacts
 downloaded_site
+extracted_invoice
+invoice.pdf
+Invoice.pdf

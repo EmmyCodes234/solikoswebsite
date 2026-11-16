@@ -70,7 +70,7 @@ export const Footer: React.FC = () => {
                   Introduction
                 </Link>
                 <Link to="/solutions" className="text-sm text-[#A3A3A3] hover:text-[#F4F4F4] transition-colors">
-                  Solutions
+                  Products &amp; Systems
                 </Link>
                 <Link to="/why-solikos" className="text-sm text-[#A3A3A3] hover:text-[#F4F4F4] transition-colors">
                   Why Solikos

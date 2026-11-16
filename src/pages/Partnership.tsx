@@ -1,16 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { Zap } from 'lucide-react';
 import PageHeader from '../components/PageHeader';
 import MagneticButton from '../components/MagneticButton';
 import BottomNavSection from '../components/BottomNavSection';
 
 export const Partnership: React.FC = () => {
+  const [searchParams] = useSearchParams();
+  const productParam = searchParams.get('product') || '';
+
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const [formData, setFormData] = useState({
     companyName: '',
-    projectType: '',
+    projectType: productParam ? 'hardware' : '',
     email: '',
+    selectedProduct: productParam,
   });
+
+  useEffect(() => {
+    if (productParam) {
+      setFormData((prev) => ({
+        ...prev,
+        projectType: 'hardware',
+        selectedProduct: productParam,
+      }));
+    }
+  }, [productParam]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,6 +38,9 @@ export const Partnership: React.FC = () => {
       data.append('companyName', formData.companyName);
       data.append('projectType', formData.projectType);
       data.append('email', formData.email);
+      if (formData.selectedProduct) {
+        data.append('selectedProduct', formData.selectedProduct);
+      }
 
       const response = await fetch('/', {
         method: 'POST',
@@ -31,7 +50,7 @@ export const Partnership: React.FC = () => {
 
       if (response.ok) {
         setStatus('success');
-        setFormData({ companyName: '', projectType: '', email: '' });
+        setFormData({ companyName: '', projectType: '', email: '', selectedProduct: '' });
       } else {
         setStatus('error');
       }
@@ -114,6 +133,13 @@ export const Partnership: React.FC = () => {
               <input type="hidden" name="form-name" value="partnership" />
               <input type="hidden" name="bot-field" />
 
+              {formData.selectedProduct && (
+                <div className="inline-flex items-center gap-2 bg-[#B5B0A1]/10 border border-[#B5B0A1]/30 text-[#B5B0A1] text-xs font-mono uppercase tracking-widest px-4 py-2 rounded-full mb-6">
+                  <Zap size={14} />
+                  <span>Inquiring for: {formData.selectedProduct}</span>
+                </div>
+              )}
+
               <div className="text-3xl md:text-5xl lg:text-6xl font-light leading-[1.5] md:leading-[1.6] tracking-tight text-[#F4F4F4]">
                 &ldquo;Hi Solikos, I am representing{' '}
                 <input
@@ -135,6 +161,9 @@ export const Partnership: React.FC = () => {
                 >
                   <option value="" className="bg-black text-white">
                     Select Project
+                  </option>
+                  <option value="hardware" className="bg-black text-white">
+                    Hardware Procurement
                   </option>
                   <option value="minigrid" className="bg-black text-white">
                     Mini-Grid
