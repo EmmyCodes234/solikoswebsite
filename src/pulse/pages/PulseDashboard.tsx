@@ -5,13 +5,13 @@ import {
   Search,
   Plus,
   ArrowUpRight,
-  MessageSquare,
   CheckCircle2,
   Trash2,
   RotateCcw,
 } from 'lucide-react';
 import { usePulse } from '../context/PulseContext';
 import { InvoiceStatus, Invoice } from '../types';
+import { WhatsAppIcon } from '../components/WhatsAppIcon';
 
 export const PulseDashboard: React.FC = () => {
   const { invoices, updateInvoiceStatus, deleteInvoice } = usePulse();
@@ -275,9 +275,9 @@ export const PulseDashboard: React.FC = () => {
                           target="_blank"
                           rel="noopener noreferrer"
                           title="Share on WhatsApp"
-                          className="p-1.5 text-[#555555] hover:text-[#111111] hover:bg-[#F4F4F3] rounded-md transition-colors"
+                          className="p-1.5 text-[#555555] hover:text-[#25D366] hover:bg-[#F4F4F3] rounded-md transition-colors"
                         >
-                          <MessageSquare size={15} />
+                          <WhatsAppIcon className="w-4 h-4" />
                         </a>
 
                         {/* View link */}

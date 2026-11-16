@@ -6,10 +6,10 @@ import {
   Phone,
   Mail,
   MapPin,
-  MessageSquare,
   Plus,
 } from 'lucide-react';
 import { usePulse } from '../context/PulseContext';
+import { WhatsAppIcon } from '../components/WhatsAppIcon';
 
 export const PulseContacts: React.FC = () => {
   const { contacts } = usePulse();
@@ -127,9 +127,9 @@ export const PulseContacts: React.FC = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     title="Send WhatsApp message"
-                    className="p-1.5 text-[#555555] hover:text-emerald-700 hover:bg-emerald-50 rounded-md transition-colors"
+                    className="p-1.5 text-[#555555] hover:text-[#25D366] hover:bg-[#F4F4F3] rounded-md transition-colors"
                   >
-                    <MessageSquare size={16} />
+                    <WhatsAppIcon className="w-4 h-4" />
                   </a>
                 </div>
 
