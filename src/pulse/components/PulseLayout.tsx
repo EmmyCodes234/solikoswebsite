@@ -6,6 +6,7 @@ import {
   Users,
   Package,
   Settings,
+  LayoutTemplate,
   LogOut,
   Menu,
   X,
@@ -42,6 +43,11 @@ export const PulseLayout: React.FC = () => {
       to: '/pulse/catalog',
       label: 'Products',
       icon: Package,
+    },
+    {
+      to: '/pulse/banners',
+      label: 'Banners',
+      icon: LayoutTemplate,
     },
     {
       to: '/pulse/settings',

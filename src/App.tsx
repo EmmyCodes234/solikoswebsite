@@ -25,6 +25,7 @@ import PulseContacts from './pulse/pages/PulseContacts';
 import PulseCatalog from './pulse/pages/PulseCatalog';
 import PulseSettings from './pulse/pages/PulseSettings';
 import PulseBranding from './pulse/pages/PulseBranding';
+import PulseBannerStudio from './pulse/pages/PulseBannerStudio';
 import PublicInvoiceView from './pulse/pages/PublicInvoiceView';
 
 export const App: React.FC = () => {
@@ -33,6 +34,7 @@ export const App: React.FC = () => {
       // Skip preloader on invoicing portal and public invoices
       if (
         window.location.pathname.startsWith('/pulse') ||
+        window.location.pathname.startsWith('/i/') ||
         window.location.pathname.startsWith('/inv') ||
         window.location.pathname.startsWith('/invoice')
       ) {
@@ -69,9 +71,8 @@ export const App: React.FC = () => {
               <Route path="brand-guidelines" element={<BrandGuidelines />} />
             </Route>
 
-            {/* 2. Public Client Digital Invoice Viewer (No Auth Required) */}
-            <Route path="inv/:id" element={<PublicInvoiceView />} />
-            <Route path="pulse/view/:id" element={<PublicInvoiceView />} />
+            {/* 2. Public Client Digital Invoice Viewer (unguessable token link) */}
+            <Route path="i/:id/:token" element={<PublicInvoiceView />} />
 
             {/* 3. Solikos Pulse Internal Portal (Auth Protected) */}
             <Route path="pulse/login" element={<PulseLogin />} />
@@ -91,7 +92,18 @@ export const App: React.FC = () => {
               <Route path="catalog" element={<PulseCatalog />} />
               <Route path="settings" element={<PulseSettings />} />
               <Route path="branding" element={<PulseBranding />} />
+              <Route path="banners" element={<PulseBannerStudio />} />
             </Route>
+
+            {/* Public Banner Studio */}
+            <Route
+              path="banners"
+              element={
+                <div className="min-h-screen bg-[#FBFBFA] py-8 px-4 sm:px-6">
+                  <PulseBannerStudio isPublic={true} />
+                </div>
+              }
+            />
 
             {/* Aliases for convenience */}
             <Route path="invoice" element={<Navigate to="/pulse" replace />} />
